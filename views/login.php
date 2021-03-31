@@ -19,7 +19,27 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+session_start();
+include('../config/config.php');
+
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = sha1(md5($_POST['password'])); //double encrypt to increase security
+    $stmt = $mysqli->prepare("SELECT email, password, id  FROM iBursary_admin  WHERE email =? AND password =?");
+    $stmt->bind_param('ss', $email, $password); //bind fetched parameters
+    $stmt->execute(); //execute bind 
+    $stmt->bind_result($email, $password, $id); //bind result
+    $rs = $stmt->fetch();
+    $_SESSION['id'] = $id;
+    if ($rs) {
+        header("location:dashboard.php");
+    } else {
+        $err = "Access Denied Please Check Your Credentials";
+    }
+}
 require_once('../partials/_head.php');
+
 ?>
 
 <body>
