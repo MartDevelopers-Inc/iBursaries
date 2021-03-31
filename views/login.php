@@ -38,9 +38,7 @@ if (isset($_POST['login'])) {
         $err = "Access Denied Please Check Your Credentials";
     }
 }
-
 require_once('../partials/_head.php');
-
 ?>
 
 <body>

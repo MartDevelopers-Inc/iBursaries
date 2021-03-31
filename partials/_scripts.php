@@ -1,4 +1,3 @@
-
 <!-- Jquery -->
 <script src="../public/js/jquery.min.js"></script>
 <!-- Popper -->
