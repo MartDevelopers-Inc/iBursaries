@@ -22,4 +22,7 @@
     <link href="../public/lib/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet">
     <!-- App Theme Css -->
     <link href="../public/css/theme.min.css" rel="stylesheet">
+    <link href="../public/lib/toastr/toastr.min.css" rel="stylesheet">
+    
+
 </head>

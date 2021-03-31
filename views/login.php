@@ -38,6 +38,7 @@ if (isset($_POST['login'])) {
         $err = "Access Denied Please Check Your Credentials";
     }
 }
+
 require_once('../partials/_head.php');
 
 ?>
@@ -57,8 +58,8 @@ require_once('../partials/_head.php');
                                 </div>
                             </div>
                             <form method="POST">
-                                <div class="form-group"><input class="form-control" type="email" placeholder="Email address" /></div>
-                                <div class="form-group"><input class="form-control" type="password" placeholder="Password" /></div>
+                                <div class="form-group"><input class="form-control" name="email" type="email" placeholder="Email address" /></div>
+                                <div class="form-group"><input class="form-control" name="password" type="password" placeholder="Password" /></div>
                                 <div class="row justify-content-between align-items-center">
                                     <div class="col-auto">
                                         <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="basic-checkbox" checked="checked" /><label class="custom-control-label" for="basic-checkbox">Remember me</label></div>
