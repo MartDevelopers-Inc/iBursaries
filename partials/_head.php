@@ -29,12 +29,4 @@
     <link href="../public/lib/leaflet/leaflet.css" rel="stylesheet">
     <link href="../public/lib/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
     <link href="../public/lib/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
-    <!-- Expand / Collapse Navbar -->
-    <script>
-        var navbarStyle = localStorage.getItem("navbarStyle");
-        if (navbarStyle) {
-            document.querySelector('.navbar-vertical').className += ' navbar-' + navbarStyle;
-        }
-    </script>
-
 </head>
