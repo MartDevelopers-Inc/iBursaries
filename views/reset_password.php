@@ -34,7 +34,7 @@ if (isset($_POST['Reset_Password'])) {
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $err = 'Invalid Email';
     }
-    $checkEmail = mysqli_query($mysqli, "SELECT `email` FROM `Login` WHERE `email` = '" . $_POST['email'] . "'") or exit(mysqli_error($mysqli));
+    $checkEmail = mysqli_query($mysqli, "SELECT `email` FROM `iBursary_admin` WHERE `email` = '" . $_POST['email'] . "'") or exit(mysqli_error($mysqli));
     if (mysqli_num_rows($checkEmail) > 0) {
 
         $new_password = $checksum; /* Load  A Bunch Of Mumble Jumble To Represent New Password */
@@ -70,7 +70,7 @@ require_once('../partials/_head.php');
                             <?php if (isset($success)) { ?>
                                 <!--This code for injecting success alert-->
                                 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                                    <strong>Success! </strong> <br> <?php echo $success; ?>
+                                    <strong>Success! </strong> <br> Proceed To Reset Password
                                     <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
                                 </div>
                             <?php }
@@ -89,7 +89,7 @@ require_once('../partials/_head.php');
                                 </div>
                             <?php } ?>
                             <form class="mt-4" method="POST">
-                                <div class="form-group"><input class="form-control" type="email" placeholder="Email address" /></div>
+                                <div class="form-group"><input class="form-control" name="email" type="email" placeholder="Email address" /></div>
                                 <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="Reset_Password">Reset Password</button></div>
                             </form>
                             <a class="fs--1 text-600" href="login.php">Remembered Password<span class="d-inline-block ml-1">&rarr;</span></a>

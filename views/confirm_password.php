@@ -54,7 +54,7 @@ if (isset($_POST['ConfirmPassword'])) {
                 $rc = $stmt->bind_param('ss', $new_password, $Login_email);
                 $stmt->execute();
                 if ($stmt) {
-                    $success = "Password Changed" && header("refresh:1; url=index.php");
+                    $success = "Password Changed" && header("refresh:1; url=login.php");
                 } else {
                     $err = "Please Try Again Or Try Later";
                 }
@@ -89,7 +89,7 @@ require_once('../partials/_head.php');
                             if (isset($success)) { ?>
                                 <!--This code for injecting success alert-->
                                 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                                    <strong>Success! </strong> <br> <?php echo $success; ?>
+                                    <strong>Success! </strong> <br> Password Changed
                                     <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
                                 </div>
                             <?php }
