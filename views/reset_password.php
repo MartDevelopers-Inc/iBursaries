@@ -67,6 +67,27 @@ require_once('../partials/_head.php');
                     <div class="card">
                         <div class="card-body p-4 p-sm-5">
                             <h5 class="mb-0">Forgot your password?</h5><small>Enter your email and we'll send you a reset link.</small>
+                            <?php if (isset($success)) { ?>
+                                <!--This code for injecting success alert-->
+                                <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                    <strong>Success! </strong> <br> <?php echo $success; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php }
+                            if (isset($err)) { ?>
+                                <!--This code for injecting error alert-->
+                                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    <strong>Error! </strong> <br> <?php echo $err; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php }
+                            if (isset($info)) { ?>
+                                <!--This code for injecting info alert-->
+                                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                                    <strong>Warning! </strong> <br> <?php echo $info; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php } ?>
                             <form class="mt-4" method="POST">
                                 <div class="form-group"><input class="form-control" type="email" placeholder="Email address" /></div>
                                 <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="Reset_Password">Reset Password</button></div>
