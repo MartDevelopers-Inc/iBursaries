@@ -8,8 +8,7 @@
     <div class="d-flex align-items-center">
         <div class="toggle-icon-wrapper">
             <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-toggle="tooltip" data-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-        </div>
-        <a class="navbar-brand" href="dashboard.php">
+        </div><a class="navbar-brand" href="dashboard.php">
             <div class="d-flex align-items-center py-3"><img class="mr-2" src="../public/img/illustrations/falcon.png" alt="" width="40" /><span class="text-sans-serif">iBursary</span></div>
         </a>
     </div>
