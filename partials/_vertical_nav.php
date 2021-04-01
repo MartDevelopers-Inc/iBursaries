@@ -67,7 +67,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">
+                    <a class="nav-link" href="../partials/_logout.php">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-power-off"></span></span><span class="nav-link-text"> Log Out</span></div>
                     </a>
                 </li>

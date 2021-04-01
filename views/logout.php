@@ -28,12 +28,12 @@ require_once('../partials/_head.php');
 
         <div class="container" data-layout="container">
             <div class="row flex-center min-vh-100 py-6">
-                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4"><a class="d-flex flex-center mb-4" href=""><img class="mr-2" src="../../assets/img/illustrations/falcon.png" alt="" width="58" /><span class="text-sans-serif font-weight-extra-bold fs-5 d-inline-block">falcon</span></a>
+                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4"><a class="d-flex flex-center mb-4" href=""><img class="mr-2" src="../public/img/illustrations/falcon.png" alt="" width="58" /><span class="text-sans-serif font-weight-extra-bold fs-5 d-inline-block">iBursary MIS</span></a>
                     <div class="card">
                         <div class="card-body p-4 p-sm-5">
                             <div class="text-center"><img class="d-block mx-auto mb-4" src="../public/img/illustrations/rocket.png" alt="shield" width="70" />
                                 <h4>See you again!</h4>
-                                <p>Thanks for using Falcon. You are <br />now successfully signed out.</p><a class="btn btn-primary btn-sm mt-3" href="login.html"><span class="fas fa-chevron-left mr-1" data-fa-transform="shrink-4 down-1"></span>Return to Login</a>
+                                <p>Thanks for using iBursary MIS. You are <br />successfully signed out.</p><a class="btn btn-primary btn-sm mt-3" href="login.php"><span class="fas fa-chevron-left mr-1" data-fa-transform="shrink-4 down-1"></span>Return to Login</a>
                             </div>
                         </div>
                     </div>
