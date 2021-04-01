@@ -21,7 +21,7 @@
  */
 
 session_start();
-include('../config/config.php');
+require_once('../config/config.php');
 
 if (isset($_POST['ConfirmPassword'])) {
     $error = 0;
@@ -51,7 +51,7 @@ if (isset($_POST['ConfirmPassword'])) {
                 $new_password  = sha1(md5($_POST['new_password']));
                 $query = "UPDATE iBursary_admin SET  password =? WHERE email =?";
                 $stmt = $mysqli->prepare($query);
-                $rc = $stmt->bind_param('ss', $new_password, $Login_email);
+                $rc = $stmt->bind_param('ss', $new_password, $email);
                 $stmt->execute();
                 if ($stmt) {
                     $success = "Password Changed" && header("refresh:1; url=login.php");
