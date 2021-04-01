@@ -19,6 +19,41 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+session_start();
+include('../config/codeGen.php');
+include('../config/config.php');
+
+if (isset($_POST['Reset_Password'])) {
+    $error = 0;
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
+    } else {
+        $error = 1;
+        $err = "Enter Your Email Address";
+    }
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $err = 'Invalid Email';
+    }
+    $checkEmail = mysqli_query($mysqli, "SELECT `email` FROM `Login` WHERE `email` = '" . $_POST['email'] . "'") or exit(mysqli_error($mysqli));
+    if (mysqli_num_rows($checkEmail) > 0) {
+
+        $new_password = $checksum; /* Load  A Bunch Of Mumble Jumble To Represent New Password */
+        $query = "UPDATE iBursary_admin SET  password=? WHERE email =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ss', $new_password, $email);
+        $stmt->execute();
+        /* Alert */
+        if ($stmt) {
+            $_SESSION['email'] = $email;
+            $success = "Confim Your Password" && header("refresh:1; url=confirm_password.php");
+        } else {
+            $err = "Password Reset Failed";
+        }
+    } else {/* Ghost User */
+        $err = "Email Does Not Exist";
+    }
+}
+
 require_once('../partials/_head.php');
 ?>
 
@@ -34,7 +69,7 @@ require_once('../partials/_head.php');
                             <h5 class="mb-0">Forgot your password?</h5><small>Enter your email and we'll send you a reset link.</small>
                             <form class="mt-4" method="POST">
                                 <div class="form-group"><input class="form-control" type="email" placeholder="Email address" /></div>
-                                <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="reset_password">Reset Password</button></div>
+                                <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="Reset_Password">Reset Password</button></div>
                             </form>
                             <a class="fs--1 text-600" href="login.php">Remembered Password<span class="d-inline-block ml-1">&rarr;</span></a>
                         </div>
