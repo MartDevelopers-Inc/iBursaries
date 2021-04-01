@@ -23,32 +23,28 @@
 
 <?php if (isset($success)) { ?>
     <!--This code for injecting success alert-->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success! </strong> <?php echo $success; ?>
         <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
     </div>
 
 
-
-<?php } ?>
-
-<?php if (isset($err)) { ?>
+<?php }
+if (isset($err)) { ?>
     <!--This code for injecting error alert-->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error! </strong> <?php echo $err; ?>
         <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
     </div>
 
 
-
-<?php } ?>
-<?php if (isset($info)) { ?>
+<?php }
+if (isset($info)) { ?>
     <!--This code for injecting info alert-->
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <strong>Warning! </strong> <?php echo $info; ?>
         <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
     </div>
-
 
 
 <?php } ?>
