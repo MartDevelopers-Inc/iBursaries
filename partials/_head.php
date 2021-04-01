@@ -22,6 +22,19 @@
     <link href="../public/lib/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet">
     <!-- App Theme Css -->
     <link href="../public/css/theme.min.css" rel="stylesheet">
-    
+    <!-- Data Tables -->
+    <link href="../public/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
+    <!-- Leaflet Plug In -->
+    <link href="../public/lib/leaflet/leaflet.css" rel="stylesheet">
+    <link href="../public/lib/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="../public/lib/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
+    <!-- Expand / Collapse Navbar -->
+    <script>
+        var navbarStyle = localStorage.getItem("navbarStyle");
+        if (navbarStyle) {
+            document.querySelector('.navbar-vertical').className += ' navbar-' + navbarStyle;
+        }
+    </script>
 
 </head>

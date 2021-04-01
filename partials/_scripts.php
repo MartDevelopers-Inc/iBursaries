@@ -20,31 +20,21 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 <!-- App Js -->
 <script src="../public/js/theme.min.js"></script>
-
-<?php if (isset($success)) { ?>
-    <!--This code for injecting success alert-->
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success! </strong> <?php echo $success; ?>
-        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-    </div>
-
-
-<?php }
-if (isset($err)) { ?>
-    <!--This code for injecting error alert-->
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error! </strong> <?php echo $err; ?>
-        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-    </div>
-
-
-<?php }
-if (isset($info)) { ?>
-    <!--This code for injecting info alert-->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Warning! </strong> <?php echo $info; ?>
-        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-    </div>
-
-
-<?php } ?>
+<!-- Data Tables -->
+<script src="../public/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../public/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
+<script src="../public/lib/datatables.net-responsive/dataTables.responsive.js"></script>
+<script src="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+<!-- LeafLet Plugin  -->
+<script src="../public/lib/leaflet/leaflet.js"></script>
+<script src="../public/lib/leaflet.markercluster/leaflet.markercluster.js"></script>
+<script src="../public/lib/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+<!-- Is Fluid ?-->
+<script>
+    var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+    if (isFluid) {
+        var container = document.querySelector('[data-layout]');
+        container.classList.remove('container');
+        container.classList.add('container-fluid');
+    }
+</script>

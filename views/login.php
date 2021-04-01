@@ -35,7 +35,7 @@ if (isset($_POST['login'])) {
     if ($rs) {
         header("location:dashboard.php");
     } else {
-        $err =  "Access Denied Please Check Your Credentials";
+        $err =  "Access Denied, Incorrect Email Or Password";
     }
 }
 require_once('../partials/_head.php');
@@ -46,6 +46,7 @@ require_once('../partials/_head.php');
     <main class="main" id="top">
 
         <div class="container" data-layout="container">
+
             <div class="row flex-center min-vh-100 py-6">
                 <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4"><a class="d-flex flex-center mb-4" href=""><img class="mr-2" src="../public/img/illustrations/falcon.png" alt="" width="58" /><span class="text-sans-serif font-weight-extra-bold fs-5 d-inline-block">iBursary MIS</span></a>
                     <div class="card">
@@ -55,6 +56,27 @@ require_once('../partials/_head.php');
                                     <h5>Administrator Log in</h5>
                                 </div>
                             </div>
+                            <?php if (isset($success)) { ?>
+                                <!--This code for injecting success alert-->
+                                <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                    <strong>Success! </strong> <br> <?php echo $success; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php }
+                            if (isset($err)) { ?>
+                                <!--This code for injecting error alert-->
+                                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    <strong>Error! </strong> <br> <?php echo $err; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php }
+                            if (isset($info)) { ?>
+                                <!--This code for injecting info alert-->
+                                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                                    <strong>Warning! </strong> <br> <?php echo $info; ?>
+                                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                </div>
+                            <?php } ?>
                             <form method="POST">
                                 <div class="form-group"><input class="form-control" name="email" type="email" placeholder="Email address" /></div>
                                 <div class="form-group"><input class="form-control" name="password" type="password" placeholder="Password" /></div>
