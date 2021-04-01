@@ -85,7 +85,7 @@ require_once('../partials/_head.php');
                     </div>
                     <div class="card-body px-0 pt-0">
                         <div class="dashboard-data-table">
-                            <table class="table table-sm table-dashboard fs--1 data-table border-bottom" data-options='{"responsive":false,"pagingType":"simple","lengthChange":false,"searching":false,"pageLength":8,"columnDefs":[{"targets":[0,6],"orderable":false}],"language":{"info":"_START_ to _END_ Items of _TOTAL_ — <a href=https://prium.github.io/"#!\" class=\"font-weight-semi-bold\"> view all <span class=\"fas fa-angle-right\" data-fa-transform=\"down-1\"></span> </a>"},"buttons":["copy","excel"]}'>
+                            <table class="table table-sm table-dashboard fs--1 data-table border-bottom">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="sort pr-1 align-middle">Applicant Details</th>
