@@ -27,4 +27,6 @@
     <link href="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
     <!-- Select 2 Min Css -->
     <link rel="stylesheet" href="../public/lib/select2/select2.min.css">
+    <!-- Fancy Box -->
+    <link href="../public/lib/fancybox/jquery.fancybox.min.css" rel="stylesheet">
 </head>

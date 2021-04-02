@@ -16,6 +16,8 @@
 <script src="../public/lib/lodash/lodash.min.js"></script>
 <!-- Perfect Scrollbar -->
 <script src="../public/lib/perfect-scrollbar/perfect-scrollbar.js"></script>
+<!-- Facnybox -->
+<script src="../public/lib/fancybox/jquery.fancybox.min.js"></script>
 <!-- Font -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 <!-- App Js -->
