@@ -358,10 +358,8 @@ require_once('../partials/_head.php');
                                         <tr>
                                             <th class="sort">Name</th>
                                             <th class="sort">Contacts</th>
-                                            <th class="sort">DOB</th>
                                             <th class="sort">Gender</th>
                                             <th class="sort">IDNO</th>
-                                            <th class="sort">County</th>
                                             <th class="sort">Sub County</th>
                                             <th class="sort">Ward</th>
                                             <th class="sort">Sub Location</th>
@@ -380,10 +378,8 @@ require_once('../partials/_head.php');
                                             <tr>
                                                 <td><?php echo $applicant->name; ?></td>
                                                 <td><?php echo $applicant->phone; ?></td>
-                                                <td><?php echo $applicant->dob; ?></td>
                                                 <td><?php echo $applicant->sex; ?></td>
                                                 <td><?php echo $applicant->idno; ?></td>
-                                                <td><?php echo $applicant->county; ?></td>
                                                 <td><?php echo $applicant->sub_county; ?></td>
                                                 <td><?php echo $applicant->ward; ?></td>
                                                 <td><?php echo $applicant->sub_location; ?></td>
@@ -423,7 +419,7 @@ require_once('../partials/_head.php');
 
                                                     <!-- Update Modal -->
                                                     <div class="modal fade" id="update-<?php echo $applicant->id; ?>">
-                                                        <div class="modal-dialog  modal-lg">
+                                                        <div class="modal-dialog  modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h4 class="modal-title">Update <?php echo $applicant->name; ?> Details </h4>
@@ -435,7 +431,7 @@ require_once('../partials/_head.php');
                                                                     <form method="post" enctype="multipart/form-data" role="form">
                                                                         <div class="card-body">
                                                                             <div class="row">
-                                                                                <div class="form-group col-md-6">
+                                                                                <div class="form-group col-md-12">
                                                                                     <label for="">Full Name</label>
                                                                                     <input type="text" required name="name" value="<?php echo $applicant->name; ?>" class="form-control">
                                                                                     <input type="hidden" required name="id" value="<?php echo $applicant->id; ?>" class="form-control">
@@ -443,6 +439,10 @@ require_once('../partials/_head.php');
                                                                                 <div class="form-group col-md-6">
                                                                                     <label for="">National ID Number</label>
                                                                                     <input type="text" required name="idno" value="<?php echo $applicant->idno; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Date Of Birth</label>
+                                                                                    <input type="text" required name="dob" value="<?php echo $applicant->dob; ?>" class="form-control">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
@@ -458,8 +458,8 @@ require_once('../partials/_head.php');
                                                                             <div class="row">
                                                                                 <div class="form-group col-md-6">
                                                                                     <label for="">Gender</label>
-                                                                                    <select type="text" required name="gender" class="form-control">
-                                                                                        <option><?php echo $applicant->gender; ?></option>
+                                                                                    <select type="text" required name="sex" class="form-control">
+                                                                                        <option><?php echo $applicant->sex; ?></option>
                                                                                         <option>Male</option>
                                                                                         <option>Female</option>
                                                                                     </select>
@@ -478,15 +478,15 @@ require_once('../partials/_head.php');
                                                                                     <label for="">Sub County</label>
                                                                                     <input type="text" required name="sub_county" value="<?php echo $applicant->sub_county; ?>" class="form-control">
                                                                                 </div>
-                                                                                <div class="form-group col-md-6">
+                                                                                <div class="form-group col-md-4">
                                                                                     <label for="">Ward</label>
                                                                                     <input type="text" required name="ward" value="<?php echo $applicant->ward; ?>" class="form-control">
                                                                                 </div>
-                                                                                <div class="form-group col-md-6">
+                                                                                <div class="form-group col-md-4">
                                                                                     <label for="">Sub Location</label>
                                                                                     <input type="text" required name="sub_location" value="<?php echo $applicant->sub_location; ?>" class="form-control">
                                                                                 </div>
-                                                                                <div class="form-group col-md-12">
+                                                                                <div class="form-group col-md-4">
                                                                                     <label for="">Village</label>
                                                                                     <input type="text" required name="village" value="<?php echo $applicant->village; ?>" class="form-control">
                                                                                 </div>
@@ -518,7 +518,7 @@ require_once('../partials/_head.php');
 
                 <!-- Add Applicant Modal -->
                 <div class="modal fade" id="add_modal">
-                    <div class="modal-dialog  modal-lg">
+                    <div class="modal-dialog  modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Add Applicant Details </h4>
@@ -530,7 +530,7 @@ require_once('../partials/_head.php');
                                 <form method="post" enctype="multipart/form-data" role="form">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-12">
                                                 <label for="">Full Name</label>
                                                 <input type="text" required name="name" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
@@ -538,6 +538,10 @@ require_once('../partials/_head.php');
                                             <div class="form-group col-md-6">
                                                 <label for="">National ID Number</label>
                                                 <input type="text" required name="idno" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Date Of Birth</label>
+                                                <input type="text" required name="dob" placeholder="DD-MM-YYY" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -553,7 +557,7 @@ require_once('../partials/_head.php');
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Gender</label>
-                                                <select type="text" required name="gender" class="form-control">
+                                                <select type="text" required name="sex" class="form-control">
                                                     <option>Male</option>
                                                     <option>Female</option>
                                                 </select>
@@ -572,15 +576,15 @@ require_once('../partials/_head.php');
                                                 <label for="">Sub County</label>
                                                 <input type="text" required name="sub_county" class="form-control">
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label for="">Ward</label>
                                                 <input type="text" required name="ward" class="form-control">
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label for="">Sub Location</label>
                                                 <input type="text" required name="sub_location" class="form-control">
                                             </div>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-4">
                                                 <label for="">Village</label>
                                                 <input type="text" required name="village" class="form-control">
                                             </div>
