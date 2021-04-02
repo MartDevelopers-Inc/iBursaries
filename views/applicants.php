@@ -26,6 +26,139 @@ require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
 
+/* Bulk Import Applicants From XLS Files */
+
+/* Bulk Import On Students */
+
+use MartDevelopersInc\DataSource;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
+require_once('../config/DataSource.php');
+$db = new DataSource();
+$conn = $db->getConnection();
+require_once('vendor/autoload.php');
+
+if (isset($_POST["upload"])) {
+
+    $allowedFileType = [
+        'application/vnd.ms-excel',
+        'text/xls',
+        'text/xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    /* Where Magic Happens */
+
+    if (in_array($_FILES["file"]["type"], $allowedFileType)) {
+
+        $targetPath = 'public/uploads/EzanaLMSData/XLSFiles/' . $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
+
+        $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+        $spreadSheet = $Reader->load($targetPath);
+        $excelSheet = $spreadSheet->getActiveSheet();
+        $spreadSheetAry = $excelSheet->toArray();
+        $sheetCount = count($spreadSheetAry);
+
+        for ($i = 1; $i <= $sheetCount; $i++) {
+
+            $id = "";
+            if (isset($spreadSheetAry[$i][0])) {
+                $id = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
+            }
+
+            $name = "";
+            if (isset($spreadSheetAry[$i][1])) {
+                $name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+            }
+
+            $phone = "";
+            if (isset($spreadSheetAry[$i][2])) {
+                $phone = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+            }
+
+            $dob = "";
+            if (isset($spreadSheetAry[$i][3])) {
+                $dob = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
+            }
+
+            $idno = "";
+            if (isset($spreadSheetAry[$i][4])) {
+                $idno = mysqli_real_escape_string($conn, $spreadSheetAry[$i][4]);
+            }
+
+            $email = "";
+            if (isset($spreadSheetAry[$i][5])) {
+                $email = mysqli_real_escape_string($conn, $spreadSheetAry[$i][5]);
+            }
+
+            $sex = "";
+            if (isset($spreadSheetAry[$i][6])) {
+                $sex = mysqli_real_escape_string($conn, $spreadSheetAry[$i][6]);
+            }
+
+            $county = "";
+            if (isset($spreadSheetAry[$i][7])) {
+                $county = mysqli_real_escape_string($conn, $spreadSheetAry[$i][7]);
+            }
+
+            $sub_county = "";
+            if (isset($spreadSheetAry[$i][8])) {
+                $sub_county = mysqli_real_escape_string($conn, $spreadSheetAry[$i][8]);
+            }
+
+            $ward = "";
+            if (isset($spreadSheetAry[$i][9])) {
+                $ward = mysqli_real_escape_string($conn, $spreadSheetAry[$i][9]);
+            }
+
+            $sub_location = "";
+            if (isset($spreadSheetAry[$i][10])) {
+                $sub_location = mysqli_real_escape_string($conn, $spreadSheetAry[$i][10]);
+            }
+
+            $village = "";
+            if (isset($spreadSheetAry[$i][11])) {
+                $village = mysqli_real_escape_string($conn, $spreadSheetAry[$i][11]);
+            }
+
+
+            /* Default Applicant Account Password */
+            $password = sha1(md5("Applicant"));
+
+
+            if (!empty($name) || !empty($idno) || !empty($email) || !empty($phone) || !empty($sex)) {
+                $query = "INSERT INTO iBursary_applicants  (id, name, phone, dob, idno, email, password, sex, county, sub_county, ward, sub_location, village) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $paramType = "sssssssssssssssssss";
+                $paramArray = array(
+                    $id,
+                    $name,
+                    $phone,
+                    $dob,
+                    $idno,
+                    $email,
+                    $password,
+                    $sex,
+                    $county,
+                    $sub_county,
+                    $ward,
+                    $sub_location,
+                    $village
+
+                );
+                $insertId = $db->insert($query, $paramType, $paramArray);
+                if (!empty($insertId)) {
+                    $err = "Error Occured While Importing Data";
+                } else {
+                    $success = "Data Imported" && header("refresh:1; url=applicants.php");
+                }
+            }
+        }
+    } else {
+        $info = "Invalid File Type. Upload Excel File.";
+    }
+}
 /* Add Applicant */
 if (isset($_POST['add_applicant'])) {
     //Error Handling and prevention of posting double entries
