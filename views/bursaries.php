@@ -81,11 +81,81 @@ if (isset($_POST['add_bursary'])) {
             $rc = $stmt->bind_param('sssss', $id, $code, $year, $allocated_funds, $status);
             $stmt->execute();
             if ($stmt) {
-                $success = "Bursary Added" && header("refresh:1; url=bursaries.php");
+                $success = "Bursary Added"; //&& header("refresh:1; url=bursaries.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
         }
+    }
+}
+
+/* Update Bursary */
+if (isset($_POST['add_bursary'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+
+    if (isset($_POST['id']) && !empty($_POST['id'])) {
+        $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
+    } else {
+        $error = 1;
+        $err = "Bursary ID Cannot Be Empty";
+    }
+
+    if (isset($_POST['code']) && !empty($_POST['code'])) {
+        $code = mysqli_real_escape_string($mysqli, trim($_POST['code']));
+    } else {
+        $error = 1;
+        $err = "Bursary Code Cannot Be Empty";
+    }
+
+    if (isset($_POST['year']) && !empty($_POST['year'])) {
+        $year = mysqli_real_escape_string($mysqli, trim($_POST['year']));
+    } else {
+        $error = 1;
+        $err = "Bursary Allocated Year Cannot Be Empty";
+    }
+
+    if (isset($_POST['allocated_funds']) && !empty($_POST['allocated_funds'])) {
+        $allocated_funds = mysqli_real_escape_string($mysqli, trim($_POST['allocated_funds']));
+    } else {
+        $error = 1;
+        $err = "Bursary Allocated Funds Cannot Be Empty";
+    }
+
+    if (isset($_POST['status']) && !empty($_POST['status'])) {
+        $status = mysqli_real_escape_string($mysqli, trim($_POST['status']));
+    } else {
+        $error = 1;
+        $err = "Bursary Status Funds Cannot Be Empty";
+    }
+
+    if (!$error) {
+        /* No Error Or Duplicate */
+        $query = "UPDATE iBursary_bursaries  SET year =?, allocated_funds =?, status =? WHERE id =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ssss', $year, $allocated_funds, $status, $id);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Bursary Updated";
+        } else {
+            $info = "Please Try Again Or Try Later";
+        }
+    }
+}
+
+
+/* Delete Bursary */
+if (isset($_GET['delete'])) {
+    $delete = $_GET['delete'];
+    $adn = "DELETE FROM iBursary_bursaries WHERE id=?";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->bind_param('s', $delete);
+    $stmt->execute();
+    $stmt->close();
+    if ($stmt) {
+        $success = "Bursary Record Deleted"; /* && header("refresh:1; url=system_settings.php"); */
+    } else {
+        $info = "Please Try Again Or Try Later";
     }
 }
 
@@ -130,7 +200,7 @@ require_once('../partials/_head.php');
                                 <?php if (isset($success)) { ?>
                                     <!--This code for injecting success alert-->
                                     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                                        <strong>Success! </strong> <br> Bursary Details Added.
+                                        <strong>Success! </strong> <br> <?php echo $success; ?>
                                         <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
                                     </div>
                                 <?php }
@@ -220,88 +290,87 @@ require_once('../partials/_head.php');
                                                         <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                             <div class="bg-white py-2">
                                                                 <a class="dropdown-item" href="bursary_applications.php?view=<?php echo $bursary->code; ?>">View Applications</a>
-                                                                <a class="dropdown-item" data-target="modal" href="#pdate-<?php echo $bursary->id; ?>">Update</a>
+                                                                <a class="dropdown-item" data-toggle="modal" href="#update-<?php echo $bursary->id; ?>">Update</a>
                                                                 <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item text-danger" data-target="modal" href="#delete-<?php echo $bursary->id; ?>">Delete</a>
+                                                                <a class="dropdown-item text-danger" data-toggle="modal" href="#delete-<?php echo $bursary->id; ?>">Delete</a>
 
-
-                                                                <!-- Confirm Delete Modal -->
-                                                                <div class="modal fade" id="delete-<?php echo $bursary->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center text-danger">
-                                                                                <h4>Delete <?php echo $bursary->code; ?> Details ?</h4>
-                                                                                <br>
-                                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                                <a href="bursaries.php?delete=<?php echo $bursary->id; ?>" class="text-center btn btn-danger"> Delete </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Confirmation -->
-
-                                                                <!-- Update Modal -->
-                                                                <div class="modal fade" id="update-<?php echo $bursary->id; ?>">
-                                                                    <div class="modal-dialog  modal-lg">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h4 class="modal-title">Update Bursary </h4>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <!-- Add Course Form -->
-                                                                                <form method="post" enctype="multipart/form-data" role="form">
-                                                                                    <div class="card-body">
-                                                                                        <div class="row">
-                                                                                            <div class="form-group col-md-6">
-                                                                                                <label for="">Bursary Code</label>
-                                                                                                <input type="text" required name="code" readonly value="<?php echo $bursary->code; ?>" class="form-control">
-                                                                                                <input type="hidden" required name="id" value="<?php echo $bursary->id; ?>" class="form-control">
-                                                                                            </div>
-                                                                                            <div class="form-group col-md-6">
-                                                                                                <label for="">Bursary Allocation Year</label>
-                                                                                                <input type="text" required name="year" value="<?php echo $bursary->year; ?>" class="form-control">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="form-group col-md-6">
-                                                                                                <label for="">Estimated Bursary Allocated Funds</label>
-                                                                                                <input type="text" required name="allocated_funds" value="<?php echo $bursary->allocated_funds; ?>" class="form-control">
-                                                                                            </div>
-                                                                                            <div class="form-group col-md-6">
-                                                                                                <label for="">Bursary Status</label>
-                                                                                                <select class="form control basic " style="width: 100%;" name="status">
-                                                                                                    <option><?php echo $bursary->status; ?></option>
-                                                                                                    <option>Open</option>
-                                                                                                    <option>Closed</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <div class="card-footer text-right">
-                                                                                        <button type="submit" name="update_bursary" class="btn btn-primary">Update Bursary</button>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                            <div class="modal-footer justify-content-between">
-                                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Modal -->
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!-- Confirm Delete Modal -->
+                                                    <div class="modal fade" id="delete-<?php echo $bursary->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body text-center text-danger">
+                                                                    <h4>Delete <?php echo $bursary->code; ?> Details ?</h4>
+                                                                    <br>
+                                                                    <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                    <a href="bursaries.php?delete=<?php echo $bursary->id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Confirmation -->
+
+                                                    <!-- Update Modal -->
+                                                    <div class="modal fade" id="update-<?php echo $bursary->id; ?>">
+                                                        <div class="modal-dialog  modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Update Bursary </h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- Add Course Form -->
+                                                                    <form method="post" enctype="multipart/form-data" role="form">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Bursary Code</label>
+                                                                                    <input type="text" required name="code" readonly value="<?php echo $bursary->code; ?>" class="form-control">
+                                                                                    <input type="hidden" required name="id" value="<?php echo $bursary->id; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Bursary Allocation Year</label>
+                                                                                    <input type="text" required name="year" value="<?php echo $bursary->year; ?>" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Estimated Bursary Allocated Funds</label>
+                                                                                    <input type="text" required name="allocated_funds" value="<?php echo $bursary->allocated_funds; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Bursary Status</label>
+                                                                                    <select class="form-control" name="status">
+                                                                                        <option><?php echo $bursary->status; ?></option>
+                                                                                        <option>Open</option>
+                                                                                        <option>Closed</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="card-footer text-right">
+                                                                            <button type="submit" name="update_bursary" class="btn btn-primary">Update Bursary</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Modal -->
                                                 </td>
                                             </tr>
                                         <?php
@@ -346,7 +415,7 @@ require_once('../partials/_head.php');
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Bursary Status</label>
-                                                <select class="form control basic " style="width: 100%;" name="status">
+                                                <select class="form-control" name="status">
                                                     <option>Open</option>
                                                     <option>Closed</option>
                                                 </select>
