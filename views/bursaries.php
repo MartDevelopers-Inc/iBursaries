@@ -81,7 +81,7 @@ if (isset($_POST['add_bursary'])) {
             $rc = $stmt->bind_param('sssss', $id, $code, $year, $allocated_funds, $status);
             $stmt->execute();
             if ($stmt) {
-                $success = "Bursary Added"; //&& header("refresh:1; url=bursaries.php");
+                $success = "Bursary Record Deleted" && header("refresh:1; url=bursaries.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
@@ -90,7 +90,7 @@ if (isset($_POST['add_bursary'])) {
 }
 
 /* Update Bursary */
-if (isset($_POST['add_bursary'])) {
+if (isset($_POST['update_bursary'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
@@ -136,7 +136,7 @@ if (isset($_POST['add_bursary'])) {
         $rc = $stmt->bind_param('ssss', $year, $allocated_funds, $status, $id);
         $stmt->execute();
         if ($stmt) {
-            $success = "Bursary Updated";
+            $success = "Bursary Record Updated" && header("refresh:1; url=bursaries.php");
         } else {
             $info = "Please Try Again Or Try Later";
         }
@@ -153,7 +153,7 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
     $stmt->close();
     if ($stmt) {
-        $success = "Bursary Record Deleted"; /* && header("refresh:1; url=system_settings.php"); */
+        $success = "Bursary Record Deleted" && header("refresh:1; url=bursaries.php");
     } else {
         $info = "Please Try Again Or Try Later";
     }
