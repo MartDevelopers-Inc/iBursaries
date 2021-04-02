@@ -73,7 +73,7 @@ require_once('../partials/_head.php');
                             <div class="col-lg-12">
                                 <div class="text-right">
                                     <button data-toggle="modal" data-target="#add_modal" class="btn btn-primary mr-1 mb-1" type="button">
-                                        <span class="fas fa-plus mr-1" data-fa-transform="shrink-3"></span>Create Bursary
+                                        Create Bursary
                                     </button>
                                 </div>
                                 <hr>
@@ -123,6 +123,59 @@ require_once('../partials/_head.php');
                         </div>
                     </div>
                 </div>
+
+                <!-- Add Bursary Modal -->
+                <div class="modal fade" id="add_modal">
+                    <div class="modal-dialog  modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Create New Bursary </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Add Course Form -->
+                                <form method="post" enctype="multipart/form-data" role="form">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="">Bursary Code</label>
+                                                <input type="text" required name="code" value="<?php echo $a . " " . $b; ?>" class="form-control">
+                                                <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Bursary Allocation Year</label>
+                                                <input type="text" required name="year" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="">Estimated Bursary Allocated Funds</label>
+                                                <input type="text" required name="allocated_funds" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Bursary Status</label>
+                                                <select class="form control basic " style="width: 100%;" name="status">
+                                                    <option>Open</option>
+                                                    <option>Closed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <button type="submit" name="add_bursary" class="btn btn-primary">Add Bursary</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
 
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>

@@ -25,5 +25,6 @@
     <!-- Data Tables -->
     <link href="../public/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
-    
+    <!-- Select 2 Min Css -->
+    <link rel="stylesheet" href="../public/lib/select2/select2.min.css">
 </head>

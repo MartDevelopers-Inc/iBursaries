@@ -40,3 +40,10 @@
         container.classList.add('container-fluid');
     }
 </script>
+<!-- Select2 Bootstrap Plug In -->
+<script src="../public/lib/select2/select2.min.js"></script>
+<script>
+    var ss = $(".basic").select2({
+        tags: true,
+    });
+</script>
