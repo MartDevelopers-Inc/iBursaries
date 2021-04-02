@@ -310,7 +310,7 @@ require_once('../partials/_head.php');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h3 class="mb-0">Bursaries</h3>
+                                <h3 class="mb-0">Applicants</h3>
                                 <!-- Alerts -->
                                 <?php if (isset($success)) { ?>
                                     <!--This code for injecting success alert-->
@@ -345,75 +345,63 @@ require_once('../partials/_head.php');
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-right">
+                                    <button data-toggle="modal" data-target="#import_modal" class="btn btn-primary mr-1 mb-1" type="button">
+                                        Bulk Import Applicants
+                                    </button>
                                     <button data-toggle="modal" data-target="#add_modal" class="btn btn-primary mr-1 mb-1" type="button">
-                                        Create Bursary
+                                        Add Applicant
                                     </button>
                                 </div>
                                 <hr>
                                 <table id="data_table" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
                                     <thead class="bg-200">
                                         <tr>
-                                            <th class="sort">Code / Number</th>
-                                            <th class="sort">Bursary Year</th>
-                                            <th class="sort">Total Allocated Funds</th>
-                                            <th class="sort">Bursary Status</th>
-                                            <th class="sort">Total Applications</th>
+                                            <th class="sort">Name</th>
+                                            <th class="sort">Contacts</th>
+                                            <th class="sort">DOB</th>
+                                            <th class="sort">Gender</th>
+                                            <th class="sort">IDNO</th>
+                                            <th class="sort">County</th>
+                                            <th class="sort">Sub County</th>
+                                            <th class="sort">Ward</th>
+                                            <th class="sort">Sub Location</th>
+                                            <th class="sort">Village</th>
                                             <th class="sort">Manage</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
                                         <?php
-                                        $ret = "SELECT * FROM `iBursary_bursaries`  ";
+                                        $ret = "SELECT * FROM `iBursary_applicants`  ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($bursary = $res->fetch_object()) {
+                                        while ($applicant = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $bursary->code; ?></td>
-                                                <td><?php echo $bursary->year; ?></td>
-                                                <td>Ksh <?php echo $bursary->allocated_funds; ?></td>
-                                                <td>
-                                                    <?php
-                                                    if ($bursary->status == 'Open') {
-                                                        echo
-                                                        "
-                                                                <span class='badge badge rounded-capsule badge-soft-success'> Open <span class='ml-1 fas fa-check' data-fa-transform='shrink-2'></span></span>
-                                                            ";
-                                                    } else {
-                                                        echo
-                                                        "
-                                                                <span class='badge badge rounded-capsule badge-soft-danger'> Closed <span class='ml-1 fas fa-times' data-fa-transform='shrink-2'></span></span>
-                                                            ";
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    /* Number Of Applications */
-                                                    $bursarycode = $bursary->code;
-                                                    $query = "SELECT COUNT(*)  FROM `iBursary_application` WHERE bursary_code = '$bursarycode'  ";
-                                                    $stmt = $mysqli->prepare($query);
-                                                    $stmt->execute();
-                                                    $stmt->bind_result($applications);
-                                                    $stmt->fetch();
-                                                    $stmt->close();
-                                                    ?>
-                                                </td>
+                                                <td><?php echo $applicant->name; ?></td>
+                                                <td><?php echo $applicant->phone; ?></td>
+                                                <td><?php echo $applicant->dob; ?></td>
+                                                <td><?php echo $applicant->sex; ?></td>
+                                                <td><?php echo $applicant->idno; ?></td>
+                                                <td><?php echo $applicant->county; ?></td>
+                                                <td><?php echo $applicant->sub_county; ?></td>
+                                                <td><?php echo $applicant->ward; ?></td>
+                                                <td><?php echo $applicant->sub_location; ?></td>
+                                                <td><?php echo $applicant->village; ?></td>
                                                 <td>
                                                     <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                                                         <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                             <div class="bg-white py-2">
-                                                                <a class="dropdown-item" href="bursary_applications.php?view=<?php echo $bursary->code; ?>">View Applications</a>
-                                                                <a class="dropdown-item" data-toggle="modal" href="#update-<?php echo $bursary->id; ?>">Update</a>
+                                                                <a class="dropdown-item" href="applicant_bursary.php?view=<?php echo $applicant->id; ?>">View Bursary Applications</a>
+                                                                <a class="dropdown-item" data-toggle="modal" href="#update-<?php echo $applicant->id; ?>">Update</a>
                                                                 <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item text-danger" data-toggle="modal" href="#delete-<?php echo $bursary->id; ?>">Delete</a>
+                                                                <a class="dropdown-item text-danger" data-toggle="modal" href="#delete-<?php echo $applicant->id; ?>">Delete</a>
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!-- Confirm Delete Modal -->
-                                                    <div class="modal fade" id="delete-<?php echo $bursary->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="delete-<?php echo $applicant->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -423,10 +411,10 @@ require_once('../partials/_head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center text-danger">
-                                                                    <h4>Delete <?php echo $bursary->code; ?> Details ?</h4>
+                                                                    <h4>Delete <?php echo $applicant->name; ?> Details ?</h4>
                                                                     <br>
                                                                     <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                    <a href="bursaries.php?delete=<?php echo $bursary->id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                    <a href="applicants.php?delete=<?php echo $applicant->id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -434,50 +422,17 @@ require_once('../partials/_head.php');
                                                     <!-- End Confirmation -->
 
                                                     <!-- Update Modal -->
-                                                    <div class="modal fade" id="update-<?php echo $bursary->id; ?>">
+                                                    <div class="modal fade" id="update-<?php echo $applicant->id; ?>">
                                                         <div class="modal-dialog  modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Update Bursary </h4>
+                                                                    <h4 class="modal-title">Update <?php echo $applicant->name; ?> Details </h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <!-- Add Course Form -->
-                                                                    <form method="post" enctype="multipart/form-data" role="form">
-                                                                        <div class="card-body">
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Bursary Code</label>
-                                                                                    <input type="text" required name="code" readonly value="<?php echo $bursary->code; ?>" class="form-control">
-                                                                                    <input type="hidden" required name="id" value="<?php echo $bursary->id; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Bursary Allocation Year</label>
-                                                                                    <input type="text" required name="year" value="<?php echo $bursary->year; ?>" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Estimated Bursary Allocated Funds</label>
-                                                                                    <input type="text" required name="allocated_funds" value="<?php echo $bursary->allocated_funds; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Bursary Status</label>
-                                                                                    <select class="form-control" name="status">
-                                                                                        <option><?php echo $bursary->status; ?></option>
-                                                                                        <option>Open</option>
-                                                                                        <option>Closed</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
 
-                                                                        </div>
-                                                                        <div class="card-footer text-right">
-                                                                            <button type="submit" name="update_bursary" class="btn btn-primary">Update Bursary</button>
-                                                                        </div>
-                                                                    </form>
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
                                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -498,48 +453,78 @@ require_once('../partials/_head.php');
                     </div>
                 </div>
 
-                <!-- Add Bursary Modal -->
+                <!-- Add Applicant Modal -->
                 <div class="modal fade" id="add_modal">
                     <div class="modal-dialog  modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Create New Bursary </h4>
+                                <h4 class="modal-title">Add Applicant Details </h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <!-- Add Course Form -->
                                 <form method="post" enctype="multipart/form-data" role="form">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="form-group col-md-6">
-                                                <label for="">Bursary Code</label>
-                                                <input type="text" required name="code" value="<?php echo $a . " " . $b; ?>" class="form-control">
+                                                <label for="">Full Name</label>
+                                                <input type="text" required name="name" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="">Bursary Allocation Year</label>
-                                                <input type="text" required name="year" class="form-control">
+                                                <label for="">National ID Number</label>
+                                                <input type="text" required name="idno" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-6">
-                                                <label for="">Estimated Bursary Allocated Funds</label>
-                                                <input type="text" required name="allocated_funds" class="form-control">
+                                                <label for="">Contacts | Phone Number</label>
+                                                <input type="text" required name="phone" class="form-control">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="">Bursary Status</label>
-                                                <select class="form-control" name="status">
-                                                    <option>Open</option>
-                                                    <option>Closed</option>
-                                                </select>
+                                                <label for="">Email Address</label>
+                                                <input type="text" required name="email" class="form-control">
                                             </div>
                                         </div>
-
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="">Gender</label>
+                                                <select type="text" required name="gender" class="form-control">
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Password</label>
+                                                <input type="text" required name="password" value="Applicant" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="">County</label>
+                                                <input type="text" required name="county" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Sub County</label>
+                                                <input type="text" required name="sub_county" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Ward</label>
+                                                <input type="text" required name="ward" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Sub Location</label>
+                                                <input type="text" required name="sub_location" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="">Village</label>
+                                                <input type="text" required name="village" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-footer text-right">
-                                        <button type="submit" name="add_bursary" class="btn btn-primary">Add Bursary</button>
+                                        <button type="submit" name="add_applicant" class="btn btn-primary">Add Bursary</button>
                                     </div>
                                 </form>
                             </div>
