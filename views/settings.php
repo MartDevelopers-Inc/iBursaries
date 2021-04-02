@@ -24,6 +24,131 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
+/* Update Profile Picture */
+if (isset($_POST['update_picture'])) {
+    $id = $_SESSION['id'];
+    $profile_pic = $_FILES['profile_pic']['name'];
+    move_uploaded_file($_FILES["profile_pic"]["tmp_name"], "../public/uploads/user_images/" . $_FILES["profile_pic"]["name"]);
+    $query = "UPDATE iBursary_admin  SET  profile =? WHERE id =?";
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('ss', $profile_pic, $id);
+    $stmt->execute();
+    if ($stmt) {
+        $success = "Profile Picture Updated" && header("Refresh: 0");
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
+
+/* Update Profile */
+
+/* Update Lec */
+if (isset($_POST['update_profile'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $name = mysqli_real_escape_string($mysqli, trim($_POST['name']));
+    } else {
+        $error = 1;
+        $err = "Name Cannot Be Empty";
+    }
+    if (isset($_POST['idno']) && !empty($_POST['idno'])) {
+        $idno = mysqli_real_escape_string($mysqli, trim($_POST['idno']));
+    } else {
+        $error = 1;
+        $err = "National ID / Passport Number Cannot Be Empty";
+    }
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
+    } else {
+        $error = 1;
+        $err = "Email Cannot Be Empty";
+    }
+    if (isset($_POST['phone']) && !empty($_POST['phone'])) {
+        $phone = mysqli_real_escape_string($mysqli, trim($_POST['phone']));
+    } else {
+        $error = 1;
+        $err = "Phone Number Cannot Be Empty";
+    }
+    if (isset($_POST['adr']) && !empty($_POST['adr'])) {
+        $adr = mysqli_real_escape_string($mysqli, trim($_POST['adr']));
+    } else {
+        $error = 1;
+        $err = "Address Cannot Be Empty";
+    }
+    if (isset($_POST['bio']) && !empty($_POST['bio'])) {
+        $bio = mysqli_real_escape_string($mysqli, trim($_POST['bio']));
+    } else {
+        $error = 1;
+        $err = "Bio Cannot Be Empty";
+    }
+    if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+        $id = mysqli_real_escape_string($mysqli, trim($_SESSION['id']));
+    } else {
+        $error = 1;
+        $err = "ID Cannot Be Empty";
+    }
+    if (!$error) {
+
+        $query = "UPDATE iBursary_admin SET  name =?,  idno = ?, email =?, phone = ?, adr = ?, bio=? WHERE id =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('sssssss', $name,  $idno, $email, $phone, $adr, $bio, $id);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Profile Updated";
+        } else {
+            //inject alert that profile update task failed
+            $info = "Please Try Again Or Try Later";
+        }
+    }
+}
+
+
+/* Update Password */
+if (isset($_POST['change_password'])) {
+
+    $error = 0;
+
+    if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
+        $new_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['new_password']))));
+    } else {
+        $error = 1;
+        $err = "New Password Cannot Be Empty";
+    }
+    if (isset($_POST['confirm_password']) && !empty($_POST['confirm_password'])) {
+        $confirm_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['confirm_password']))));
+    } else {
+        $error = 1;
+        $err = "Confirmation Password Cannot Be Empty";
+    }
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['email']))));
+    } else {
+        $error = 1;
+        $err = "Email Cannot Be Empty";
+    }
+    $mailed_password = $_POST['confirm_password'];
+
+
+    if (!$error) {
+        if ($_POST['new_password'] != $_POST['confirm_password']) {
+            $err = "Passwords Do Not Match";
+        } else {
+            $id = $_SESSION['id'];
+            $new_password  = sha1(md5($_POST['new_password']));
+            $query = "UPDATE iBursary_admin SET  password =? WHERE id =?";
+            $stmt = $mysqli->prepare($query);
+            $rc = $stmt->bind_param('ss', $new_password, $view);
+            $stmt->execute();
+            if ($stmt) {
+                $success = "Password Changed";
+            } else {
+                $err = "Please Try Again Or Try Later";
+            }
+        }
+    }
+}
+
 require_once('../partials/_head.php');
 ?>
 
@@ -79,6 +204,28 @@ require_once('../partials/_head.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h4 class="mb-1">
+                                        <!-- Alerts -->
+                                        <?php if (isset($success)) { ?>
+                                            <!--This code for injecting success alert-->
+                                            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                                <strong>Success! </strong> <br> <?php echo $success; ?>
+                                                <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                            </div>
+                                        <?php }
+                                        if (isset($err)) { ?>
+                                            <!--This code for injecting error alert-->
+                                            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                                <strong>Error! </strong> <br> <?php echo $err; ?>
+                                                <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                            </div>
+                                        <?php }
+                                        if (isset($info)) { ?>
+                                            <!--This code for injecting info alert-->
+                                            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                                                <strong>Warning! </strong> <br> <?php echo $info; ?>
+                                                <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                            </div>
+                                        <?php } ?>
                                     </h4>
                                 </div>
                             </div>
