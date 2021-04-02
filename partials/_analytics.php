@@ -44,3 +44,20 @@ $stmt->execute();
 $stmt->bind_result($funds_disbursed);
 $stmt->fetch();
 $stmt->close();
+
+/* 4. Allocated Bursary Funds */
+$query = "SELECT SUM(allocated_funds)  FROM `iBursary_bursaries`  ";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($allocated_funds);
+$stmt->fetch();
+$stmt->close();
+
+
+/* 5. Posted Bursaries */
+$query = "SELECT COUNT(*)  FROM `iBursary_bursaries` ";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($bursaries);
+$stmt->fetch();
+$stmt->close();

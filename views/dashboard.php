@@ -71,6 +71,7 @@ require_once('../partials/_head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $applications; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
+
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
                         <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-3.png);"></div>
                         <!--/.bg-holder-->
@@ -79,6 +80,29 @@ require_once('../partials/_head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
+                    
+                </div>
+
+                <div class="card-deck">
+
+                    <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-2.png);"></div>
+                        <!--/.bg-holder-->
+                        <div class="card-body position-relative">
+                            <h6>Posted Bursaries</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $bursaries; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-3.png);"></div>
+                        <!--/.bg-holder-->
+                        <div class="card-body position-relative">
+                            <h6>Allocated Bursary Funds</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="card mb-3">
