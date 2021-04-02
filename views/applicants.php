@@ -156,45 +156,102 @@ if (isset($_POST['update_applicant'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
     } else {
         $error = 1;
-        $err = "Bursary ID Cannot Be Empty";
+        $err = "Applicant ID Cannot Be Empty";
     }
 
-    if (isset($_POST['code']) && !empty($_POST['code'])) {
-        $code = mysqli_real_escape_string($mysqli, trim($_POST['code']));
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $name = mysqli_real_escape_string($mysqli, trim($_POST['name']));
     } else {
         $error = 1;
-        $err = "Bursary Code Cannot Be Empty";
+        $err = "Applicant Name Cannot Be Empty";
     }
 
-    if (isset($_POST['year']) && !empty($_POST['year'])) {
-        $year = mysqli_real_escape_string($mysqli, trim($_POST['year']));
+    if (isset($_POST['phone']) && !empty($_POST['phone'])) {
+        $phone = mysqli_real_escape_string($mysqli, trim($_POST['phone']));
     } else {
         $error = 1;
-        $err = "Bursary Allocated Year Cannot Be Empty";
+        $err = "Applicant Phone Cannot Be Empty";
     }
 
-    if (isset($_POST['allocated_funds']) && !empty($_POST['allocated_funds'])) {
-        $allocated_funds = mysqli_real_escape_string($mysqli, trim($_POST['allocated_funds']));
+    if (isset($_POST['dob']) && !empty($_POST['dob'])) {
+        $dob = mysqli_real_escape_string($mysqli, trim($_POST['dob']));
     } else {
         $error = 1;
-        $err = "Bursary Allocated Funds Cannot Be Empty";
+        $err = "Applicant DOB  Cannot Be Empty";
     }
 
-    if (isset($_POST['status']) && !empty($_POST['status'])) {
-        $status = mysqli_real_escape_string($mysqli, trim($_POST['status']));
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
     } else {
         $error = 1;
-        $err = "Bursary Status Funds Cannot Be Empty";
+        $err = "Applicant Email  Cannot Be Empty";
+    }
+
+    if (isset($_POST['password']) && !empty($_POST['password'])) {
+        $password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['password']))));
+    } else {
+        $error = 1;
+        $err = "Applicant Password  Cannot Be Empty";
+    }
+
+    if (isset($_POST['sex']) && !empty($_POST['sex'])) {
+        $sex = mysqli_real_escape_string($mysqli, trim($_POST['sex']));
+    } else {
+        $error = 1;
+        $err = "Applicant Gender  Cannot Be Empty";
+    }
+
+    if (isset($_POST['county']) && !empty($_POST['county'])) {
+        $county = mysqli_real_escape_string($mysqli, trim($_POST['county']));
+    } else {
+        $error = 1;
+        $err = "Applicant County  Cannot Be Empty";
+    }
+
+    if (isset($_POST['sub_county']) && !empty($_POST['sub_county'])) {
+        $sub_county = mysqli_real_escape_string($mysqli, trim($_POST['sub_county']));
+    } else {
+        $error = 1;
+        $err = "Applicant Sub County  Cannot Be Empty";
+    }
+
+    if (isset($_POST['ward']) && !empty($_POST['ward'])) {
+        $ward = mysqli_real_escape_string($mysqli, trim($_POST['ward']));
+    } else {
+        $error = 1;
+        $err = "Applicant Ward Cannot Be Empty";
+    }
+
+    if (isset($_POST['sub_location']) && !empty($_POST['sub_location'])) {
+        $sub_location = mysqli_real_escape_string($mysqli, trim($_POST['sub_location']));
+    } else {
+        $error = 1;
+        $err = "Applicant Sub Location Cannot Be Empty";
+    }
+
+    if (isset($_POST['village']) && !empty($_POST['village'])) {
+        $village  = mysqli_real_escape_string($mysqli, trim($_POST['village']));
+    } else {
+        $error = 1;
+        $err = "Applicant Village Cannot Be Empty";
+    }
+
+    if (isset($_POST['idno']) && !empty($_POST['idno'])) {
+        $idno  = mysqli_real_escape_string($mysqli, trim($_POST['idno']));
+    } else {
+        $error = 1;
+        $err = "Applicant National ID Number Cannot Be Empty";
     }
 
     if (!$error) {
         /* No Error Or Duplicate */
-        $query = "UPDATE iBursary_bursaries  SET year =?, allocated_funds =?, status =? WHERE id =?";
+        $query = "UPDATE iBursary_applicants SET name =?, phone =?, dob =?, idno =?, email =?, password =?, sex =?, county =?, sub_county =?, ward =?, sub_location =?, village =?
+           WHERE id = ?";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ssss', $year, $allocated_funds, $status, $id);
+        $rc = $stmt->bind_param('sssssssssssss', $name, $phone, $dob, $idno, $email, $password, $sex, $county, $sub_county, $ward, $sub_location, $village, $id);
         $stmt->execute();
         if ($stmt) {
-            $success = "Bursary Record Updated" && header("refresh:1; url=bursaries.php");
+            $success = "Applicant Record Updated" && header("refresh:1; url=applicants.php");
         } else {
             $info = "Please Try Again Or Try Later";
         }
