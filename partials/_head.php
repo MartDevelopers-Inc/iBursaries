@@ -25,8 +25,5 @@
     <!-- Data Tables -->
     <link href="../public/lib/datatables-bs4/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet">
-    <!-- Leaflet Plug In -->
-    <link href="../public/lib/leaflet/leaflet.css" rel="stylesheet">
-    <link href="../public/lib/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
-    <link href="../public/lib/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
+    
 </head>

@@ -25,10 +25,12 @@
 <script src="../public/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
 <script src="../public/lib/datatables.net-responsive/dataTables.responsive.js"></script>
 <script src="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
-<!-- LeafLet Plugin  -->
-<script src="../public/lib/leaflet/leaflet.js"></script>
-<script src="../public/lib/leaflet.markercluster/leaflet.markercluster.js"></script>
-<script src="../public/lib/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+<!-- Initialize Data Table -->
+<script>
+    $(function() {
+        $("#data_table").DataTable();
+    });
+</script>
 <!-- Is Fluid ?-->
 <script>
     var isFluid = JSON.parse(localStorage.getItem('isFluid'));
