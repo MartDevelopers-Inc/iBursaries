@@ -22,7 +22,73 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
+require_once('../config/codeGen.php');
 admin();
+
+/* Add Bursary */
+if (isset($_POST['add_bursary'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+
+    if (isset($_POST['id']) && !empty($_POST['id'])) {
+        $id = mysqli_real_escape_string($mysqli, trim($_POST['id']));
+    } else {
+        $error = 1;
+        $err = "Bursary ID Cannot Be Empty";
+    }
+
+    if (isset($_POST['code']) && !empty($_POST['code'])) {
+        $code = mysqli_real_escape_string($mysqli, trim($_POST['code']));
+    } else {
+        $error = 1;
+        $err = "Bursary Code Cannot Be Empty";
+    }
+
+    if (isset($_POST['year']) && !empty($_POST['year'])) {
+        $year = mysqli_real_escape_string($mysqli, trim($_POST['year']));
+    } else {
+        $error = 1;
+        $err = "Bursary Allocated Year Cannot Be Empty";
+    }
+
+    if (isset($_POST['allocated_funds']) && !empty($_POST['allocated_funds'])) {
+        $allocated_funds = mysqli_real_escape_string($mysqli, trim($_POST['allocated_funds']));
+    } else {
+        $error = 1;
+        $err = "Bursary Allocated Funds Cannot Be Empty";
+    }
+
+    if (isset($_POST['status']) && !empty($_POST['status'])) {
+        $status = mysqli_real_escape_string($mysqli, trim($_POST['status']));
+    } else {
+        $error = 1;
+        $err = "Bursary Status Funds Cannot Be Empty";
+    }
+
+    if (!$error) {
+        /* Prevent Double Entries */
+        $sql = "SELECT * FROM  iBursary_bursaries WHERE  code = '$code' && year = '$year'  ";
+        $res = mysqli_query($mysqli, $sql);
+        if (mysqli_num_rows($res) > 0) {
+            $row = mysqli_fetch_assoc($res);
+            if ($code == $row['code'] && $year == $row['year']) {
+                $err =  "A Bursary With This Code : $code Already Created For Year : $year ";
+            }
+        } else {
+            /* No Error Or Duplicate */
+            $query = "INSERT INTO iBursary_bursaries  (id, code, year, allocated_funds, status) VALUES (?,?,?,?,?)";
+            $stmt = $mysqli->prepare($query);
+            $rc = $stmt->bind_param('sssss', $id, $code, $year, $allocated_funds, $status);
+            $stmt->execute();
+            if ($stmt) {
+                $success = "Bursary Added" && header("refresh:1; url=bursaries.php");
+            } else {
+                $info = "Please Try Again Or Try Later";
+            }
+        }
+    }
+}
+
 require_once('../partials/_head.php');
 ?>
 
