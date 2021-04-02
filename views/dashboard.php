@@ -22,7 +22,6 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
-/* Invoke Checklogin */
 admin();
 require_once('../partials/_analytics.php');
 require_once('../partials/_head.php');
@@ -61,7 +60,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Applicants</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">58.39k</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicants.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning"><?php echo $applicants;?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicants.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -69,7 +68,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Bursary Applications</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">73.46k</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $applications;?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -77,7 +76,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Disbursed</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>Ksh 0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed;?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed;?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
                 </div>
