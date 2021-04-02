@@ -5,6 +5,18 @@ $stmt = $mysqli->prepare($ret);
 $stmt->execute(); //ok
 $res = $stmt->get_result();
 while ($ai = $res->fetch_object()) {
+    if ($ai->profile == '') {
+        $profile =
+            "
+                <img class='rounded-circle' src='../public/uploads/user_images/no-profile.png' />
+            ";
+    } else {
+        $profile =
+            "
+            <img class='rounded-circle' src='../public/uploads/user_images/$ai->profile' />
+
+        ";
+    }
 ?>
     <nav class="navbar navbar-light navbar-glass navbar-top sticky-kit navbar-expand" style="display:none;">
         <button class="btn navbar-toggler-humburger-icon navbar-toggler mr-1 mr-sm-3" type="button" data-toggle="collapse" data-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
@@ -22,7 +34,7 @@ while ($ai = $res->fetch_object()) {
 
             <li class="nav-item dropdown dropdown-on-hover"><a class="nav-link pr-0" id="navbarDropdownUser" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-xl">
-                        <img class="rounded-circle" src="../public/img/team/3-thumb.png" alt="" />
+                        <?php echo $profile; ?>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right py-0" aria-labelledby="navbarDropdownUser">
