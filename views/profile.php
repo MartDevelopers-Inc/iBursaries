@@ -73,11 +73,9 @@ require_once('../partials/_head.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h4 class="mb-1"><?php echo $loggedIn->name; ?> <small class="fas fa-check-circle text-primary ml-1" data-toggle="tooltip" data-placement="right" title="Verified" data-fa-transform="shrink-4 down-2"></small></h4>
-                                    <div class="text-center">
                                         <h5 class="fs-0 font-weight-normal">Contacts: <?php echo $loggedIn->phone; ?></h5>
                                         <h5 class="fs-0 font-weight-normal">Email: <?php echo $loggedIn->email; ?></h5>
                                         <h5 class="fs-0 font-weight-normal">National ID NO: <?php echo $loggedIn->idno; ?></h5>
-                                    </div>
                                     <hr class="border-dashed my-4 d-lg-none" />
                                 </div>
                             </div>
