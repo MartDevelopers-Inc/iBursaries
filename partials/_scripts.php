@@ -41,11 +41,20 @@
         container.classList.remove('container');
         container.classList.add('container-fluid');
     }
+
 </script>
 <!-- Select2 Bootstrap Plug In -->
 <script src="../public/lib/select2/select2.min.js"></script>
 <script>
     var ss = $(".basic").select2({
         tags: true,
+    });
+</script>
+
+<!-- File Uploads  -->
+<script src="../public/lib/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function() {
+        bsCustomFileInput.init();
     });
 </script>
