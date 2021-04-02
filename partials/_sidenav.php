@@ -45,7 +45,7 @@ while ($ai = $res->fetch_object()) {
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="settings.php">Settings</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="../partials/_logout.php">Logout</a>
+                        <a class="dropdown-item" href="_logout.php">Logout</a>
                     </div>
                 </div>
             </li>
