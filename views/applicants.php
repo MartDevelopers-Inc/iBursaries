@@ -432,7 +432,70 @@ require_once('../partials/_head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-
+                                                                    <form method="post" enctype="multipart/form-data" role="form">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Full Name</label>
+                                                                                    <input type="text" required name="name" value="<?php echo $applicant->name; ?>" class="form-control">
+                                                                                    <input type="hidden" required name="id" value="<?php echo $applicant->id; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">National ID Number</label>
+                                                                                    <input type="text" required name="idno" value="<?php echo $applicant->idno; ?>" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Contacts | Phone Number</label>
+                                                                                    <input type="text" required name="phone" value="<?php echo $applicant->phone; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Email Address</label>
+                                                                                    <input type="text" required name="email" value="<?php echo $applicant->email; ?>" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Gender</label>
+                                                                                    <select type="text" required name="gender" class="form-control">
+                                                                                        <option><?php echo $applicant->gender; ?></option>
+                                                                                        <option>Male</option>
+                                                                                        <option>Female</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Password</label>
+                                                                                    <input type="text" required name="password" value="Applicant" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">County</label>
+                                                                                    <input type="text" required name="county" value="<?php echo $applicant->county; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Sub County</label>
+                                                                                    <input type="text" required name="sub_county" value="<?php echo $applicant->sub_county; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Ward</label>
+                                                                                    <input type="text" required name="ward" value="<?php echo $applicant->ward; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label for="">Sub Location</label>
+                                                                                    <input type="text" required name="sub_location" value="<?php echo $applicant->sub_location; ?>" class="form-control">
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label for="">Village</label>
+                                                                                    <input type="text" required name="village" value="<?php echo $applicant->village; ?>" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card-footer text-right">
+                                                                            <button type="submit" name="update_applicant" class="btn btn-primary">Update Applicant</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
                                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -524,7 +587,7 @@ require_once('../partials/_head.php');
                                         </div>
                                     </div>
                                     <div class="card-footer text-right">
-                                        <button type="submit" name="add_applicant" class="btn btn-primary">Add Bursary</button>
+                                        <button type="submit" name="add_applicant" class="btn btn-primary">Add Applicant</button>
                                     </div>
                                 </form>
                             </div>
