@@ -16,6 +16,8 @@
 <script src="../public/lib/lodash/lodash.min.js"></script>
 <!-- Perfect Scrollbar -->
 <script src="../public/lib/perfect-scrollbar/perfect-scrollbar.js"></script>
+<!-- Facnybox -->
+<script src="../public/lib/fancybox/jquery.fancybox.min.js"></script>
 <!-- Font -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 <!-- App Js -->
@@ -25,10 +27,12 @@
 <script src="../public/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
 <script src="../public/lib/datatables.net-responsive/dataTables.responsive.js"></script>
 <script src="../public/lib/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
-<!-- LeafLet Plugin  -->
-<script src="../public/lib/leaflet/leaflet.js"></script>
-<script src="../public/lib/leaflet.markercluster/leaflet.markercluster.js"></script>
-<script src="../public/lib/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+<!-- Initialize Data Table -->
+<script>
+    $(function() {
+        $("#data_table").DataTable();
+    });
+</script>
 <!-- Is Fluid ?-->
 <script>
     var isFluid = JSON.parse(localStorage.getItem('isFluid'));
@@ -37,4 +41,20 @@
         container.classList.remove('container');
         container.classList.add('container-fluid');
     }
+
+</script>
+<!-- Select2 Bootstrap Plug In -->
+<script src="../public/lib/select2/select2.min.js"></script>
+<script>
+    var ss = $(".basic").select2({
+        tags: true,
+    });
+</script>
+
+<!-- File Uploads  -->
+<script src="../public/lib/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function() {
+        bsCustomFileInput.init();
+    });
 </script>

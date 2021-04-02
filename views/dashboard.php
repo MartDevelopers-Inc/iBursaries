@@ -22,7 +22,6 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
-/* Invoke Checklogin */
 admin();
 require_once('../partials/_analytics.php');
 require_once('../partials/_head.php');
@@ -61,7 +60,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Applicants</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">58.39k</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicants.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning"><?php echo $applicants; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicants.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -69,17 +68,41 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Bursary Applications</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">73.46k</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $applications; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
+
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
                         <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-3.png);"></div>
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Disbursed</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>Ksh 0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
+                    
+                </div>
+
+                <div class="card-deck">
+
+                    <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-2.png);"></div>
+                        <!--/.bg-holder-->
+                        <div class="card-body position-relative">
+                            <h6>Posted Bursaries</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $bursaries; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-3.png);"></div>
+                        <!--/.bg-holder-->
+                        <div class="card-body position-relative">
+                            <h6>Allocated Bursary Funds</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="card mb-3">
@@ -104,32 +127,69 @@ require_once('../partials/_head.php');
                                     </tr>
                                 </thead>
                                 <tbody id="purchases">
-                                    <tr class="btn-reveal-trigger">
-                                        <th class="align-middle"><a href="applicants.php">Sylvia Plath</a></th>
-                                        <td class="align-middle">john@gmail.com</td>
-                                        <td class="align-middle">Slick - Drag &amp; Drop Bootstrap Generator</td>
-                                        <td class="align-middle text-right">$99</td>
-                                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
-                                        <td class="align-middle white-space-nowrap">
-                                            <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
-                                                    <div class="bg-white py-2">
-                                                        <a class="dropdown-item" href="">View</a>
-                                                        <a class="dropdown-item" href="">Award Fund</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item text-warning" href="">Mark Incomplete</a>
-                                                        <a class="dropdown-item text-danger" href="">Delete</a>
+                                    <?php
+                                    $ret = "SELECT * FROM `iBursary_application`  ";
+                                    $stmt = $mysqli->prepare($ret);
+                                    $stmt->execute(); //ok
+                                    $res = $stmt->get_result();
+                                    while ($application = $res->fetch_object()) {
+                                    ?>
+                                        <tr class="btn-reveal-trigger">
+                                            <th class="align-middle">
+                                                <a href="applicants.php">
+                                                    <?php echo $application->name . " <br> " . $application->sex . "<br>" . $application->dob; ?>
+                                                </a>
+                                            </th>income_per_month
+                                            <td class="align-middle"><?php echo $application->family_status; ?></td>
+                                            <td class="align-middle">
+                                                <?php echo $application->school_name . "<br>" . $application->adm_no . "<br>" . $application->year_of_study; ?>
+                                            </td>
+                                            <td class="align-middle text-right"><?php echo $application->income_per_month; ?></td>
+                                            <td class="align-middle text-center fs-0">
+                                                <?php
+                                                if ($application->approval_status == 'Approved') {
+                                                    echo
+                                                    "
+                                                    <span class='badge badge rounded-capsule badge-soft-success'> Approved <span class='ml-1 fas fa-check' data-fa-transform='shrink-2'></span></span>
+                                                ";
+                                                } else if ($application->approval_status == 'Incomplete') {
+                                                    echo
+                                                    "
+                                                    <span class='badge badge rounded-capsule badge-soft-warning'> Incomplete <span class='ml-1 fas fa-warning' data-fa-transform='shrink-2'></span></span>
+                                                ";
+                                                } else {
+                                                    echo
+                                                    "
+                                                    <span class='badge badge rounded-capsule badge-soft-danger'> Pending <span class='ml-1 fas fa-times' data-fa-transform='shrink-2'></span></span>
+                                                ";
+                                                }
+                                                ?>
+
+                                            </td>
+                                            <td class="align-middle white-space-nowrap">
+                                                <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                                    <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
+                                                        <div class="bg-white py-2">
+                                                            <a class="dropdown-item" href="view_application.php?view=<?php echo $application->id; ?>">View</a>
+                                                            <a class="dropdown-item" href="">Award Fund</a>
+                                                            <!-- Award Fund Via Modal -->
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-warning" href="">Mark Incomplete</a>
+                                                            <!--Mark Incomplete Via Modal -->
+                                                            <a class="dropdown-item text-danger" href="">Delete</a>
+                                                            <!-- Confirm Delete Modal -->
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>
             </div>
