@@ -121,15 +121,7 @@ if (isset($_POST['change_password'])) {
         $error = 1;
         $err = "Confirmation Password Cannot Be Empty";
     }
-    if (isset($_POST['email']) && !empty($_POST['email'])) {
-        $email = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['email']))));
-    } else {
-        $error = 1;
-        $err = "Email Cannot Be Empty";
-    }
-    $mailed_password = $_POST['confirm_password'];
-
-
+    
     if (!$error) {
         if ($_POST['new_password'] != $_POST['confirm_password']) {
             $err = "Passwords Do Not Match";
@@ -272,7 +264,7 @@ require_once('../partials/_head.php');
                                     <h5 class="mb-0">Update Profile </h5>
                                 </div>
                                 <div class="card-body text-justify">
-                                    <form>
+                                    <form method="post">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="form-group"><label for="first-name">Name</label><input class="form-control" name="name" type="text" value="<?php echo $loggedIn->name; ?>"></div>
@@ -304,7 +296,7 @@ require_once('../partials/_head.php');
                                     <h5 class="mb-0">Change Password </h5>
                                 </div>
                                 <div class="card-body text-justify">
-                                    <form>
+                                    <form method="POST">
                                         <div class="form-group"><label for="old-password">Old Password</label><input class="form-control" id="old-password" name="old_password" type="password"></div>
                                         <div class="form-group"><label for="new-password">New Password</label><input class="form-control" id="new-password" name="new_password" type="password"></div>
                                         <div class="form-group"><label for="confirm-password">Confirm Password</label><input class="form-control" name="confirm_password" id="confirm-password" type="password"></div><button class="btn btn-primary btn-block" name="change_password" type="submit">Update Password</button>
