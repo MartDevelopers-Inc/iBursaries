@@ -28,15 +28,13 @@ admin();
 
 /* Bulk Import Applicants From XLS Files */
 
-/* Bulk Import On Students */
-
 use MartDevelopersInc\DataSource;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 require_once('../config/DataSource.php');
 $db = new DataSource();
 $conn = $db->getConnection();
-require_once('vendor/autoload.php');
+require_once('../vendor/autoload.php');
 
 if (isset($_POST["upload"])) {
 
@@ -51,7 +49,7 @@ if (isset($_POST["upload"])) {
 
     if (in_array($_FILES["file"]["type"], $allowedFileType)) {
 
-        $targetPath = 'public/uploads/EzanaLMSData/XLSFiles/' . $_FILES['file']['name'];
+        $targetPath = '../public/uploads/sys_data/templates/' . $_FILES['file']['name'];
         move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
 
         $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -736,6 +734,46 @@ require_once('../partials/_head.php');
                 </div>
                 <!-- End Modal -->
 
+                <!-- Bulk Import Modal -->
+                <div class="modal fade" id="add_modal">
+                    <div class="modal-dialog  modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Bulk Import Applicant Details </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data" role="form">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group text-center col-md-12">
+                                                <label for="exampleInputFile">Allowed File Types: XLS, XLSX. Please, <a href="../public/uploads/sys_data/templates/Applicants_Template.xlsx">Download</a> Template File. </label>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="exampleInputFile">Select File</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="file" accept=".xls,.xlsx" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" name="upload" class="btn btn-primary">Upload File</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Bulk Import -->
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>
             </div>
