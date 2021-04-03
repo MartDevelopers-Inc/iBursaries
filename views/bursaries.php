@@ -24,6 +24,90 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
+/* Bulk Import On Bursaries */
+
+use MartDevelopersInc\DataSource;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
+require_once('../config/DataSource.php');
+$db = new DataSource();
+$conn = $db->getConnection();
+require_once('../vendor/autoload.php');
+
+if (isset($_POST["upload"])) {
+
+    $allowedFileType = [
+        'application/vnd.ms-excel',
+        'text/xls',
+        'text/xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    /* Where Magic Happens */
+
+    if (in_array($_FILES["file"]["type"], $allowedFileType)) {
+
+        $targetPath = '../public/uploads/sys_data/bursaries/' . $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
+
+        $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+        $spreadSheet = $Reader->load($targetPath);
+        $excelSheet = $spreadSheet->getActiveSheet();
+        $spreadSheetAry = $excelSheet->toArray();
+        $sheetCount = count($spreadSheetAry);
+
+        for ($i = 1; $i <= $sheetCount; $i++) {
+
+            $id = "";
+            if (isset($spreadSheetAry[$i][0])) {
+                $id = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
+            }
+
+            $code = "";
+            if (isset($spreadSheetAry[$i][1])) {
+                $code = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+            }
+
+            $year = "";
+            if (isset($spreadSheetAry[$i][2])) {
+                $year = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+            }
+
+            $allocated_funds = "";
+            if (isset($spreadSheetAry[$i][3])) {
+                $allocated_funds = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
+            }
+
+            $status = "";
+            if (isset($spreadSheetAry[$i][4])) {
+                $status = mysqli_real_escape_string($conn, $spreadSheetAry[$i][4]);
+            }
+
+
+
+            if (!empty($id) || !empty($code) || !empty($year) || !empty($allocated_funds) || !empty($status)) {
+                $query = "INSERT INTO iBursary_bursaries  (id, code, year, allocated_funds, status) VALUES (?,?,?,?,?)";
+                $paramType = "sssss";
+                $paramArray = array(
+                    $id,
+                    $code,
+                    $year,
+                    $allocated_funds,
+                    $status
+                );
+                $insertId = $db->insert($query, $paramType, $paramArray);
+                if (!empty($insertId)) {
+                    $err = "Error Occured While Importing Data";
+                } else {
+                    $success = "Data Imported" && header("refresh:1; url=bursaries.php");
+                }
+            }
+        }
+    } else {
+        $info = "Invalid File Type. Upload Excel File.";
+    }
+}
 
 /* Add Bursary */
 if (isset($_POST['add_bursary'])) {
@@ -230,6 +314,9 @@ require_once('../partials/_head.php');
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-right">
+                                    <button data-toggle="modal" data-target="#import_modal" class="btn btn-primary mr-1 mb-1" type="button">
+                                        Bulk Import Bursaries
+                                    </button>
                                     <button data-toggle="modal" data-target="#add_modal" class="btn btn-primary mr-1 mb-1" type="button">
                                         Create Bursary
                                     </button>
@@ -435,6 +522,47 @@ require_once('../partials/_head.php');
                     </div>
                 </div>
                 <!-- End Modal -->
+
+                <!-- Bulk Import Modal -->
+                <div class="modal fade" id="import_modal">
+                    <div class="modal-dialog  modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Bulk Import Bursaries </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data" role="form">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group text-center col-md-12">
+                                                <label for="exampleInputFile">Allowed File Types: XLS, XLSX. Please, <a href="../public/uploads/sys_data/templates/Bursaries_Template.xlsx">Download</a> Template File. </label>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="exampleInputFile">Select File</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="file" accept=".xls,.xlsx" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" name="upload" class="btn btn-primary">Upload File</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Bulk Import -->
 
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>

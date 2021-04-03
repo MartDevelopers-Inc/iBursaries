@@ -49,7 +49,7 @@ if (isset($_POST["upload"])) {
 
     if (in_array($_FILES["file"]["type"], $allowedFileType)) {
 
-        $targetPath = '../public/uploads/sys_data/templates/' . $_FILES['file']['name'];
+        $targetPath = '../public/uploads/sys_data/applicants/' . $_FILES['file']['name'];
         move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
 
         $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -774,6 +774,7 @@ require_once('../partials/_head.php');
                     </div>
                 </div>
                 <!-- End Bulk Import -->
+
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>
             </div>
