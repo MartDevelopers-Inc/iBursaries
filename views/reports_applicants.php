@@ -95,8 +95,7 @@ require_once('../partials/_head.php');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <hr>
-                                <table id="data_table" class="table table-responsive table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                <table id="export" class="table table-responsive table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
                                     <thead class="bg-200">
                                         <tr>
                                             <th class="sort">Name</th>
