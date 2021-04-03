@@ -128,7 +128,7 @@ if (isset($_POST["upload"])) {
 
             if (!empty($name) || !empty($idno) || !empty($email) || !empty($phone) || !empty($sex)) {
                 $query = "INSERT INTO iBursary_applicants  (id, name, phone, dob, idno, email, password, sex, county, sub_county, ward, sub_location, village) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                $paramType = "sssssssssssssssssss";
+                $paramType = "sssssssssssss";
                 $paramArray = array(
                     $id,
                     $name,
@@ -735,7 +735,7 @@ require_once('../partials/_head.php');
                 <!-- End Modal -->
 
                 <!-- Bulk Import Modal -->
-                <div class="modal fade" id="add_modal">
+                <div class="modal fade" id="import_modal">
                     <div class="modal-dialog  modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
