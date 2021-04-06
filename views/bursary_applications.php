@@ -571,6 +571,31 @@ require_once('../partials/_head.php');
                             <div class="modal-body">
                                 <form method="post" enctype="multipart/form-data" role="form">
                                     <div class="card-head">
+                                        <h4 class="text-center"> Bursary Details</h4>
+                                    </div>
+                                    <hr>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="">Bursary Code Number</label>
+                                                <select class="form-control" name="bursary_code">
+                                                    <option>Select Bursary Code Number</option>
+                                                    <?php
+                                                    $ret = "SELECT * FROM `iBursary_bursaries` WHERE status = 'Open'  ";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute(); //ok
+                                                    $res = $stmt->get_result();
+                                                    while ($bursaries = $res->fetch_object()) {
+                                                    ?>
+                                                        <option><?php echo $bursaries->code; ?></option>
+                                                    <?php
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-head">
                                         <h4 class="text-center"> Applicant Personal Information</h4>
                                     </div>
                                     <hr>
