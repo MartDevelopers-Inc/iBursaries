@@ -622,7 +622,6 @@ require_once('../partials/_head.php');
                                                 <input type="text" required name="name" id="ApplicantName" class="form-control">
                                                 <input type="hidden" required name="applicant_id" id="ApplicantId" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
-                                                <input type="hidden" required name="bursary_code" value="<?php echo $a . "" . $b; ?>" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Applicant Gender</label>

@@ -370,6 +370,7 @@ require_once('../partials/_head.php');
                                                     $stmt->bind_result($applications);
                                                     $stmt->fetch();
                                                     $stmt->close();
+                                                    echo $applications;
                                                     ?>
                                                 </td>
                                                 <td>
