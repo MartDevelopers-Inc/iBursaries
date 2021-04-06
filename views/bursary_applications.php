@@ -74,15 +74,9 @@ if (isset($_POST['add_application'])) {
         $disability = mysqli_real_escape_string($mysqli, trim($_POST['disability']));
     } else {
         $error = 1;
-        $err = "Applicant Email  Cannot Be Empty";
+        $err = "Applicant Disability  Cannot Be Empty";
     }
-
-    if (isset($_POST['password']) && !empty($_POST['password'])) {
-        $password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['password']))));
-    } else {
-        $error = 1;
-        $err = "Disability Cannot Be Empty";
-    }
+    
 
     if (isset($_POST['parent_name']) && !empty($_POST['parent_name'])) {
         $parent_name = mysqli_real_escape_string($mysqli, trim($_POST['parent_name']));
@@ -348,14 +342,12 @@ if (isset($_POST['add_application'])) {
             }
         } else {
             /* No Error Or Duplicate */
-            $query =
-                "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, 
-             sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $query ="INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
             $rc = $stmt->bind_param(
-                'sssssssssssssssssssssssssssssssssssss',
+                'ssssssssssssssssssssssssssssssssssssss',
                 $id,
+                $applicant_id,
                 $name,
                 $sex,
                 $dob,
@@ -674,7 +666,7 @@ require_once('../partials/_head.php');
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Mother Phone Number</label>
-                                                <input type="text" required name="mother_mobile" class="form-control">
+                                                <input type="text" required name="mother_phone" class="form-control">
                                             </div>
 
                                             <div class="form-group col-md-4">
@@ -687,7 +679,7 @@ require_once('../partials/_head.php');
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Gurdian Phone Number</label>
-                                                <input type="text" required name="gurdian_mobile" class="form-control">
+                                                <input type="text" required name="gurdian_phone" class="form-control">
                                             </div>
 
                                             <div class="form-group col-md-4">
@@ -708,10 +700,10 @@ require_once('../partials/_head.php');
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="exampleInputFile">Family Status Documents (Death Certificates Etc)</label>
+                                                <label for="exampleInputFile">Family Status Documents ( If Any Death Certificates Etc)</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input required name="family_status_attachments" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <input  name="family_status_attachments" type="file" class="custom-file-input" id="exampleInputFile">
                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     </div>
                                                 </div>
@@ -813,7 +805,7 @@ require_once('../partials/_head.php');
                                                 <label for="exampleInputFile">Helb Loan Documents </label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input required name="helb_loans_attachment" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <input  name="helb_loans_attachment" type="file" class="custom-file-input" id="exampleInputFile">
                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     </div>
                                                 </div>
@@ -822,7 +814,7 @@ require_once('../partials/_head.php');
                                     </div>
 
                                     <div class="card-footer text-right">
-                                        <button type="submit" name="add_bursary_application" class="btn btn-primary">Submit Bursary Application</button>
+                                        <button type="submit" name="add_application" class="btn btn-primary">Submit Bursary Application</button>
                                     </div>
                                 </form>
                             </div>
