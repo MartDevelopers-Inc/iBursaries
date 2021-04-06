@@ -99,7 +99,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Allocated Bursary Funds</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Created on Sat Apr 03 2021
+ * Created on Tue Apr 06 2021
  *
  * The MIT License (MIT)
  * Copyright (c) 2021 MartDevelopers Inc
@@ -25,138 +25,6 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
-
-/* Bulk Import Applicants From XLS Files */
-
-use MartDevelopersInc\DataSource;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-
-require_once('../config/DataSource.php');
-$db = new DataSource();
-$conn = $db->getConnection();
-require_once('../vendor/autoload.php');
-
-if (isset($_POST["upload"])) {
-
-    $allowedFileType = [
-        'application/vnd.ms-excel',
-        'text/xls',
-        'text/xlsx',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ];
-
-    /* Where Magic Happens */
-
-    if (in_array($_FILES["file"]["type"], $allowedFileType)) {
-
-        $targetPath = '../public/uploads/sys_data/applicants/' . $_FILES['file']['name'];
-        move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
-
-        $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-
-        $spreadSheet = $Reader->load($targetPath);
-        $excelSheet = $spreadSheet->getActiveSheet();
-        $spreadSheetAry = $excelSheet->toArray();
-        $sheetCount = count($spreadSheetAry);
-
-        for ($i = 1; $i <= $sheetCount; $i++) {
-
-            $id = "";
-            if (isset($spreadSheetAry[$i][0])) {
-                $id = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
-            }
-
-            $name = "";
-            if (isset($spreadSheetAry[$i][1])) {
-                $name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
-            }
-
-            $phone = "";
-            if (isset($spreadSheetAry[$i][2])) {
-                $phone = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
-            }
-
-            $dob = "";
-            if (isset($spreadSheetAry[$i][3])) {
-                $dob = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
-            }
-
-            $idno = "";
-            if (isset($spreadSheetAry[$i][4])) {
-                $idno = mysqli_real_escape_string($conn, $spreadSheetAry[$i][4]);
-            }
-
-            $email = "";
-            if (isset($spreadSheetAry[$i][5])) {
-                $email = mysqli_real_escape_string($conn, $spreadSheetAry[$i][5]);
-            }
-
-            $sex = "";
-            if (isset($spreadSheetAry[$i][6])) {
-                $sex = mysqli_real_escape_string($conn, $spreadSheetAry[$i][6]);
-            }
-
-            $county = "";
-            if (isset($spreadSheetAry[$i][7])) {
-                $county = mysqli_real_escape_string($conn, $spreadSheetAry[$i][7]);
-            }
-
-            $sub_county = "";
-            if (isset($spreadSheetAry[$i][8])) {
-                $sub_county = mysqli_real_escape_string($conn, $spreadSheetAry[$i][8]);
-            }
-
-            $ward = "";
-            if (isset($spreadSheetAry[$i][9])) {
-                $ward = mysqli_real_escape_string($conn, $spreadSheetAry[$i][9]);
-            }
-
-            $sub_location = "";
-            if (isset($spreadSheetAry[$i][10])) {
-                $sub_location = mysqli_real_escape_string($conn, $spreadSheetAry[$i][10]);
-            }
-
-            $village = "";
-            if (isset($spreadSheetAry[$i][11])) {
-                $village = mysqli_real_escape_string($conn, $spreadSheetAry[$i][11]);
-            }
-
-
-            /* Default Applicant Account Password */
-            $password = sha1(md5("Applicant"));
-
-
-            if (!empty($name) || !empty($idno) || !empty($email) || !empty($phone) || !empty($sex)) {
-                $query = "INSERT INTO iBursary_applicants  (id, name, phone, dob, idno, email, password, sex, county, sub_county, ward, sub_location, village) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                $paramType = "sssssssssssss";
-                $paramArray = array(
-                    $id,
-                    $name,
-                    $phone,
-                    $dob,
-                    $idno,
-                    $email,
-                    $password,
-                    $sex,
-                    $county,
-                    $sub_county,
-                    $ward,
-                    $sub_location,
-                    $village
-
-                );
-                $insertId = $db->insert($query, $paramType, $paramArray);
-                if (!empty($insertId)) {
-                    $err = "Error Occured While Importing Data";
-                } else {
-                    $success = "Data Imported" && header("refresh:1; url=applicants.php");
-                }
-            }
-        }
-    } else {
-        $info = "Invalid File Type. Upload Excel File.";
-    }
-}
 
 /* Add Applicant */
 if (isset($_POST['add_applicant'])) {
@@ -442,7 +310,7 @@ require_once('../partials/_head.php');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h3 class="mb-0">Applicants</h3>
+                                <h3 class="mb-0">Bursary Applications</h3>
                                 <!-- Alerts -->
                                 <?php if (isset($success)) { ?>
                                     <!--This code for injecting success alert-->
@@ -477,59 +345,64 @@ require_once('../partials/_head.php');
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-right">
-                                    <button data-toggle="modal" data-target="#import_modal" class="btn btn-primary mr-1 mb-1" type="button">
-                                        Bulk Import Applicants
-                                    </button>
                                     <button data-toggle="modal" data-target="#add_modal" class="btn btn-primary mr-1 mb-1" type="button">
-                                        Add Applicant
+                                        Add Bursary Application
                                     </button>
                                 </div>
                                 <hr>
                                 <table id="data_table" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
                                     <thead class="bg-200">
                                         <tr>
-                                            <th class="sort">Name</th>
-                                            <th class="sort">Contacts</th>
-                                            <th class="sort">Gender</th>
-                                            <th class="sort">IDNO</th>
-                                            <th class="sort">Sub County</th>
-                                            <th class="sort">Ward</th>
-                                            <th class="sort">Sub Location</th>
-                                            <th class="sort">Village</th>
+                                            <th class="sort">Applicant Details</th>
+                                            <th class="sort">Applicant Family Status</th>
+                                            <th class="sort">Applicant School Details</th>
                                             <th class="sort">Manage</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
                                         <?php
-                                        $ret = "SELECT * FROM `iBursary_applicants`  ";
+                                        $ret = "SELECT * FROM `iBursary_application`  ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($applicant = $res->fetch_object()) {
+                                        while ($applicantions = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $applicant->name; ?></td>
-                                                <td><?php echo $applicant->phone; ?></td>
-                                                <td><?php echo $applicant->sex; ?></td>
-                                                <td><?php echo $applicant->idno; ?></td>
-                                                <td><?php echo $applicant->sub_county; ?></td>
-                                                <td><?php echo $applicant->ward; ?></td>
-                                                <td><?php echo $applicant->sub_location; ?></td>
-                                                <td><?php echo $applicant->village; ?></td>
+                                                <td>
+                                                    <?php
+                                                    echo
+                                                    "Name :  " . $applicantions->name .
+                                                        "Sex  :  " . $applicantions->sex .
+                                                        " DOB :  " . $applicantions->dob; ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    echo
+                                                    "Family Status :  " . $applicantions->family_status .
+                                                        "Main Income  :  " . $applicantions->main_income_source .
+                                                        "Income P.M :  " . $applicantions->income_per_month; ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    echo
+                                                    "Sch Name :  " . $applicantions->school_name .
+                                                        "Category  :  " . $applicantions->school_category .
+                                                        "Sch Bank ACC No :  " . $applicantions->account_no; ?>
+                                                </td>
+
                                                 <td>
                                                     <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                                                         <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                             <div class="bg-white py-2">
-                                                                <a class="dropdown-item" href="applicant_bursary.php?view=<?php echo $applicant->id; ?>">View Bursary Applications</a>
-                                                                <a class="dropdown-item" data-toggle="modal" href="#update-<?php echo $applicant->id; ?>">Update</a>
+                                                                <a class="dropdown-item" href="view_bursary.php?view=<?php echo $applicantions->id; ?>">View Bursary Details</a>
                                                                 <div class="dropdown-divider"></div>
-                                                                <a class="dropdown-item text-danger" data-toggle="modal" href="#delete-<?php echo $applicant->id; ?>">Delete</a>
+                                                                <a class="dropdown-item text-danger" data-toggle="modal" href="#delete-<?php echo $applicantions->id; ?>">Delete</a>
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!-- Confirm Delete Modal -->
-                                                    <div class="modal fade" id="delete-<?php echo $applicant->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="delete-<?php echo $applicantions->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -539,103 +412,17 @@ require_once('../partials/_head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center text-danger">
-                                                                    <h4>Delete <?php echo $applicant->name; ?> Details ?</h4>
+                                                                    <h4>Delete <?php echo $applicantions->name; ?> Bursary Details ?</h4>
                                                                     <br>
                                                                     <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                    <a href="applicants.php?delete=<?php echo $applicant->id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                    <a href="bursary_applications.php?delete=<?php echo $applicantions->id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!-- End Confirmation -->
 
-                                                    <!-- Update Modal -->
-                                                    <div class="modal fade" id="update-<?php echo $applicant->id; ?>">
-                                                        <div class="modal-dialog  modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Update <?php echo $applicant->name; ?> Details </h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form method="post" enctype="multipart/form-data" role="form">
-                                                                        <div class="card-body">
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-12">
-                                                                                    <label for="">Full Name</label>
-                                                                                    <input type="text" required name="name" value="<?php echo $applicant->name; ?>" class="form-control">
-                                                                                    <input type="hidden" required name="id" value="<?php echo $applicant->id; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">National ID Number</label>
-                                                                                    <input type="text" required name="idno" value="<?php echo $applicant->idno; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Date Of Birth</label>
-                                                                                    <input type="text" required name="dob" value="<?php echo $applicant->dob; ?>" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Contacts | Phone Number</label>
-                                                                                    <input type="text" required name="phone" value="<?php echo $applicant->phone; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Email Address</label>
-                                                                                    <input type="text" required name="email" value="<?php echo $applicant->email; ?>" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Gender</label>
-                                                                                    <select type="text" required name="sex" class="form-control">
-                                                                                        <option><?php echo $applicant->sex; ?></option>
-                                                                                        <option>Male</option>
-                                                                                        <option>Female</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Password</label>
-                                                                                    <input type="text" required name="password" value="Applicant" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">County</label>
-                                                                                    <input type="text" required name="county" value="<?php echo $applicant->county; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">Sub County</label>
-                                                                                    <input type="text" required name="sub_county" value="<?php echo $applicant->sub_county; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-4">
-                                                                                    <label for="">Ward</label>
-                                                                                    <input type="text" required name="ward" value="<?php echo $applicant->ward; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-4">
-                                                                                    <label for="">Sub Location</label>
-                                                                                    <input type="text" required name="sub_location" value="<?php echo $applicant->sub_location; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-4">
-                                                                                    <label for="">Village</label>
-                                                                                    <input type="text" required name="village" value="<?php echo $applicant->village; ?>" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="card-footer text-right">
-                                                                            <button type="submit" name="update_applicant" class="btn btn-primary">Update Applicant</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer justify-content-between">
-                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Modal -->
                                                 </td>
                                             </tr>
                                         <?php
@@ -648,7 +435,7 @@ require_once('../partials/_head.php');
                     </div>
                 </div>
 
-                <!-- Add Applicant Modal -->
+                <!-- Add Bursary Application Modal -->
                 <div class="modal fade" id="add_modal">
                     <div class="modal-dialog  modal-xl">
                         <div class="modal-content">
@@ -723,7 +510,7 @@ require_once('../partials/_head.php');
                                         </div>
                                     </div>
                                     <div class="card-footer text-right">
-                                        <button type="submit" name="add_applicant" class="btn btn-primary">Add Applicant</button>
+                                        <button type="submit" name="add_applicant" class="btn btn-primary">Submit Bursary Application</button>
                                     </div>
                                 </form>
                             </div>
@@ -734,47 +521,6 @@ require_once('../partials/_head.php');
                     </div>
                 </div>
                 <!-- End Modal -->
-
-                <!-- Bulk Import Modal -->
-                <div class="modal fade" id="import_modal">
-                    <div class="modal-dialog  modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Bulk Import Applicant Details </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" enctype="multipart/form-data" role="form">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="form-group text-center col-md-12">
-                                                <label for="exampleInputFile">Allowed File Types: XLS, XLSX. Please, <a href="../public/uploads/sys_data/templates/Applicants_Template.xlsx">Download</a> Template File. </label>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label for="exampleInputFile">Select File</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input required name="file" accept=".xls,.xlsx" type="file" class="custom-file-input" id="exampleInputFile">
-                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <button type="submit" name="upload" class="btn btn-primary">Upload File</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Bulk Import -->
 
                 <!-- Footer -->
                 <?php require_once('../partials/_footer.php'); ?>
