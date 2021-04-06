@@ -97,7 +97,7 @@ require_once('../partials/_head.php');
                                     <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                                         <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab">Bursary Details</a>
                                         <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab">Applicant Details</a>
-                                        <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab">Applicant School Details</a>
+                                        <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab">School Details</a>
                                         <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab">Administrative Details</a>
                                     </div>
                                 </div>
@@ -174,12 +174,78 @@ require_once('../partials/_head.php');
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
 
+                                        <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                                            <table id="" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                                <thead class="bg-200">
+                                                    <tr>
+                                                        <th class="sort">School Details</th>
+                                                        <th class="sort">Admission Details</th>
+                                                        <th class="sort">Fee Payments</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+
+                                                    <tr>
+                                                        <td class="align-middle">
+                                                            <?php echo   "Sch Name: " . $applicantions->school_name . " <br> Category: " . $applicantions->school_category . " <br> Bank Acc No:  " . $applicantions->account_no . "<br> Bank Name :" . $applicantions->bank_name .  "<br> Bank Branch :" . $applicantions->branch; ?>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <?php echo   "Admission No: " . $applicantions->adm_no . " <br> Year Enrolled: " . $applicantions->year_of_admno . " <br> Year Of Study:  " . $applicantions->year_of_study; ?>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <?php echo   "School Fees Payable: " . $applicantions->fee_payable . " <br> School Fees Paid: " . $applicantions->fee_paid . " <br> Year Of Study:  " . $applicantions->year_of_study; ?>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                                            <table class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                                <thead class="bg-200">
+                                                    <tr>
+                                                        <th class="sort">Chairman Name</th>
+                                                        <th class="sort">Secretary Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+
+                                                    <tr>
+                                                        <td><?php echo $applicantions->chairman_name; ?></td>
+                                                        <td><?php echo $applicantions->secretary_name; ?></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                                <thead class="bg-200">
+                                                    <tr>
+                                                        <th class="sort">Date Approved </th>
+                                                        <th class="sort">Approval Status </th>
+                                                        <th class="sort">Funds Disbursed </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white">
+
+                                                    <tr>
+                                                        <td><?php echo $applicantions->date_approved; ?></td>
+                                                        <td><?php echo $applicantions->approval_status; ?></td>
+                                                        <td>Ksh <?php echo $applicantions->funds_disbursed; ?></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <hr>
+                            <h5 class="text-center">Reccomendations</h5>
+                            <p>
+                                <?php echo $applicantions->recommendation; ?>
+                            </p>
                         </div>
 
                     </div>
