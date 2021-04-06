@@ -157,6 +157,7 @@ if (isset($_POST["upload"])) {
         $info = "Invalid File Type. Upload Excel File.";
     }
 }
+
 /* Add Applicant */
 if (isset($_POST['add_applicant'])) {
     //Error Handling and prevention of posting double entries

@@ -25,6 +25,36 @@ require_once('../config/checklogin.php');
 admin();
 require_once('../partials/_analytics.php');
 require_once('../partials/_head.php');
+
+/* Mark Bursary As Incomplete */
+if (isset($_GET['incomplete'])) {
+    $incomplete = $_GET['incomplete'];
+    $adn = "UPDATE  iBursary_application SET approval_status = 'Incomplete' WHERE id=?";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->bind_param('s', $incomplete);
+    $stmt->execute();
+    $stmt->close();
+    if ($stmt) {
+        $success = "Application Marked As Incomplete" && header("refresh:1; url=dashboard.php");
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
+
+/* Delete Bursary Application */
+if (isset($_GET['delete'])) {
+    $delete = $_GET['delete'];
+    $adn = "DELETE FROM iBursary_application WHERE id=?";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->bind_param('s', $delete);
+    $stmt->execute();
+    $stmt->close();
+    if ($stmt) {
+        $success = "Application Record Deleted" && header("refresh:1; url=dashboard.php");
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
 ?>
 
 
@@ -80,7 +110,7 @@ require_once('../partials/_head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="card-deck">
@@ -99,7 +129,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Allocated Bursary Funds</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -136,13 +166,13 @@ require_once('../partials/_head.php');
                                     ?>
                                         <tr class="btn-reveal-trigger">
                                             <th class="align-middle">
-                                                <a href="applicants.php">
-                                                    <?php echo $application->name . " <br> " . $application->sex . "<br>" . $application->dob; ?>
+                                                <a href="applicant.php?view=<?php echo $application->applicant_id;?>">
+                                                    <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                                 </a>
-                                            </th>income_per_month
+                                            </th>
                                             <td class="align-middle"><?php echo $application->family_status; ?></td>
                                             <td class="align-middle">
-                                                <?php echo $application->school_name . "<br>" . $application->adm_no . "<br>" . $application->year_of_study; ?>
+                                                <?php echo "Sch Name: ".$application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
                                             <td class="align-middle text-right"><?php echo $application->income_per_month; ?></td>
                                             <td class="align-middle text-center fs-0">
@@ -174,13 +204,52 @@ require_once('../partials/_head.php');
                                                             <a class="dropdown-item" href="">Award Fund</a>
                                                             <!-- Award Fund Via Modal -->
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-warning" href="">Mark Incomplete</a>
-                                                            <!--Mark Incomplete Via Modal -->
-                                                            <a class="dropdown-item text-danger" href="">Delete</a>
-                                                            <!-- Confirm Delete Modal -->
+                                                            <a class="dropdown-item text-warning" data-toggle="modal" href="#incomplete-<?php echo $application->id; ?>">Mark Incomplete</a>
+
+                                                            <a class="dropdown-item text-danger" data-toggle="modal" href="#del-<?php echo $application->id; ?>">Delete</a>
+
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- Confirm Delete Modal -->
+                                                <div class="modal fade" id="del-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body text-center text-danger">
+                                                                <h4>Delete This Application Details ?</h4>
+                                                                <br>
+                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                <a href="dashboard.php?delete=<?php echo $application->id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Mark Incomplete Via Modal -->
+                                                <div class="modal fade" id="incomplete-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body text-center text-danger">
+                                                                <h4>Mark This Application As Incomplete?</h4>
+                                                                <br>
+                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                <a href="dashboard.php?incomplete=<?php echo $application->id; ?>" class="text-center btn btn-danger"> Mark Incomplete </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     <?php

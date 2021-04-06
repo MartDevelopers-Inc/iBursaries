@@ -22,6 +22,8 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 <!-- App Js -->
 <script src="../public/js/theme.min.js"></script>
+<!-- Twitter Bootstrap Wizards -->
+<script src="../public/lib/twitter-bootstrap-wizard/jquery.bootstrap-wizard.min.js"></script>
 <!-- Data Tables -->
 <script src="../public/lib/datatables/js/jquery.dataTables.min.js"></script>
 <script src="../public/lib/datatables-bs4/dataTables.bootstrap4.min.js"></script>
@@ -99,4 +101,46 @@
     $(document).ready(function() {
         bsCustomFileInput.init();
     });
+
+    /* Ajaxes
+    1. Applicant Details
+     */
+    function GetApplicantDetails(val) {
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantIDNumber=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantId').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantId=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantName').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantName=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantSex').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantSex=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantDOB').val(data);
+            }
+        });
+    }
 </script>
