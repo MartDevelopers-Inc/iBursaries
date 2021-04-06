@@ -505,27 +505,13 @@ require_once('../partials/_head.php');
                                         while ($applicantions = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td>
-                                                    <?php
-                                                    echo
-                                                    "Name :  " . $applicantions->name .
-                                                        "Sex  :  " . $applicantions->sex .
-                                                        " DOB :  " . $applicantions->dob; ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    echo
-                                                    "Family Status :  " . $applicantions->family_status .
-                                                        "Main Income  :  " . $applicantions->main_income_source .
-                                                        "Income P.M :  " . $applicantions->income_per_month; ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    echo
-                                                    "Sch Name :  " . $applicantions->school_name .
-                                                        "Category  :  " . $applicantions->school_category .
-                                                        "Sch Bank ACC No :  " . $applicantions->account_no; ?>
-                                                </td>
+                                            <th class="align-middle">
+                                                <a href="applicants.php">
+                                                    <?php echo "Name:" .  $applicantions->name . " <br> Sex: " . $applicantions->sex . "<br> DOB:" . $applicantions->dob; ?>
+                                                </a>
+                                            </th>
+                                            <td class="align-middle"><?php echo   "Status: ". $applicantions->family_status ." <br> " . "Main Income: " . $applicantions->main_income_source . " <br> " . "Income P.M:  " . $applicantions->income_per_month; ?></td>
+                                            <td class="align-middle"><?php echo   "Sch Name: ". $applicantions->school_name ." <br> Category: " . $applicantions->school_category . " <br> Bank Acc No  " . $applicantions->account_no; ?></td>
 
                                                 <td>
                                                     <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>

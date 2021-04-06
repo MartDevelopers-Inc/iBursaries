@@ -139,7 +139,7 @@ require_once('../partials/_head.php');
                                                 <a href="applicants.php">
                                                     <?php echo $application->name . " <br> " . $application->sex . "<br>" . $application->dob; ?>
                                                 </a>
-                                            </th>income_per_month
+                                            </th>
                                             <td class="align-middle"><?php echo $application->family_status; ?></td>
                                             <td class="align-middle">
                                                 <?php echo $application->school_name . "<br>" . $application->adm_no . "<br>" . $application->year_of_study; ?>
