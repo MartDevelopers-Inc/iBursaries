@@ -585,77 +585,244 @@ require_once('../partials/_head.php');
                     <div class="modal-dialog  modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Add Applicant Details </h4>
+                                <h4 class="modal-title">Bursary Application Form - Kindly Fill In All The Fields</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <form method="post" enctype="multipart/form-data" role="form">
+                                    <div class="card-head">
+                                        <h4 class="text-center"> Applicant Personal Information</h4>
+                                    </div>
+                                    <hr>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="form-group col-md-12">
-                                                <label for="">Full Name</label>
-                                                <input type="text" required name="name" class="form-control">
-                                                <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
-                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">National ID Number</label>
-                                                <input type="text" required name="idno" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Date Of Birth</label>
-                                                <input type="text" required name="dob" placeholder="DD-MM-YYY" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label for="">Contacts | Phone Number</label>
-                                                <input type="text" required name="phone" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Email Address</label>
-                                                <input type="text" required name="email" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label for="">Gender</label>
-                                                <select type="text" required name="sex" class="form-control">
-                                                    <option>Male</option>
-                                                    <option>Female</option>
+                                                <select class="form-control" id="ApplicantIDNumber" onchange="GetApplicantDetails(this.value);">
+                                                    <option>Select Applicant ID Number</option>
+                                                    <?php
+                                                    $ret = "SELECT * FROM `iBursary_applicants`  ";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute(); //ok
+                                                    $res = $stmt->get_result();
+                                                    while ($applicant = $res->fetch_object()) {
+                                                    ?>
+                                                        <option><?php echo $applicant->idno; ?></option>
+                                                    <?php
+                                                    } ?>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="">Password</label>
-                                                <input type="text" required name="password" value="Applicant" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label for="">County</label>
-                                                <input type="text" required name="county" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Sub County</label>
-                                                <input type="text" required name="sub_county" class="form-control">
+                                                <label for="">Applicant Full Name</label>
+                                                <input type="text" required name="name" id="ApplicantName" class="form-control">
+                                                <input type="hidden" required name="applicant_id" id="ApplicantId" class="form-control">
+                                                <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
+                                                <input type="hidden" required name="bursary_code" value="<?php echo $a . "" . $b; ?>" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="">Ward</label>
-                                                <input type="text" required name="ward" class="form-control">
+                                                <label for="">Applicant Gender</label>
+                                                <input type="text" required name="sex" id="ApplicantSex" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="">Sub Location</label>
-                                                <input type="text" required name="sub_location" class="form-control">
+                                                <label for="">Applicant Date Of Birth</label>
+                                                <input type="text" required name="dob" id="ApplicantDOB" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="">Village</label>
-                                                <input type="text" required name="village" class="form-control">
+                                                <label for="exampleInputFile">Scanned National ID Copy</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="id_attachment" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="">Applicant Any Disabilities (If Yes Indicate If No Fill N/A)</label>
+                                                <textarea type="text" rows="3" required name="disability" class="form-control"></textarea>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card-head">
+                                        <h4 class="text-center"> Applicant Parents / Family Information</h4>
+                                    </div>
+                                    <hr>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label for="">Father Name</label>
+                                                <input type="text" required name="parent_name" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Father IDNO</label>
+                                                <input type="text" required name="father_idno" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Father Phone Number</label>
+                                                <input type="text" required name="father_mobile" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">Mother Name</label>
+                                                <input type="text" required name="mother_name" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Mother IDNO</label>
+                                                <input type="text" required name="mother_idno" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Mother Phone Number</label>
+                                                <input type="text" required name="mother_mobile" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">Gurdian Name</label>
+                                                <input type="text" required name="gurdian_name" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Gurdian IDNO</label>
+                                                <input type="text" required name="gurdian_idno" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Gurdian Phone Number</label>
+                                                <input type="text" required name="gurdian_mobile" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">Who Pays For School Fees</label>
+                                                <select name="who_pays_fees" class="form-control">
+                                                    <option>Father</option>
+                                                    <option>Mother</option>
+                                                    <option>Gurdian</option>
+                                                    <option>Well Wisher</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Family Status</label>
+                                                <select name="family_status" class="form-control">
+                                                    <option>Poor Family</option>
+                                                    <option>Single Parent</option>
+                                                    <option>Orphan</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="exampleInputFile">Family Status Documents (Death Certificates Etc)</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="family_status_attachments" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="">Family Main Source Of Income</label>
+                                                <input type="text" required name="main_income_source" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Income Per Month</label>
+                                                <input type="text" required name="income_per_month" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-head">
+                                        <h4 class="text-center"> Applicant School Information</h4>
+                                    </div>
+                                    <hr>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label for="">School Name</label>
+                                                <input type="text" required name="school_name" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="">School P.O Box</label>
+                                                <input type="text" required name="po_box" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="">School Email</label>
+                                                <input type="text" required name="sch_email" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="">School Tel No.</label>
+                                                <input type="text" required name="tel" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">Admission Number</label>
+                                                <input type="text" required name="adm_no" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Year Admitted / Enrolled</label>
+                                                <input type="text" required name="year_of_admno" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Year Of Study</label>
+                                                <input type="text" required name="year_of_study" class="form-control">
+                                            </div>
+
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">School Category</label>
+                                                <select name="school_category" class="form-control">
+                                                    <option>Primary School</option>
+                                                    <option>Secondary School</option>
+                                                    <option>College / University</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">School Fee Payable</label>
+                                                <input type="text" required name="fee_payable" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">School Fee Paid</label>
+                                                <input type="text" required name="fee_paid" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="exampleInputFile">School ID Attachment </label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="school_id_attachment" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="">School Bank Name</label>
+                                                <input type="text" required name="bank_name" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Bank Branch</label>
+                                                <input type="text" required name="branch" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Bank Account Number</label>
+                                                <input type="text" required name="account_no" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="">Any Helb Loan (If Yes Indicate The Amount Awarded)</label>
+                                                <input type="text" required name="helb_loans" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="exampleInputFile">Helb Loan Documents </label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input required name="helb_loans_attachment" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="card-footer text-right">
-                                        <button type="submit" name="add_applicant" class="btn btn-primary">Submit Bursary Application</button>
+                                        <button type="submit" name="add_bursary_application" class="btn btn-primary">Submit Bursary Application</button>
                                     </div>
                                 </form>
                             </div>
