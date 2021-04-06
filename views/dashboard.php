@@ -166,13 +166,13 @@ if (isset($_GET['delete'])) {
                                     ?>
                                         <tr class="btn-reveal-trigger">
                                             <th class="align-middle">
-                                                <a href="applicants.php">
-                                                    <?php echo $application->name . " <br> " . $application->sex . "<br>" . $application->dob; ?>
+                                                <a href="applicant.php?view=<?php echo $application->applicant_id;?>">
+                                                    <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                                 </a>
                                             </th>
                                             <td class="align-middle"><?php echo $application->family_status; ?></td>
                                             <td class="align-middle">
-                                                <?php echo $application->school_name . "<br>" . $application->adm_no . "<br>" . $application->year_of_study; ?>
+                                                <?php echo "Sch Name: ".$application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
                                             <td class="align-middle text-right"><?php echo $application->income_per_month; ?></td>
                                             <td class="align-middle text-center fs-0">
@@ -205,49 +205,51 @@ if (isset($_GET['delete'])) {
                                                             <!-- Award Fund Via Modal -->
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item text-warning" data-toggle="modal" href="#incomplete-<?php echo $application->id; ?>">Mark Incomplete</a>
-                                                            <!--Mark Incomplete Via Modal -->
-                                                            <div class="modal fade" id="incomplete-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">CONFIRM </h5>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body text-center text-danger">
-                                                                            <h4>Mark This Application As Incomplete?</h4>
-                                                                            <br>
-                                                                            <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                            <a href="dashboard.php?incomplete=<?php echo $applicant->id; ?>" class="text-center btn btn-danger"> Mark Incomplete </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
                                                             <a class="dropdown-item text-danger" data-toggle="modal" href="#del-<?php echo $application->id; ?>">Delete</a>
-                                                            <!-- Confirm Delete Modal -->
-                                                            <div class="modal fade" id="del-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body text-center text-danger">
-                                                                            <h4>Delete This Application Details ?</h4>
-                                                                            <br>
-                                                                            <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                            <a href="dashboard.php?delete=<?php echo $application->id; ?>" class="text-center btn btn-danger"> Delete </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Confirm Delete Modal -->
+                                                <div class="modal fade" id="del-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body text-center text-danger">
+                                                                <h4>Delete This Application Details ?</h4>
+                                                                <br>
+                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                <a href="dashboard.php?delete=<?php echo $application->id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!--Mark Incomplete Via Modal -->
+                                                <div class="modal fade" id="incomplete-<?php echo $application->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body text-center text-danger">
+                                                                <h4>Mark This Application As Incomplete?</h4>
+                                                                <br>
+                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                <a href="dashboard.php?incomplete=<?php echo $application->id; ?>" class="text-center btn btn-danger"> Mark Incomplete </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     <?php

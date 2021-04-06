@@ -76,7 +76,7 @@ if (isset($_POST['add_application'])) {
         $error = 1;
         $err = "Applicant Disability  Cannot Be Empty";
     }
-    
+
 
     if (isset($_POST['parent_name']) && !empty($_POST['parent_name'])) {
         $parent_name = mysqli_real_escape_string($mysqli, trim($_POST['parent_name']));
@@ -342,7 +342,7 @@ if (isset($_POST['add_application'])) {
             }
         } else {
             /* No Error Or Duplicate */
-            $query ="INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
             $rc = $stmt->bind_param(
                 'ssssssssssssssssssssssssssssssssssssss',
@@ -505,13 +505,13 @@ require_once('../partials/_head.php');
                                         while ($applicantions = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                            <th class="align-middle">
-                                                <a href="applicants.php">
-                                                    <?php echo "Name:" .  $applicantions->name . " <br> Sex: " . $applicantions->sex . "<br> DOB:" . $applicantions->dob; ?>
-                                                </a>
-                                            </th>
-                                            <td class="align-middle"><?php echo   "Status: ". $applicantions->family_status ." <br> " . "Main Income: " . $applicantions->main_income_source . " <br> " . "Income P.M:  " . $applicantions->income_per_month; ?></td>
-                                            <td class="align-middle"><?php echo   "Sch Name: ". $applicantions->school_name ." <br> Category: " . $applicantions->school_category . " <br> Bank Acc No  " . $applicantions->account_no; ?></td>
+                                                <th class="align-middle">
+                                                    <a href="applicant.php?view=<?php echo $applicantions->applicant_id; ?>">
+                                                        <?php echo "Name:" .  $applicantions->name . " <br> Sex: " . $applicantions->sex . "<br> DOB:" . $applicantions->dob; ?>
+                                                    </a>
+                                                </th>
+                                                <td class="align-middle"><?php echo   "Status: " . $applicantions->family_status . " <br> " . "Main Income: " . $applicantions->main_income_source . " <br> " . "Income P.M:  " . $applicantions->income_per_month; ?></td>
+                                                <td class="align-middle"><?php echo   "Sch Name: " . $applicantions->school_name . " <br> Category: " . $applicantions->school_category . " <br> Bank Acc No  " . $applicantions->account_no; ?></td>
 
                                                 <td>
                                                     <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
@@ -689,7 +689,7 @@ require_once('../partials/_head.php');
                                                 <label for="exampleInputFile">Family Status Documents ( If Any Death Certificates Etc)</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input  name="family_status_attachments" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <input name="family_status_attachments" type="file" class="custom-file-input" id="exampleInputFile">
                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     </div>
                                                 </div>
@@ -791,7 +791,7 @@ require_once('../partials/_head.php');
                                                 <label for="exampleInputFile">Helb Loan Documents </label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input  name="helb_loans_attachment" type="file" class="custom-file-input" id="exampleInputFile">
+                                                        <input name="helb_loans_attachment" type="file" class="custom-file-input" id="exampleInputFile">
                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                     </div>
                                                 </div>
