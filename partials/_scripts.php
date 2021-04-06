@@ -101,4 +101,46 @@
     $(document).ready(function() {
         bsCustomFileInput.init();
     });
+
+    /* Ajaxes
+    1. Applicant Details
+     */
+    function GetApplicantDetails(val) {
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantIDNumber=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantId').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantId=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantName').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantName=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantSex').val(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data: 'ApplicantSex=' + val,
+            success: function(data) {
+                //alert(data);
+                $('#ApplicantDOB').val(data);
+            }
+        });
+    }
 </script>
