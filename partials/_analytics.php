@@ -44,10 +44,8 @@ $stmt->execute();
 $stmt->bind_result($funds);
 $stmt->fetch();
 $stmt->close();
-/* Add Coma After 3 Digits */
-$price_text = (string)$funds; 
-$arr = str_split($price_text, "3"); 
-$funds_disbursed = implode(",", $arr);  
+/* Handle Currency Conversions */
+$kes = numfmt_create( 'Ksh', NumberFormatter::CURRENCY );
 
 
 /* 4. Allocated Bursary Funds */
@@ -57,10 +55,6 @@ $stmt->execute();
 $stmt->bind_result($allocated_funds);
 $stmt->fetch();
 $stmt->close();
-/* Add Coma After 3 Digits */
-$price_text = (string)$allocated_funds; 
-$arr = str_split($price_text, "3"); 
-$allocated_bursary_fund = implode(",", $arr); 
 
 
 

@@ -107,7 +107,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Disbursed</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -129,7 +129,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Allocated Bursary Funds</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_bursary_fund; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_bursary_fund; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"> <?php echo  numfmt_format_currency($kes, $allocated_funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
