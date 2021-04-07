@@ -44,8 +44,6 @@ $stmt->execute();
 $stmt->bind_result($funds);
 $stmt->fetch();
 $stmt->close();
-/* Handle Currency Conversions */
-$kes = numfmt_create( 'Ksh', NumberFormatter::CURRENCY );
 
 
 /* 4. Allocated Bursary Funds */

@@ -21,8 +21,12 @@
  */
 
 
+/* Database Connection */
 $dbuser = "root";
 $dbpass = "";
 $host = "localhost";
 $db = "iBursary";
 $mysqli = new mysqli($host, $dbuser, $dbpass, $db);
+
+/* Handle Currency Conversions */
+$kes = numfmt_create('Ksh', NumberFormatter::CURRENCY);

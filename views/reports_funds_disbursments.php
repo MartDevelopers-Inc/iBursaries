@@ -126,7 +126,7 @@ require_once('../partials/_head.php');
                                                 </th>
                                                 <td class="align-middle"><?php echo   "Status: " . $applicantions->family_status . " <br> " . "Main Income: " . $applicantions->main_income_source . " <br> " . "Income P.M:  " . $applicantions->income_per_month;  ?><br></td>
                                                 <td class="align-middle"><?php echo   "Sch Name: " . $applicantions->school_name . " <br> Category: " . $applicantions->school_category . " <br> Bank Acc No  " . $applicantions->account_no; ?><br></td>
-                                                <td class="align-middle"><?php echo   "Chairman: " . $applicantions->chairman_name . " <br> Secretary : " . $applicantions->secretary_name . " <br> Funds Awarded  " . $applicantions->funds_disbursed; ?><br></td>
+                                                <td class="align-middle"><?php echo   "Chairman: " . $applicantions->chairman_name . " <br> Secretary : " . $applicantions->secretary_name . " <br> Funds Awarded  " . numfmt_format_currency($kes, $applicantions->funds_disbursed, "Ksh"); ?><br></td>
 
                                             </tr>
                                         <?php

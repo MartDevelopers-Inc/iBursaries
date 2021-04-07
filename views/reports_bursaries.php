@@ -117,7 +117,7 @@ require_once('../partials/_head.php');
                                             <tr>
                                                 <td><?php echo $bursary->code; ?></td>
                                                 <td><?php echo $bursary->year; ?></td>
-                                                <td>Ksh <?php echo $bursary->allocated_funds; ?></td>
+                                                <td><?php echo numfmt_format_currency($kes, $bursary->allocated_funds, "Ksh");?>
                                                 <td>
                                                     <?php
                                                     if ($bursary->status == 'Open') {
