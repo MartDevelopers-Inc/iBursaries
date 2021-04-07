@@ -92,17 +92,15 @@ if (isset($_POST['send_email'])) {
         $stmt = $mysqli->prepare($query);
         $rc = $stmt->bind_param('ssssssss', $sender_id, $sender_email, $sender_name, $receiver_id, $receiver_email, $receiver_name, $subject, $details);
         $stmt->execute();
-        /* Send Mail Via Third Party Mail Box Like Gmail */
-        $cc = $_POST['cc'];
-        $bcc = $_POST['bcc'];
-        /* Change Your From To Default System Admins Mail */
+        /* 
+        Send Mails to Third Party Mailboxes Like Gmail
+        Change Your From To Default System Admins Mail
+         */
         $header = "From:martdevelopers254@gmail.com \r\n";
-        $header .= "Cc:$cc \r\n";
-        $header .= "Bcc:$bcc \r\n";
         $header .= "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html\r\n";
 
-        $retval = mail($email, $title, $details, $header);
+        $retval = mail($receiver_email, $subject, $details, $header);
 
         if (($retval == true) && $stmt) {
             $success =  "Message sent successfully";
@@ -130,144 +128,148 @@ require_once('../partials/_head.php');
             <div class="content">
 
                 <!-- Sidebar -->
-                <?php require_once('../partials/_sidenav.php'); ?>
-                <!-- Sidebar -->
+                <?php
+                require_once('../partials/_sidenav.php');
+                /* Load Logged In User Details */
+                $id = $_SESSION['id'];
+                $ret = "SELECT * FROM  iBursary_admin  WHERE id = '$id'";
+                $stmt = $mysqli->prepare($ret);
+                $stmt->execute(); //ok
+                $res = $stmt->get_result();
+                while ($id = $res->fetch_object()) {
+                ?>
+                    <!-- Sidebar -->
 
-
-                <div class="card mb-3">
-                    <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../public/img/illustrations/corner-4.png);"></div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3 class="mb-0">Applicants Contacts</h3>
-                                <!-- Alerts -->
-                                <?php if (isset($success)) { ?>
-                                    <!--This code for injecting success alert-->
-                                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                                        <strong>Success! </strong> <br> <?php echo $success; ?>
-                                        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-                                    </div>
-                                <?php }
-                                if (isset($err)) { ?>
-                                    <!--This code for injecting error alert-->
-                                    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                                        <strong>Error! </strong> <br> <?php echo $err; ?>
-                                        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-                                    </div>
-                                <?php }
-                                if (isset($info)) { ?>
-                                    <!--This code for injecting info alert-->
-                                    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                                        <strong>Warning! </strong> <br> <?php echo $info; ?>
-                                        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
-                                    </div>
-                                <?php } ?>
+                    <div class="card mb-3">
+                        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../public/img/illustrations/corner-4.png);"></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h3 class="mb-0">Applicants Contacts</h3>
+                                    <!-- Alerts -->
+                                    <?php if (isset($success)) { ?>
+                                        <!--This code for injecting success alert-->
+                                        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                            <strong>Success! </strong> <br> <?php echo $success; ?>
+                                            <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                        </div>
+                                    <?php }
+                                    if (isset($err)) { ?>
+                                        <!--This code for injecting error alert-->
+                                        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                            <strong>Error! </strong> <br> <?php echo $err; ?>
+                                            <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                        </div>
+                                    <?php }
+                                    if (isset($info)) { ?>
+                                        <!--This code for injecting info alert-->
+                                        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                                            <strong>Warning! </strong> <br> <?php echo $info; ?>
+                                            <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="font-weight-light" aria-hidden="true">×</span></button>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card mb-3">
-                    <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../public/img/illustrations/corner-4.png);"></div>
-                    <!--/.bg-holder-->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table id="data_table" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
-                                    <thead class="bg-200">
-                                        <tr>
-                                            <th class="sort">Name</th>
-                                            <th class="sort">Contacts</th>
-                                            <th class="sort">Email</th>
-                                            <th class="sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white">
-                                        <?php
-                                        $ret = "SELECT * FROM `iBursary_applicants`  ";
-                                        $stmt = $mysqli->prepare($ret);
-                                        $stmt->execute(); //ok
-                                        $res = $stmt->get_result();
-                                        while ($applicant = $res->fetch_object()) {
-                                        ?>
+                    <div class="card mb-3">
+                        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../public/img/illustrations/corner-4.png);"></div>
+                        <!--/.bg-holder-->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table id="data_table" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                        <thead class="bg-200">
                                             <tr>
-                                                <td><?php echo $applicant->name; ?></td>
-                                                <td><?php echo $applicant->phone; ?></td>
-                                                <td><?php echo $applicant->email; ?></td>
-                                                <td>
-                                                    <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                                                        <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
-                                                            <div class="bg-white py-2">
-                                                                <a class="dropdown-item" data-toggle="modal" href="#email-<?php echo $applicant->id; ?>">Email Applicant</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Email Modal -->
-                                                    <div class="modal fade" id="email-<?php echo $applicant->id; ?>">
-                                                        <div class="modal-dialog  modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Send Email To <?php echo $applicant->name; ?> </h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form method="post" enctype="multipart/form-data" role="form">
-                                                                        <div class="card-body">
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-12">
-                                                                                    <label for="">Email Address</label>
-                                                                                    <input type="text" required name="email" value="<?php echo $applicant->email; ?>" class="form-control">
-                                                                                    <input type="hidden" required name="id" value="<?php echo $applicant->id; ?>" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">CC</label>
-                                                                                    <input type="text" name="cc" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-6">
-                                                                                    <label for="">BCC</label>
-                                                                                    <input type="text" name="bcc" class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-12">
-                                                                                    <label for="">Email Title</label>
-                                                                                    <input type="text" required name="title" class="form-control">
-                                                                                </div>
-                                                                                <div class="form-group col-md-12">
-                                                                                    <label for="">Email Details</label>
-                                                                                    <textarea type="text" rows="5" required name="details" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="card-footer text-right">
-                                                                            <button type="submit" name="send_email" class="btn btn-primary">Send Mail</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer justify-content-between">
-                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Email Modal -->
-                                                </td>
+                                                <th class="sort">Name</th>
+                                                <th class="sort">Contacts</th>
+                                                <th class="sort">Email</th>
+                                                <th class="sort">Action</th>
                                             </tr>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody class="bg-white">
+                                            <?php
+                                            $ret = "SELECT * FROM `iBursary_applicants`  ";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            while ($applicant = $res->fetch_object()) {
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $applicant->name; ?></td>
+                                                    <td><?php echo $applicant->phone; ?></td>
+                                                    <td><?php echo $applicant->email; ?></td>
+                                                    <td>
+                                                        <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                                            <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
+                                                                <div class="bg-white py-2">
+                                                                    <a class="dropdown-item" data-toggle="modal" href="#email-<?php echo $applicant->id; ?>">Email Applicant</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Email Modal -->
+                                                        <div class="modal fade" id="email-<?php echo $applicant->id; ?>">
+                                                            <div class="modal-dialog  modal-xl">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Send Email To <?php echo $applicant->name; ?> </h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" enctype="multipart/form-data" role="form">
+                                                                            <div class="card-body">
+                                                                                <div class="row">
+                                                                                    <div class="form-group col-md-12">
+                                                                                        <label for="">Email Address</label>
+                                                                                        <input type="text" required name="receiver_email" value="<?php echo $applicant->email; ?>" class="form-control">
+                                                                                        <input type="hidden" required name="receiver_name" value="<?php echo $applicant->name; ?>" class="form-control">
+                                                                                        <input type="hidden" required name="receiver_id" value="<?php echo $applicant->id; ?>" class="form-control">
+                                                                                        <input type="hidden" required name="sender_id" value="<?php echo $ai->id; ?>" class="form-control">
+                                                                                        <input type="hidden" required name="sender_name" value="<?php echo $ai->name; ?>" class="form-control">
+                                                                                        <input type="hidden" required name="sender_email" value="<?php echo $ai->email; ?>" class="form-control">
+
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="form-group col-md-12">
+                                                                                            <label for="">Email Subject</label>
+                                                                                            <input type="text" required name="subject" class="form-control">
+                                                                                        </div>
+                                                                                        <div class="form-group col-md-12">
+                                                                                            <label for="">Email Details</label>
+                                                                                            <textarea type="text" rows="5" required name="details" class="form-control"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="card-footer text-right">
+                                                                                    <button type="submit" name="send_email" class="btn btn-primary">Send Mail</button>
+                                                                                </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- End Email Modal -->
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Footer -->
-                <?php require_once('../partials/_footer.php'); ?>
+                    <!-- Footer -->
+                <?php
+                }
+                require_once('../partials/_footer.php'); ?>
             </div>
         </div>
     </main>
