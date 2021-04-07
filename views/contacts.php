@@ -136,7 +136,7 @@ require_once('../partials/_head.php');
                 $stmt = $mysqli->prepare($ret);
                 $stmt->execute(); //ok
                 $res = $stmt->get_result();
-                while ($id = $res->fetch_object()) {
+                while ($ai = $res->fetch_object()) {
                 ?>
                     <!-- Sidebar -->
 
@@ -223,30 +223,33 @@ require_once('../partials/_head.php');
                                                                         <form method="post" enctype="multipart/form-data" role="form">
                                                                             <div class="card-body">
                                                                                 <div class="row">
-                                                                                    <div class="form-group col-md-12">
+                                                                                    <div class="form-group col-md-6">
                                                                                         <label for="">Email Address</label>
                                                                                         <input type="text" required name="receiver_email" value="<?php echo $applicant->email; ?>" class="form-control">
-                                                                                        <input type="hidden" required name="receiver_name" value="<?php echo $applicant->name; ?>" class="form-control">
                                                                                         <input type="hidden" required name="receiver_id" value="<?php echo $applicant->id; ?>" class="form-control">
                                                                                         <input type="hidden" required name="sender_id" value="<?php echo $ai->id; ?>" class="form-control">
                                                                                         <input type="hidden" required name="sender_name" value="<?php echo $ai->name; ?>" class="form-control">
                                                                                         <input type="hidden" required name="sender_email" value="<?php echo $ai->email; ?>" class="form-control">
-
                                                                                     </div>
-                                                                                    <div class="row">
-                                                                                        <div class="form-group col-md-12">
-                                                                                            <label for="">Email Subject</label>
-                                                                                            <input type="text" required name="subject" class="form-control">
-                                                                                        </div>
-                                                                                        <div class="form-group col-md-12">
-                                                                                            <label for="">Email Details</label>
-                                                                                            <textarea type="text" rows="5" required name="details" class="form-control"></textarea>
-                                                                                        </div>
+                                                                                    <div class="form-group col-md-6">
+                                                                                        <label for="">Name</label>
+                                                                                        <input type="text" required name="receiver_name" value="<?php echo $applicant->name; ?>" class="form-control">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="form-group col-md-12">
+                                                                                        <label for="">Email Subject</label>
+                                                                                        <input type="text" required name="subject" class="form-control">
+                                                                                    </div>
+                                                                                    <div class="form-group col-md-12">
+                                                                                        <label for="">Email Details</label>
+                                                                                        <textarea type="text" rows="5" required name="details" class="form-control"></textarea>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="card-footer text-right">
                                                                                     <button type="submit" name="send_email" class="btn btn-primary">Send Mail</button>
                                                                                 </div>
+                                                                            </div>
                                                                         </form>
                                                                     </div>
                                                                     <div class="modal-footer justify-content-between">
