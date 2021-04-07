@@ -107,7 +107,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Disbursed</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $funds_disbursed; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $funds_disbursed; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -129,7 +129,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Allocated Bursary Funds</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":<?php echo $allocated_funds; ?>,"format":"comma","prefix":"Ksh"}'>Ksh <?php echo $allocated_funds; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"> <?php echo  numfmt_format_currency($kes, $allocated_funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -166,15 +166,15 @@ if (isset($_GET['delete'])) {
                                     ?>
                                         <tr class="btn-reveal-trigger">
                                             <th class="align-middle">
-                                                <a href="applicant.php?view=<?php echo $application->applicant_id;?>">
+                                                <a href="applicant.php?view=<?php echo $application->applicant_id; ?>">
                                                     <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                                 </a>
                                             </th>
                                             <td class="align-middle"><?php echo $application->family_status; ?></td>
                                             <td class="align-middle">
-                                                <?php echo "Sch Name: ".$application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
+                                                <?php echo "Sch Name: " . $application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
-                                            <td class="align-middle text-right"><?php echo $application->income_per_month; ?></td>
+                                            <td class="align-middle text-right"><?php echo  $application->income_per_month; ?></td>
                                             <td class="align-middle text-center fs-0">
                                                 <?php
                                                 if ($application->approval_status == 'Approved') {
@@ -200,11 +200,20 @@ if (isset($_GET['delete'])) {
                                                 <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                                                     <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                         <div class="bg-white py-2">
-                                                            <a class="dropdown-item" href="view_application.php?view=<?php echo $application->id; ?>">View</a>
-                                                            <a class="dropdown-item" href="">Award Fund</a>
-                                                            <!-- Award Fund Via Modal -->
+                                                            <a class="dropdown-item" href="view_bursary.php?view=<?php echo $application->id; ?>">View</a>
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-warning" data-toggle="modal" href="#incomplete-<?php echo $application->id; ?>">Mark Incomplete</a>
+                                                            <?php
+                                                            /* Only Mark As Incomplete When No Funds Have Been Alloacated */
+                                                            if ($application->approval_status == 'Approved') {
+                                                                echo "";
+                                                            } else {
+                                                                echo
+                                                                "
+                                                                    <a class='dropdown-item text-warning' data-toggle='modal' href='#incomplete-$application->id'>Mark Incomplete</a>
+
+                                                                    ";
+                                                            }
+                                                            ?>
 
                                                             <a class="dropdown-item text-danger" data-toggle="modal" href="#del-<?php echo $application->id; ?>">Delete</a>
 

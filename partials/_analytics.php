@@ -41,9 +41,10 @@ $stmt->close();
 $query = "SELECT SUM(funds_disbursed)  FROM `iBursary_application` WHERE approval_status ='Approved' ";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
-$stmt->bind_result($funds_disbursed);
+$stmt->bind_result($funds);
 $stmt->fetch();
 $stmt->close();
+
 
 /* 4. Allocated Bursary Funds */
 $query = "SELECT SUM(allocated_funds)  FROM `iBursary_bursaries`  ";
@@ -52,6 +53,7 @@ $stmt->execute();
 $stmt->bind_result($allocated_funds);
 $stmt->fetch();
 $stmt->close();
+
 
 
 /* 5. Posted Bursaries */
