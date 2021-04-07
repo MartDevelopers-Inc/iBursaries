@@ -174,7 +174,7 @@ if (isset($_GET['delete'])) {
                                             <td class="align-middle">
                                                 <?php echo "Sch Name: " . $application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
-                                            <td class="align-middle text-right"><?php echo $application->income_per_month; ?></td>
+                                            <td class="align-middle text-right"><?php echo  $application->income_per_month; ?></td>
                                             <td class="align-middle text-center fs-0">
                                                 <?php
                                                 if ($application->approval_status == 'Approved') {
