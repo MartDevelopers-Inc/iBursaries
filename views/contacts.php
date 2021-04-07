@@ -25,6 +25,53 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
+/* Send Mail */
+if (isset($_POST['send_mail'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
+    } else {
+        $error = 1;
+        $err = "Email Cannot Be Empty";
+    }
+
+    if (isset($_POST['title']) && !empty($_POST['title'])) {
+        $title = mysqli_real_escape_string($mysqli, trim($_POST['title']));
+    } else {
+        $error = 1;
+        $err = "Title  Cannot Be Empty";
+    }
+
+    if (isset($_POST['details']) && !empty($_POST['details'])) {
+        $details = mysqli_real_escape_string($mysqli, trim($_POST['details']));
+    } else {
+        $error = 1;
+        $err = "Details Cannot Be Empty";
+    }
+
+
+    if (!$error) {
+        /* Send Mail */
+        $cc = $_POST['cc'];
+        $bcc = $_POST['bcc'];
+        /* Change Your From To Default System Admins Mail */
+        $header = "From:martdevelopers254@gmail.com \r\n";
+        $header .= "Cc:$cc \r\n";
+        $header .= "Bcc:$bcc \r\n";
+        $header .= "MIME-Version: 1.0\r\n";
+        $header .= "Content-type: text/html\r\n";
+
+        $retval = mail($email, $title, $details, $header);
+
+        if ($retval == true) {
+            $success =  "Message sent successfully";
+        } else {
+            $err =  "Message could not be sent...";
+        }
+    }
+}
 require_once('../partials/_head.php');
 ?>
 
@@ -112,13 +159,13 @@ require_once('../partials/_head.php');
                                                     <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                                                         <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                             <div class="bg-white py-2">
-                                                                <a class="dropdown-item" href="#email-<?php echo $applicant->id; ?>">Email Applicant</a>
+                                                                <a class="dropdown-item" data-toggle="modal" href="#email-<?php echo $applicant->id; ?>">Email Applicant</a>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- Email Modal -->
-                                                    <div class="modal fade" id="#email-<?php echo $applicant->id; ?>">
+                                                    <div class="modal fade" id="email-<?php echo $applicant->id; ?>">
                                                         <div class="modal-dialog  modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -152,7 +199,7 @@ require_once('../partials/_head.php');
                                                                                 </div>
                                                                                 <div class="form-group col-md-12">
                                                                                     <label for="">Email Details</label>
-                                                                                    <input type="text" required name="details" class="form-control">
+                                                                                    <textarea type="text" rows="5" required name="details" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
