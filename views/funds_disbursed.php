@@ -248,7 +248,7 @@ require_once('../partials/_head.php');
                                                                         </div>
                                                                         <div class="form-group col-md-4">
                                                                             <label for="">Approval Status</label>
-                                                                            <select class="form-control" name="approval_status ">
+                                                                            <select class="form-control" name="approval_status">
                                                                                 <option>Approved</option>
                                                                                 <option>Pending</option>
                                                                             </select>

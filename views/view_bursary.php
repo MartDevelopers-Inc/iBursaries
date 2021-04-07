@@ -146,7 +146,7 @@ require_once('../partials/_head.php');
                                             </table>
                                         </div>
                                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                                            <table id="data_table" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
+                                            <table id="" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
                                                 <thead class="bg-200">
                                                     <tr>
                                                         <th class="sort">Applicant Details</th>
