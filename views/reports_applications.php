@@ -1,6 +1,6 @@
 <?php
 /*
- * Created on Thu Apr 01 2021
+ * Created on Tue Apr 06 2021
  *
  * The MIT License (MIT)
  * Copyright (c) 2021 MartDevelopers Inc
@@ -19,11 +19,13 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
+
 require_once('../partials/_head.php');
 ?>
 
@@ -60,7 +62,7 @@ require_once('../partials/_head.php');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h3 class="mb-0">Bursaries Reports</h3>
+                                <h3 class="mb-0">Bursary Applications Reports</h3>
                                 <!-- Alerts -->
                                 <?php if (isset($success)) { ?>
                                     <!--This code for injecting success alert-->
@@ -94,58 +96,35 @@ require_once('../partials/_head.php');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-
+                                <hr>
                                 <table id="export" class="table table-sm table-dashboard data-table no-wrap mb-0 fs--1 w-100">
                                     <thead class="bg-200">
                                         <tr>
-                                            <th class="sort">Code / Number</th>
-                                            <th class="sort">Bursary Year</th>
-                                            <th class="sort">Total Allocated Funds</th>
-                                            <th class="sort">Bursary Status</th>
-                                            <th class="sort">Total Applications</th>
-                                            
+                                            <th class="sort">Bursary Code</th>
+                                            <th class="sort">Applicant Details</th>
+                                            <th class="sort">Applicant Family Status</th>
+                                            <th class="sort">Applicant School Details</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
                                         <?php
-                                        $ret = "SELECT * FROM `iBursary_bursaries`  ";
+                                        $ret = "SELECT * FROM `iBursary_application`  ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($bursary = $res->fetch_object()) {
+                                        while ($applicantions = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $bursary->code; ?></td>
-                                                <td><?php echo $bursary->year; ?></td>
-                                                <td>Ksh <?php echo $bursary->allocated_funds; ?></td>
-                                                <td>
-                                                    <?php
-                                                    if ($bursary->status == 'Open') {
-                                                        echo
-                                                        "
-                                                                <span class='badge badge rounded-capsule badge-soft-success'> Open <span class='ml-1 fas fa-check' data-fa-transform='shrink-2'></span></span>
-                                                            ";
-                                                    } else {
-                                                        echo
-                                                        "
-                                                                <span class='badge badge rounded-capsule badge-soft-danger'> Closed <span class='ml-1 fas fa-times' data-fa-transform='shrink-2'></span></span>
-                                                            ";
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    /* Number Of Applications */
-                                                    $bursarycode = $bursary->code;
-                                                    $query = "SELECT COUNT(*)  FROM `iBursary_application` WHERE bursary_code = '$bursarycode'  ";
-                                                    $stmt = $mysqli->prepare($query);
-                                                    $stmt->execute();
-                                                    $stmt->bind_result($applications);
-                                                    $stmt->fetch();
-                                                    $stmt->close();
-                                                    echo $applications;
-                                                    ?>
-                                                </td>
+                                                <th class="align-middle">
+                                                    <?php echo $applicantions->bursary_code; ?>
+                                                </th>
+                                                <th class="align-middle">
+                                                    <a href="applicant.php?view=<?php echo $applicantions->applicant_id; ?>">
+                                                        <?php echo "Name:" .  $applicantions->name . " <br> Sex: " . $applicantions->sex . "<br> DOB:" . $applicantions->dob; ?>
+                                                    </a>
+                                                </th>
+                                                <td class="align-middle"><?php echo   "Status: " . $applicantions->family_status . " <br> " . "Main Income: " . $applicantions->main_income_source . " <br> " . "Income P.M:  " . $applicantions->income_per_month; ?></td>
+                                                <td class="align-middle"><?php echo   "Sch Name: " . $applicantions->school_name . " <br> Category: " . $applicantions->school_category . " <br> Bank Acc No  " . $applicantions->account_no; ?></td>
                                             </tr>
                                         <?php
                                         }
