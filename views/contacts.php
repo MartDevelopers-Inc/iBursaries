@@ -26,22 +26,57 @@ require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 admin();
 /* Send Mail */
-if (isset($_POST['send_mail'])) {
+if (isset($_POST['send_email'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['email']) && !empty($_POST['email'])) {
-        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
+    if (isset($_POST['sender_id']) && !empty($_POST['sender_id'])) {
+        $sender_id = mysqli_real_escape_string($mysqli, trim($_POST['sender_id']));
     } else {
         $error = 1;
-        $err = "Email Cannot Be Empty";
+        $err = "Sender ID Cannot Be Empty";
     }
 
-    if (isset($_POST['title']) && !empty($_POST['title'])) {
-        $title = mysqli_real_escape_string($mysqli, trim($_POST['title']));
+    if (isset($_POST['sender_email']) && !empty($_POST['sender_email'])) {
+        $sender_email = mysqli_real_escape_string($mysqli, trim($_POST['sender_email']));
     } else {
         $error = 1;
-        $err = "Title  Cannot Be Empty";
+        $err = "Sender Email Cannot Be Empty";
+    }
+
+    if (isset($_POST['sender_name']) && !empty($_POST['sender_name'])) {
+        $sender_name = mysqli_real_escape_string($mysqli, trim($_POST['sender_name']));
+    } else {
+        $error = 1;
+        $err = "Sender Name Cannot Be Empty";
+    }
+
+    if (isset($_POST['receiver_id']) && !empty($_POST['receiver_id'])) {
+        $receiver_id = mysqli_real_escape_string($mysqli, trim($_POST['receiver_id']));
+    } else {
+        $error = 1;
+        $err = "Receiver ID Cannot Be Empty";
+    }
+
+    if (isset($_POST['receiver_email']) && !empty($_POST['receiver_email'])) {
+        $receiver_email = mysqli_real_escape_string($mysqli, trim($_POST['receiver_email']));
+    } else {
+        $error = 1;
+        $err = "Receiver Email Cannot Be Empty";
+    }
+
+    if (isset($_POST['receiver_name']) && !empty($_POST['receiver_name'])) {
+        $receiver_name = mysqli_real_escape_string($mysqli, trim($_POST['receiver_name']));
+    } else {
+        $error = 1;
+        $err = "Receiver Name Cannot Be Empty";
+    }
+
+    if (isset($_POST['subject']) && !empty($_POST['subject'])) {
+        $subject = mysqli_real_escape_string($mysqli, trim($_POST['subject']));
+    } else {
+        $error = 1;
+        $err = "Subject  Cannot Be Empty";
     }
 
     if (isset($_POST['details']) && !empty($_POST['details'])) {
@@ -51,9 +86,13 @@ if (isset($_POST['send_mail'])) {
         $err = "Details Cannot Be Empty";
     }
 
-
     if (!$error) {
-        /* Send Mail */
+        /* Persist Mail On Core Database Server */
+        $query = "INSERT INTO iBursary_mails  (sender_id, sender_email, sender_name, receiver_id, receiver_email, receiver_name, subject, details) VALUES(?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ssssssss', $sender_id, $sender_email, $sender_name, $receiver_id, $receiver_email, $receiver_name, $subject, $details);
+        $stmt->execute();
+        /* Send Mail Via Third Party Mail Box Like Gmail */
         $cc = $_POST['cc'];
         $bcc = $_POST['bcc'];
         /* Change Your From To Default System Admins Mail */
@@ -65,7 +104,7 @@ if (isset($_POST['send_mail'])) {
 
         $retval = mail($email, $title, $details, $header);
 
-        if ($retval == true) {
+        if (($retval == true) && $stmt) {
             $success =  "Message sent successfully";
         } else {
             $err =  "Message could not be sent...";
