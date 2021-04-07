@@ -344,7 +344,14 @@ require_once('../partials/_head.php');
                                             <tr>
                                                 <td><?php echo $bursary->code; ?></td>
                                                 <td><?php echo $bursary->year; ?></td>
-                                                <td>Ksh <?php echo $bursary->allocated_funds; ?></td>
+                                                <td>Ksh <?php
+                                                        /* Add Coma After 3 Digits */
+                                                        $price_text = (string)$bursary->allocated_funds;
+                                                        $arr = str_split($price_text, "3");
+                                                        $allocated_bursary_fund = implode(",", $arr);
+                                                        echo $allocated_bursary_fund ;
+                                                        ?>
+                                                </td>
                                                 <td>
                                                     <?php
                                                     if ($bursary->status == 'Open') {
