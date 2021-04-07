@@ -27,7 +27,7 @@ require_once('../config/codeGen.php');
 admin();
 
 /* Add Application */
-if (isset($_POST['add_application'])) {
+if (isset($_POST['award_bursary_fund'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
@@ -38,378 +38,74 @@ if (isset($_POST['add_application'])) {
         $err = "ID Cannot Be Empty";
     }
 
-    if (isset($_POST['applicant_id']) && !empty($_POST['applicant_id'])) {
-        $applicant_id = mysqli_real_escape_string($mysqli, trim($_POST['applicant_id']));
+    if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+        $recommendation = mysqli_real_escape_string($mysqli, trim($_POST['recommendation']));
     } else {
         $error = 1;
-        $err = "Applicant ID Cannot Be Empty";
-    }
-
-    if (isset($_POST['name']) && !empty($_POST['name'])) {
-        $name = mysqli_real_escape_string($mysqli, trim($_POST['name']));
-    } else {
-        $error = 1;
-        $err = "Applicant Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['sex']) && !empty($_POST['sex'])) {
-        $sex = mysqli_real_escape_string($mysqli, trim($_POST['sex']));
-    } else {
-        $error = 1;
-        $err = "Applicant Gender  Cannot Be Empty";
-    }
-
-    if (isset($_POST['dob']) && !empty($_POST['dob'])) {
-        $dob = mysqli_real_escape_string($mysqli, trim($_POST['dob']));
-    } else {
-        $error = 1;
-        $err = "Applicant DOB  Cannot Be Empty";
-    }
-
-    /* Post Files */
-    $id_attachment = $_FILES['id_attachment']['name'];
-    move_uploaded_file($_FILES["id_attachment"]["tmp_name"], "../public/uploads/user_data/" . $_FILES["id_attachment"]["name"]);
-
-    if (isset($_POST['disability']) && !empty($_POST['disability'])) {
-        $disability = mysqli_real_escape_string($mysqli, trim($_POST['disability']));
-    } else {
-        $error = 1;
-        $err = "Applicant Disability  Cannot Be Empty";
-    }
-
-
-    if (isset($_POST['parent_name']) && !empty($_POST['parent_name'])) {
-        $parent_name = mysqli_real_escape_string($mysqli, trim($_POST['parent_name']));
-    } else {
-        $error = 1;
-        $err = "Father Name  Cannot Be Empty";
-    }
-
-    if (isset($_POST['father_idno']) && !empty($_POST['father_idno'])) {
-        $father_idno = mysqli_real_escape_string($mysqli, trim($_POST['father_idno']));
-    } else {
-        $error = 1;
-        $err = "Applicant Father ID NO Cannot Be Empty";
-    }
-
-    if (isset($_POST['father_mobile']) && !empty($_POST['father_mobile'])) {
-        $father_mobile = mysqli_real_escape_string($mysqli, trim($_POST['father_mobile']));
-    } else {
-        $error = 1;
-        $err = "Applicant Father Mobile No. Cannot Be Empty";
-    }
-
-    if (isset($_POST['mother_name']) && !empty($_POST['mother_name'])) {
-        $mother_name = mysqli_real_escape_string($mysqli, trim($_POST['mother_name']));
-    } else {
-        $error = 1;
-        $err = "Applicant Mother Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['mother_idno']) && !empty($_POST['mother_idno'])) {
-        $mother_idno = mysqli_real_escape_string($mysqli, trim($_POST['mother_idno']));
-    } else {
-        $error = 1;
-        $err = "Applicant Mother ID NO Cannot Be Empty";
-    }
-
-    if (isset($_POST['mother_phone']) && !empty($_POST['mother_phone'])) {
-        $mother_phone = mysqli_real_escape_string($mysqli, trim($_POST['mother_phone']));
-    } else {
-        $error = 1;
-        $err = "Applicant Mother Mobile No. Cannot Be Empty";
-    }
-
-    if (isset($_POST['gurdian_name']) && !empty($_POST['gurdian_name'])) {
-        $gurdian_name = mysqli_real_escape_string($mysqli, trim($_POST['gurdian_name']));
-    } else {
-        $error = 1;
-        $err = "Applicant Gurdian Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['gurdian_idno']) && !empty($_POST['gurdian_idno'])) {
-        $gurdian_idno = mysqli_real_escape_string($mysqli, trim($_POST['gurdian_idno']));
-    } else {
-        $error = 1;
-        $err = "Applicant Gurdian ID NO Cannot Be Empty";
-    }
-
-    if (isset($_POST['gurdian_phone']) && !empty($_POST['gurdian_phone'])) {
-        $gurdian_phone = mysqli_real_escape_string($mysqli, trim($_POST['gurdian_phone']));
-    } else {
-        $error = 1;
-        $err = "Applicant Gurdian Mobile No. Cannot Be Empty";
-    }
-
-    if (isset($_POST['who_pays_fees']) && !empty($_POST['who_pays_fees'])) {
-        $who_pays_fees = mysqli_real_escape_string($mysqli, trim($_POST['who_pays_fees']));
-    } else {
-        $error = 1;
-        $err = "Who Pays Fees Cannot Be Empty";
-    }
-
-    if (isset($_POST['school_name']) && !empty($_POST['school_name'])) {
-        $school_name  = mysqli_real_escape_string($mysqli, trim($_POST['school_name']));
-    } else {
-        $error = 1;
-        $err = "Applicant School Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['po_box']) && !empty($_POST['po_box'])) {
-        $po_box  = mysqli_real_escape_string($mysqli, trim($_POST['po_box']));
-    } else {
-        $error = 1;
-        $err = "AApplicant School  P.O Box Cannot Be Empty";
-    }
-
-    if (isset($_POST['tel']) && !empty($_POST['tel'])) {
-        $tel  = mysqli_real_escape_string($mysqli, trim($_POST['tel']));
-    } else {
-        $error = 1;
-        $err = "Applicant School  Telephone No Cannot Be Empty";
-    }
-
-    if (isset($_POST['sch_email']) && !empty($_POST['sch_email'])) {
-        $sch_email  = mysqli_real_escape_string($mysqli, trim($_POST['sch_email']));
-    } else {
-        $error = 1;
-        $err = "Applicant School  Email Address  Cannot Be Empty";
-    }
-
-    if (isset($_POST['year_of_admno']) && !empty($_POST['year_of_admno'])) {
-        $year_of_admno  = mysqli_real_escape_string($mysqli, trim($_POST['year_of_admno']));
-    } else {
-        $error = 1;
-        $err = "Applicant Admission Year  Cannot Be Empty";
-    }
-
-    if (isset($_POST['adm_no']) && !empty($_POST['adm_no'])) {
-        $adm_no  = mysqli_real_escape_string($mysqli, trim($_POST['adm_no']));
-    } else {
-        $error = 1;
-        $err = "Applicant Admission Number  Cannot Be Empty";
-    }
-
-    if (isset($_POST['year_of_study']) && !empty($_POST['year_of_study'])) {
-        $year_of_study  = mysqli_real_escape_string($mysqli, trim($_POST['year_of_study']));
-    } else {
-        $error = 1;
-        $err = "Applicant Year Of Study Cannot Be Empty";
-    }
-
-    /* Post Files */
-    $school_id_attachment = $_FILES['school_id_attachment']['name'];
-    move_uploaded_file($_FILES["school_id_attachment"]["tmp_name"], "../public/uploads/user_data/" . $_FILES["school_id_attachment"]["name"]);
-
-    if (isset($_POST['school_category']) && !empty($_POST['school_category'])) {
-        $school_category  = mysqli_real_escape_string($mysqli, trim($_POST['school_category']));
-    } else {
-        $error = 1;
-        $err = "Applicant School Category Cannot Be Empty";
-    }
-
-    if (isset($_POST['fee_payable']) && !empty($_POST['fee_payable'])) {
-        $fee_payable  = mysqli_real_escape_string($mysqli, trim($_POST['fee_payable']));
-    } else {
-        $error = 1;
-        $err = "Applicant Fee Payable Cannot Be Empty";
-    }
-
-    if (isset($_POST['fee_paid']) && !empty($_POST['fee_paid'])) {
-        $fee_paid  = mysqli_real_escape_string($mysqli, trim($_POST['fee_paid']));
-    } else {
-        $error = 1;
-        $err = "Applicant Fee Paid Cannot Be Empty";
-    }
-
-    if (isset($_POST['helb_loans']) && !empty($_POST['helb_loans'])) {
-        $helb_loans  = mysqli_real_escape_string($mysqli, trim($_POST['helb_loans']));
-    } else {
-        $error = 1;
-        $err = "Any Helb Loans Cannot Be Empty";
-    }
-
-    /* Post Files */
-    $helb_loans_attachment = $_FILES['helb_loans_attachment']['name'];
-    move_uploaded_file($_FILES["helb_loans_attachment"]["tmp_name"], "../public/uploads/user_data/" . $_FILES["helb_loans_attachment"]["name"]);
-
-    if (isset($_POST['family_status']) && !empty($_POST['family_status'])) {
-        $family_status  = mysqli_real_escape_string($mysqli, trim($_POST['family_status']));
-    } else {
-        $error = 1;
-        $err = "Applicant Family Status Cannot Be Empty";
-    }
-
-    /* Post Files */
-    $family_status_attachments = $_FILES['family_status_attachments']['name'];
-    move_uploaded_file($_FILES["family_status_attachments"]["tmp_name"], "../public/uploads/user_data/" . $_FILES["family_status_attachments"]["name"]);
-
-
-    if (isset($_POST['main_income_source']) && !empty($_POST['main_income_source'])) {
-        $main_income_source  = mysqli_real_escape_string($mysqli, trim($_POST['main_income_source']));
-    } else {
-        $error = 1;
-        $err = "Main Income Source  Cannot Be Empty";
-    }
-
-    if (isset($_POST['income_per_month']) && !empty($_POST['income_per_month'])) {
-        $income_per_month  = mysqli_real_escape_string($mysqli, trim($_POST['income_per_month']));
-    } else {
-        $error = 1;
-        $err = "Income Per Month  Cannot Be Empty";
-    }
-
-    if (isset($_POST['bank_name']) && !empty($_POST['bank_name'])) {
-        $bank_name  = mysqli_real_escape_string($mysqli, trim($_POST['bank_name']));
-    } else {
-        $error = 1;
-        $err = "School Bank Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['branch']) && !empty($_POST['branch'])) {
-        $branch  = mysqli_real_escape_string($mysqli, trim($_POST['branch']));
-    } else {
-        $error = 1;
-        $err = "School Bank Branch Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['account_no']) && !empty($_POST['account_no'])) {
-        $account_no  = mysqli_real_escape_string($mysqli, trim($_POST['account_no']));
-    } else {
-        $error = 1;
-        $err = "School Bank Account No Cannot Be Empty";
-    }
-
-    /*
-     if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
-        $recommendation  = mysqli_real_escape_string($mysqli, trim($_POST['recommendation']));
-    } else {
-        $error = 1;
-        $err = "Recomendation  Cannot Be Empty";
+        $err = "Recommendation Cannot Be Empty";
     }
 
     if (isset($_POST['chairman_name']) && !empty($_POST['chairman_name'])) {
-        $chairman_name  = mysqli_real_escape_string($mysqli, trim($_POST['chairman_name']));
+        $chairman_name = mysqli_real_escape_string($mysqli, trim($_POST['chairman_name']));
     } else {
         $error = 1;
-        $err = "Chairman Name  Cannot Be Empty";
+        $err = "Chairman Name Cannot Be Empty";
     }
 
     if (isset($_POST['secretary_name']) && !empty($_POST['secretary_name'])) {
-        $secretary_name  = mysqli_real_escape_string($mysqli, trim($_POST['secretary_name']));
+        $secretary_name = mysqli_real_escape_string($mysqli, trim($_POST['secretary_name']));
     } else {
         $error = 1;
-        $err = "Secretary Name  Cannot Be Empty";
+        $err = "Secretary Name Cannot Be Empty";
     }
 
     if (isset($_POST['date_approved']) && !empty($_POST['date_approved'])) {
-        $date_approved  = mysqli_real_escape_string($mysqli, trim($_POST['date_approved']));
+        $date_approved = mysqli_real_escape_string($mysqli, trim($_POST['date_approved']));
     } else {
         $error = 1;
-        $err = "Date Approved  Cannot Be Empty";
+        $err = "Date Approved Cannot Be Empty";
+    }
+
+    if (isset($_POST['funds_disbursed']) && !empty($_POST['funds_disbursed'])) {
+        $funds_disbursed = mysqli_real_escape_string($mysqli, trim($_POST['funds_disbursed']));
+    } else {
+        $error = 1;
+        $err = "Funds Disbursed  Cannot Be Empty";
     }
 
     if (isset($_POST['approval_status']) && !empty($_POST['approval_status'])) {
-        $approval_status  = mysqli_real_escape_string($mysqli, trim($_POST['approval_status']));
+        $approval_status = mysqli_real_escape_string($mysqli, trim($_POST['approval_status']));
     } else {
         $error = 1;
         $err = "Approval Status  Cannot Be Empty";
     }
 
-    if (isset($_POST['funds_disbursed']) && !empty($_POST['funds_disbursed'])) {
-        $funds_disbursed  = mysqli_real_escape_string($mysqli, trim($_POST['funds_disbursed']));
-    } else {
-        $error = 1;
-        $err = "Funds Disbursed Cannot Be Empty";
-    } */
-
-    if (isset($_POST['bursary_code']) && !empty($_POST['bursary_code'])) {
-        $bursary_code  = mysqli_real_escape_string($mysqli, trim($_POST['bursary_code']));
-    } else {
-        $error = 1;
-        $err = "Bursary Code Cannot Be Empty";
-    }
-
 
     if (!$error) {
-        /* Prevent Double Entries */
-        $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code'  ";
-        $res = mysqli_query($mysqli, $sql);
-        if (mysqli_num_rows($res) > 0) {
-            $row = mysqli_fetch_assoc($res);
-            if ($bursary_code == $row['bursary_code']) {
-                $err =  "A Bursary With This Code $bursary_code  Already Exists";
-            }
+
+        /* No Error Or Duplicate */
+        $query = "UPDATE iBursary_application  SET recommendation =?, chairman_name = ?, secretary_name =?, date_approved =?, approval_status =?, funds_disbursed=? WHERE id = ?   ";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param(
+            'sssssss',
+            $recommendation,
+            $chairman_name,
+            $secretary_name,
+            $date_approved,
+            $approval_status,
+            $funds_disbursed,
+            $id
+        );
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Bursary Awarded Funds" && header("refresh:1; url=funds_disbursed.php");
         } else {
-            /* No Error Or Duplicate */
-            $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param(
-                'ssssssssssssssssssssssssssssssssssssss',
-                $id,
-                $applicant_id,
-                $name,
-                $sex,
-                $dob,
-                $id_attachment,
-                $disability,
-                $parent_name,
-                $father_idno,
-                $father_mobile,
-                $mother_name,
-                $mother_idno,
-                $mother_phone,
-                $gurdian_name,
-                $gurdian_idno,
-                $gurdian_phone,
-                $who_pays_fees,
-                $school_name,
-                $po_box,
-                $tel,
-                $sch_email,
-                $year_of_admno,
-                $adm_no,
-                $year_of_study,
-                $school_id_attachment,
-                $school_category,
-                $fee_payable,
-                $fee_paid,
-                $helb_loans,
-                $helb_loans_attachment,
-                $family_status,
-                $family_status_attachments,
-                $main_income_source,
-                $income_per_month,
-                $bank_name,
-                $branch,
-                $account_no,
-                $bursary_code
-            );
-            $stmt->execute();
-            if ($stmt) {
-                $success = "Bursary Application Record Added" && header("refresh:1; url=bursary_applications.php");
-            } else {
-                $info = "Please Try Again Or Try Later";
-            }
+            $info = "Please Try Again Or Try Later";
         }
     }
 }
 
 
-/* Delete Application */
-if (isset($_GET['delete'])) {
-    $delete = $_GET['delete'];
-    $adn = "DELETE FROM iBursary_application WHERE id=?";
-    $stmt = $mysqli->prepare($adn);
-    $stmt->bind_param('s', $delete);
-    $stmt->execute();
-    $stmt->close();
-    if ($stmt) {
-        $success = "Application Record Deleted" && header("refresh:1; url=bursary_applications.php");
-    } else {
-        $info = "Please Try Again Or Try Later";
-    }
-}
 
 require_once('../partials/_head.php');
 ?>
@@ -523,33 +219,32 @@ require_once('../partials/_head.php');
                                             </tr>
                                             <!-- Award Bursary Fund Modal -->
                                             <div class="modal fade" id="award-<?php echo $applicantions->id; ?>">
-                                                <div class="modal-dialog  modal-lg">
+                                                <div class="modal-dialog  modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Award <?php echo $applicantions->name . " - " . $applicantions->bursary_code;?> Funds  </h4>
+                                                            <h4 class="modal-title">Award <?php echo $applicantions->name . " - " . $applicantions->bursary_code; ?> Funds </h4>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <!-- Add Course Form -->
                                                             <form method="post" enctype="multipart/form-data" role="form">
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="form-group col-md-6">
                                                                             <label for="">CDF Chairman Name</label>
-                                                                            <input type="text" required name="chairman_name"   class="form-control">
+                                                                            <input type="text" required name="chairman_name" class="form-control">
                                                                             <input type="hidden" required name="id" value="<?php echo $applicantions->id; ?>" class="form-control">
                                                                         </div>
                                                                         <div class="form-group col-md-6">
                                                                             <label for="">CDF Secretary Name</label>
-                                                                            <input type="text" required name="secretary_name"  class="form-control">
+                                                                            <input type="text" required name="secretary_name" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="form-group col-md-4">
                                                                             <label for="">Awarded Funds</label>
-                                                                            <input type="text" required name="funds_disbursed"  class="form-control">
+                                                                            <input type="text" required name="funds_disbursed" class="form-control">
                                                                         </div>
                                                                         <div class="form-group col-md-4">
                                                                             <label for="">Approval Status</label>
@@ -560,7 +255,11 @@ require_once('../partials/_head.php');
                                                                         </div>
                                                                         <div class="form-group col-md-4">
                                                                             <label for="">Date Approved</label>
-                                                                            <input type="date" required name="date_approved"  class="form-control">
+                                                                            <input type="date" required name="date_approved" class="form-control">
+                                                                        </div>
+                                                                        <div class="form-group col-md-12">
+                                                                            <label for="">Reccomendation And Further Information</label>
+                                                                            <textarea type="text" rows="6" required name="recommendation" class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
 
