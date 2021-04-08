@@ -61,7 +61,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>My Bursary Applications</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $applications; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $applications; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicant_bursary_applications.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Awarded</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh"); ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicant_funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -83,10 +83,10 @@ require_once('../partials/_head.php');
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Open Bursaries</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $bursaries; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info"><?php echo $bursaries; ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="applicant_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
-                    
+
 
                 </div>
 
@@ -113,7 +113,8 @@ require_once('../partials/_head.php');
                                 </thead>
                                 <tbody id="purchases">
                                     <?php
-                                    $ret = "SELECT * FROM `iBursary_application`  ";
+                                    $id = $_SESSION['id'];
+                                    $ret = "SELECT * FROM `iBursary_application` WHERE applicant_id = '$id'  ";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
@@ -121,9 +122,7 @@ require_once('../partials/_head.php');
                                     ?>
                                         <tr class="btn-reveal-trigger">
                                             <th class="align-middle">
-                                                <a href="applicant.php?view=<?php echo $application->applicant_id; ?>">
-                                                    <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
-                                                </a>
+                                                <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                             </th>
                                             <td class="align-middle"><?php echo $application->family_status; ?></td>
                                             <td class="align-middle">
