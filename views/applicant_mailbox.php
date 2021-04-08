@@ -23,7 +23,6 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
 bursaryApplicant();
-require_once('../partials/_applicants_analytics.php');
 require_once('../partials/_head.php');
 
 ?>
@@ -66,19 +65,30 @@ require_once('../partials/_head.php');
 
                     <div class="card-body fs--1 border-top border-200 p-0" id="emails">
                         <h5 class="fs-0 px-3 pt-3 pb-2 mb-0 border-bottom border-200">All Mails From Administrators</h5>
-                        <div class="row border-bottom border-200 hover-actions-trigger hover-shadow py-2 px-1 mx-0" data-href="mail_details.php?mail=<?php echo $mail->id; ?>">
-                            <div class="col col-md-9 col-xxl-10">
-                                <div class="row">
-                                    <div class="col-md-4 col-xl-3 col-xxl-2 pl-md-0 mb-1 mb-md-0">
-                                        <div class="media position-relative">
-                                            <div class="media-body ml-2"><a class="font-weight-bold stretched-link inbox-link" href="mail_details.php?mail=<?php echo $mail->id; ?>">Diana</a></div>
+                        <?php
+                        /* Load All Mails For Logged In User */
+                        $mail_user = $_SESSION['id'];
+                        $ret = "SELECT * FROM  iBursary_mails  WHERE receiver_id = '$mail_user' ORDER BY  send_on ASC ";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        while ($mail = $res->fetch_object()) {
+                        ?>
+                            <div class="row border-bottom border-200 hover-actions-trigger hover-shadow py-2 px-1 mx-0" data-href="mail_details.php?mail=<?php echo $mail->id; ?>">
+                                <div class="col col-md-9 col-xxl-10">
+                                    <div class="row">
+                                        <div class="col-md-4 col-xl-3 col-xxl-2 pl-md-0 mb-1 mb-md-0">
+                                            <div class="media position-relative">
+                                                <div class="media-body ml-2"><a class="font-weight-bold stretched-link inbox-link" href=""><?php echo $mail->sender_name; ?></a></div>
+                                            </div>
                                         </div>
+                                        <div class="col"><a class="d-block inbox-link" href=""><span class="font-weight-bold"><?php echo $mail->subject; ?></span><span class="mx-1"><br></span><span><?php echo $mail->details; ?></span></a></div>
                                     </div>
-                                    <div class="col"><a class="d-block inbox-link" href="mail_details.php?mail=<?php echo $mail->id; ?>"><span class="font-weight-bold">Your Daily Work Summary</span><span class="mx-1">&ndash;</span><span>And they'd probably do a lot of damage to an...</span></a></div>
                                 </div>
+                                <div class="col-auto ml-auto d-flex flex-column justify-content-between"><span class="font-weight-bold"><?php echo date('d M Y g:ia', strtotime($mail->send_on)); ?></span><span class="fas text-warning fa-star ml-auto mb-2 d-sm-none" data-fa-transform="down-7"></span></div>
                             </div>
-                            <div class="col-auto ml-auto d-flex flex-column justify-content-between"><span class="font-weight-bold">Mar 26</span><span class="fas text-warning fa-star ml-auto mb-2 d-sm-none" data-fa-transform="down-7"></span></div>
-                        </div>
+                        <?php
+                        } ?>
                     </div>
                 </div>
             </div>
