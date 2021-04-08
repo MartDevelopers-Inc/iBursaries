@@ -31,48 +31,11 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="login.php" role="button"> Staff Login </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#!" data-toggle="modal" data-target="#exampleModal">Register Applicant Account</a></li>
+                        <li class="nav-item"><a class="nav-link" href="applicant_login.php">Applicant Login</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body p-4">
-                        <div class="row text-left justify-content-between align-items-center mb-2">
-                            <div class="col-auto">
-                                <h5 id="modalLabel">Register An Applicant Account</h5>
-                            </div>
-                            <div class="col-auto">
-                                <p class="fs--1 text-600 mb-0">Have an applicant account? <a href="applicant_login.php">Login</a></p>
-                            </div>
-                        </div>
-                        <form method="POST">
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="name" placeholder="Name" />
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="email" placeholder="Email address" />
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-12">
-                                    <input class="form-control" type="password" placeholder="Password" />
-                                </div>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="modal-register-checkbox" />
-                                <label class="custom-control-label" for="modal-register-checkbox">I accept the
-                                    <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-block mt-3" type="submit" name="submit">Register</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- ============================================-->
         <!-- <section> begin ============================-->
