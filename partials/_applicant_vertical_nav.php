@@ -25,7 +25,7 @@
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-trello"></span></span><span class="nav-link-text"> Bursaries</span></div>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="applicant_bursary_applications.php">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file"></span></span><span class="nav-link-text">Bursary Applications</span></div>
@@ -33,7 +33,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="applicant_funds_disbursed.php">
-                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file-invoice"></span></span><span class="nav-link-text">Disburse Funds</span></div>
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-money-bill-alt"></span></span><span class="nav-link-text">Awarded Funds</span></div>
                     </a>
                 </li>
             </ul>
