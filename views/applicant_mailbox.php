@@ -25,6 +25,12 @@ require_once('../config/checklogin.php');
 bursaryApplicant();
 require_once('../partials/_head.php');
 
+/* 
+>To Dos
+1. Deeply Refactor This Page
+2. Provide Bursary Tracking Via Code And Mail
+*/
+
 ?>
 
 
