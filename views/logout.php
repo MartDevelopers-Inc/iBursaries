@@ -33,7 +33,7 @@ require_once('../partials/_head.php');
                         <div class="card-body p-4 p-sm-5">
                             <div class="text-center"><img class="d-block mx-auto mb-4" src="../public/img/illustrations/rocket.png" alt="shield" width="70" />
                                 <h4>See you again!</h4>
-                                <p>Thanks for using iBursary MIS. You are <br />successfully signed out.</p><a class="btn btn-primary btn-sm mt-3" href="home.php"><span class="fas fa-chevron-left mr-1" data-fa-transform="shrink-4 down-1"></span>Return to Login</a>
+                                <p>Thanks for using iBursary MIS. You are <br />successfully signed out.</p><a class="btn btn-primary btn-sm mt-3" href="home.php"><span class="fas fa-chevron-left mr-1" data-fa-transform="shrink-4 down-1"></span>Return Home</a>
                             </div>
                         </div>
                     </div>

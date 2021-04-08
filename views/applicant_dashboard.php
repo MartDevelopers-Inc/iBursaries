@@ -84,7 +84,7 @@ require_once('../partials/_head.php');
                     </div>
 
                 </div>
-                
+
                 <div class="card mb-3">
                     <div class="card-header">
                         <div class="row align-items-center justify-content-between">

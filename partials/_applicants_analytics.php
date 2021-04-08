@@ -20,7 +20,7 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-$applicant_id = $_SESSION['applicant_id'];
+$applicant_id = $_SESSION['id'];
 
 /* 1. Bursary Applications */
 $query = "SELECT COUNT(*)  FROM `iBursary_application` WHERE applicant_id = '$applicant_id' ";
