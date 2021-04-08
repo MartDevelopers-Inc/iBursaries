@@ -28,5 +28,5 @@ if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
     $uri = 'http://';
 }
 $uri .= $_SERVER['HTTP_HOST'];
-header('Location: ' . $uri . '/iBursaries/views/login.php');
+header('Location: ' . $uri . '/iBursaries/views/home.php');
 exit;
