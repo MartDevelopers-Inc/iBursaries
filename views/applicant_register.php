@@ -157,11 +157,12 @@ require_once('../partials/_head.php');
                     <div class="card">
                         <div class="card-body p-6 p-sm-5">
                             <div class="row text-left justify-content-between align-items-center mb-2">
-                                <div class="col-auto">
+                                <div class="col-auto text-center">
                                     <h5>Applicant Sign Up</h5>
                                 </div>
+                                <hr>
                                 <div class="col-auto">
-                                    <p class="fs--1 text-600 mb-0"> Or <a href="applicant_register.php"> Sign In</a></p>
+                                    <p class="fs--1 text-600 mb-0"> Or <a href="applicant_login.php"> Sign In</a></p>
                                 </div>
                             </div>
                             <?php if (isset($success)) { ?>
@@ -221,7 +222,7 @@ require_once('../partials/_head.php');
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="">Password</label>
-                                        <input type="text" required name="password" class="form-control">
+                                        <input type="password" required name="password" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
