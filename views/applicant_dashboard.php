@@ -74,10 +74,6 @@ require_once('../partials/_head.php');
                         </div>
                     </div>
 
-                </div>
-
-                <div class="card-deck">
-
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
                         <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-2.png);"></div>
                         <!--/.bg-holder-->
@@ -87,9 +83,8 @@ require_once('../partials/_head.php');
                         </div>
                     </div>
 
-
                 </div>
-
+                
                 <div class="card mb-3">
                     <div class="card-header">
                         <div class="row align-items-center justify-content-between">
