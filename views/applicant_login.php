@@ -55,6 +55,9 @@ require_once('../partials/_head.php');
                                 <div class="col-auto">
                                     <h5>Applicant Log in</h5>
                                 </div>
+                                <div class="col-auto">
+                                    <p class="fs--1 text-600 mb-0"> Or <a href="applicant_register.php"> Create An Account</a></p>
+                                </div>
                             </div>
                             <?php if (isset($success)) { ?>
                                 <!--This code for injecting success alert-->

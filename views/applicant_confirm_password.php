@@ -110,7 +110,6 @@ require_once('../partials/_head.php');
                             <form class="mt-4" method="POST">
                                 <div class="form-group"><input class="form-control" name="new_password" type="password" placeholder="New password" /></div>
                                 <div class="form-group"><input class="form-control" name="confirm_password" type="password" placeholder="Confirm new password" /></div>
-
                                 <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="ConfirmPassword">Confirm New Password</button></div>
                             </form>
                         </div>
