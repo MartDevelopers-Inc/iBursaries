@@ -1,6 +1,6 @@
 <?php
 /*
- * Created on Fri Apr 02 2021
+ * Created on Thu Apr 08 2021
  *
  * The MIT License (MIT)
  * Copyright (c) 2021 MartDevelopers Inc
@@ -19,84 +19,112 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
-admin();
-/* Update Profile Picture */
-if (isset($_POST['update_picture'])) {
-    $id = $_SESSION['id'];
-    $profile_pic = $_FILES['profile_pic']['name'];
-    move_uploaded_file($_FILES["profile_pic"]["tmp_name"], "../public/uploads/user_images/" . $_FILES["profile_pic"]["name"]);
-    $query = "UPDATE iBursary_admin  SET  profile =? WHERE id =?";
-    $stmt = $mysqli->prepare($query);
-    $rc = $stmt->bind_param('ss', $profile_pic, $id);
-    $stmt->execute();
-    if ($stmt) {
-        $success = "Profile Picture Updated" && header("Refresh: 0");
-    } else {
-        $info = "Please Try Again Or Try Later";
-    }
-}
+bursaryApplicant();
 
 /* Update Profile */
-
-if (isset($_POST['update_profile'])) {
+if (isset($_POST['update_applicant'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
-    if (isset($_POST['name']) && !empty($_POST['name'])) {
-        $name = mysqli_real_escape_string($mysqli, trim($_POST['name']));
-    } else {
-        $error = 1;
-        $err = "Name Cannot Be Empty";
-    }
-    if (isset($_POST['idno']) && !empty($_POST['idno'])) {
-        $idno = mysqli_real_escape_string($mysqli, trim($_POST['idno']));
-    } else {
-        $error = 1;
-        $err = "National ID / Passport Number Cannot Be Empty";
-    }
-    if (isset($_POST['email']) && !empty($_POST['email'])) {
-        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
-    } else {
-        $error = 1;
-        $err = "Email Cannot Be Empty";
-    }
-    if (isset($_POST['phone']) && !empty($_POST['phone'])) {
-        $phone = mysqli_real_escape_string($mysqli, trim($_POST['phone']));
-    } else {
-        $error = 1;
-        $err = "Phone Number Cannot Be Empty";
-    }
-    if (isset($_POST['adr']) && !empty($_POST['adr'])) {
-        $adr = mysqli_real_escape_string($mysqli, trim($_POST['adr']));
-    } else {
-        $error = 1;
-        $err = "Address Cannot Be Empty";
-    }
-    if (isset($_POST['bio']) && !empty($_POST['bio'])) {
-        $bio = mysqli_real_escape_string($mysqli, trim($_POST['bio']));
-    } else {
-        $error = 1;
-        $err = "Bio Cannot Be Empty";
-    }
+
     if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         $id = mysqli_real_escape_string($mysqli, trim($_SESSION['id']));
     } else {
         $error = 1;
-        $err = "ID Cannot Be Empty";
+        $err = "Applicant ID Cannot Be Empty";
     }
-    if (!$error) {
 
-        $query = "UPDATE iBursary_admin SET  name =?,  idno = ?, email =?, phone = ?, adr = ?, bio=? WHERE id =?";
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $name = mysqli_real_escape_string($mysqli, trim($_POST['name']));
+    } else {
+        $error = 1;
+        $err = "Applicant Name Cannot Be Empty";
+    }
+
+    if (isset($_POST['phone']) && !empty($_POST['phone'])) {
+        $phone = mysqli_real_escape_string($mysqli, trim($_POST['phone']));
+    } else {
+        $error = 1;
+        $err = "Applicant Phone Cannot Be Empty";
+    }
+
+    if (isset($_POST['dob']) && !empty($_POST['dob'])) {
+        $dob = mysqli_real_escape_string($mysqli, trim($_POST['dob']));
+    } else {
+        $error = 1;
+        $err = "Applicant DOB  Cannot Be Empty";
+    }
+
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysqli_real_escape_string($mysqli, trim($_POST['email']));
+    } else {
+        $error = 1;
+        $err = "Applicant Email  Cannot Be Empty";
+    }
+
+
+    if (isset($_POST['sex']) && !empty($_POST['sex'])) {
+        $sex = mysqli_real_escape_string($mysqli, trim($_POST['sex']));
+    } else {
+        $error = 1;
+        $err = "Applicant Gender  Cannot Be Empty";
+    }
+
+    if (isset($_POST['county']) && !empty($_POST['county'])) {
+        $county = mysqli_real_escape_string($mysqli, trim($_POST['county']));
+    } else {
+        $error = 1;
+        $err = "Applicant County  Cannot Be Empty";
+    }
+
+    if (isset($_POST['sub_county']) && !empty($_POST['sub_county'])) {
+        $sub_county = mysqli_real_escape_string($mysqli, trim($_POST['sub_county']));
+    } else {
+        $error = 1;
+        $err = "Applicant Sub County  Cannot Be Empty";
+    }
+
+    if (isset($_POST['ward']) && !empty($_POST['ward'])) {
+        $ward = mysqli_real_escape_string($mysqli, trim($_POST['ward']));
+    } else {
+        $error = 1;
+        $err = "Applicant Ward Cannot Be Empty";
+    }
+
+    if (isset($_POST['sub_location']) && !empty($_POST['sub_location'])) {
+        $sub_location = mysqli_real_escape_string($mysqli, trim($_POST['sub_location']));
+    } else {
+        $error = 1;
+        $err = "Applicant Sub Location Cannot Be Empty";
+    }
+
+    if (isset($_POST['village']) && !empty($_POST['village'])) {
+        $village  = mysqli_real_escape_string($mysqli, trim($_POST['village']));
+    } else {
+        $error = 1;
+        $err = "Applicant Village Cannot Be Empty";
+    }
+
+    if (isset($_POST['idno']) && !empty($_POST['idno'])) {
+        $idno  = mysqli_real_escape_string($mysqli, trim($_POST['idno']));
+    } else {
+        $error = 1;
+        $err = "Applicant National ID Number Cannot Be Empty";
+    }
+
+    if (!$error) {
+        $query = "UPDATE iBursary_applicants SET name =?, phone =?, dob =?, idno =?, email =?, sex =?, county =?, sub_county =?, ward =?, sub_location =?, village =?
+           WHERE id = ?";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('sssssss', $name,  $idno, $email, $phone, $adr, $bio, $id);
+        $rc = $stmt->bind_param('ssssssssssss', $name, $phone, $dob, $idno, $email, $sex, $county, $sub_county, $ward, $sub_location, $village, $id);
         $stmt->execute();
         if ($stmt) {
-            $success = "Profile Updated";
+            $success = "$name Personal Details Updated";
         } else {
-            //inject alert that profile update task failed
             $info = "Please Try Again Or Try Later";
         }
     }
@@ -105,7 +133,6 @@ if (isset($_POST['update_profile'])) {
 
 /* Update Password */
 if (isset($_POST['change_password'])) {
-
     $error = 0;
 
     if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
@@ -127,7 +154,7 @@ if (isset($_POST['change_password'])) {
         } else {
             $id = $_SESSION['id'];
             $new_password  = sha1(md5($_POST['new_password']));
-            $query = "UPDATE iBursary_admin SET  password =? WHERE id =?";
+            $query = "UPDATE iBursary_applicants SET  password =? WHERE id =?";
             $stmt = $mysqli->prepare($query);
             $rc = $stmt->bind_param('ss', $new_password, $id);
             $stmt->execute();
@@ -150,18 +177,18 @@ require_once('../partials/_head.php');
 
         <div class="container" data-layout="container">
             <!-- Vertical Nav -->
-            <?php require_once('../partials/_vertical_nav.php'); ?>
+            <?php require_once('../partials/_applicant_vertical_nav.php'); ?>
             <!-- End Vertical Nav -->
 
             <!-- Sticky Navbar -->
-            <?php require_once('../partials/_sticky_nav.php'); ?>
+            <?php require_once('../partials/_applicant_sticky_nav.php'); ?>
             <!-- End Sticky Nav -->
             <div class="content">
                 <!-- Sidebar -->
                 <?php
-                require_once('../partials/_sidenav.php');
+                require_once('../partials/_applicant_sidenav.php');
                 $id = $_SESSION['id'];
-                $ret = "SELECT * FROM  iBursary_admin  WHERE id = '$id'";
+                $ret = "SELECT * FROM  iBursary_applicants  WHERE id = '$id'";
                 $stmt = $mysqli->prepare($ret);
                 $stmt->execute(); //ok
                 $res = $stmt->get_result();
@@ -170,16 +197,12 @@ require_once('../partials/_head.php');
                         $profile =
                             "
                             <div class='avatar avatar-5xl avatar-profile'><img class='rounded-circle img-thumbnail shadow-sm' src='../public/uploads/user_images/no-profile.png' width='200'  />
-                            <span><a href='#edit-profile-pic' class='fas fa-pen text-primary' data-toggle='modal'></a></span>
-
                             </div>
                         ";
                     } else {
                         $profile =
                             "
                             <div class='avatar avatar-5xl avatar-profile'><img class='rounded-circle img-thumbnail shadow-sm' src='../public/uploads/user_images/$loggedIn->profile' width='200'  />
-                            <span><a href='#edit-profile-pic' class='fas fa-pen text-primary' data-toggle='modal'></a></span>
-
                             </div>
                         ";
                     }
@@ -222,40 +245,6 @@ require_once('../partials/_head.php');
                             </div>
                         </div>
                     </div>
-                    <!-- Edit Profile Picture Modal -->
-                    <div class="modal fade" id="edit-profile-pic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title " id="exampleModalLabel">Update <?php echo $loggedIn->name; ?> Profile Picture</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method='post' enctype="multipart/form-data" class="form-horizontal">
-                                        <div class="form-group row">
-                                            <label for="inputSkills" class="col-sm-2 col-form-label">Profile Picture</label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" name="profile_pic" class="custom-file-input" id="exampleInputFile">
-                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group text-right row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" name="update_picture" class="btn btn-primary">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal -->
                     <div class="row no-gutters">
                         <div class="col-lg-8 pr-lg-2">
                             <div class="card mb-3">
@@ -264,27 +253,68 @@ require_once('../partials/_head.php');
                                 </div>
                                 <div class="card-body text-justify">
                                     <form method="post">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-group"><label for="first-name">Name</label><input class="form-control" name="name" type="text" value="<?php echo $loggedIn->name; ?>"></div>
+                                        <form method="post" enctype="multipart/form-data" role="form">
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="">Full Name</label>
+                                                    <input type="text" required name="name" value="<?php echo $loggedIn->name; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">National ID Number</label>
+                                                    <input type="text" required name="idno" value="<?php echo $loggedIn->idno; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Date Of Birth</label>
+                                                    <input type="text" required name="dob" value="<?php echo $loggedIn->dob; ?>" class="form-control">
+                                                </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group"><label for="last-name">Email Address</label><input class="form-control" name="email" type="email" value="<?php echo $loggedIn->email; ?>"></div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Contacts | Phone Number</label>
+                                                    <input type="text" required name="phone" value="<?php echo $loggedIn->phone; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Email Address</label>
+                                                    <input type="text" required name="email" value="<?php echo $loggedIn->email; ?>" class="form-control">
+                                                </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group"><label for="">National ID Number</label><input class="form-control" name="idno" type="text" value="<?php echo $loggedIn->idno; ?>"></div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Gender</label>
+                                                    <select type="text" required name="sex" class="form-control">
+                                                        <option><?php echo $loggedIn->sex; ?></option>
+                                                        <option>Male</option>
+                                                        <option>Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">County</label>
+                                                    <input type="text" required name="county" value="<?php echo $loggedIn->county; ?>" class="form-control">
+                                                </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group"><label for="phone">Phone</label><input class="form-control" name="phone" type="text" value="<?php echo $loggedIn->phone; ?>"></div>
+                                            <div class="row">
+
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Sub County</label>
+                                                    <input type="text" required name="sub_county" value="<?php echo $loggedIn->sub_county; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Ward</label>
+                                                    <input type="text" required name="ward" value="<?php echo $loggedIn->ward; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Sub Location</label>
+                                                    <input type="text" required name="sub_location" value="<?php echo $loggedIn->sub_location; ?>" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Village</label>
+                                                    <input type="text" required name="village" value="<?php echo $loggedIn->village; ?>" class="form-control">
+                                                </div>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="form-group"><label for="heading">Address</label><input class="form-control" name="adr" type="text" value="<?php echo $loggedIn->adr; ?>"></div>
+                                            <div class="card-footer text-right">
+                                                <button type="submit" name="update_applicant" class="btn btn-primary">Update Applicant</button>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-group"><label for="intro">Intro | Bio| About </label><textarea class="form-control" name="bio" cols="30" rows="13"><?php echo $loggedIn->bio; ?></textarea></div>
-                                            </div>
-                                            <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" name="update_profile" type="submit">Update </button></div>
-                                        </div>
+                                        </form>
                                     </form>
                                 </div>
                             </div>
