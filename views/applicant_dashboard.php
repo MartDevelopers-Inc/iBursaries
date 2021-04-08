@@ -149,7 +149,7 @@ require_once('../partials/_head.php');
                                                 <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                                                     <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
                                                         <div class="bg-white py-2">
-                                                            <a class="dropdown-item" href="view_applicant_bursary.php?view=<?php echo $application->id; ?>">View</a>
+                                                            <a class="dropdown-item" href="applicant_view_bursary.php?view=<?php echo $application->id; ?>">View</a>
                                                         </div>
                                                     </div>
                                                 </div>
