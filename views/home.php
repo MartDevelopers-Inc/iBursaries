@@ -44,9 +44,9 @@
             <!--/.bg-holder-->
             <div class="container">
                 <div class="row justify-content-center align-items-center pt-8 pt-lg-10 pb-lg-9 pb-xl-0">
-                    <div class="col-md-11 col-lg-8 col-xl-4 pb-7 pb-xl-9 text-center text-xl-left"><a class="btn btn-outline-danger mb-4 fs--1 border-2x rounded-pill" href="#!"><span class="mr-2" role="img" aria-label="Gift">🎁</span>Become a pro</a>
-                        <h1 class="text-white font-weight-light">Bring <span class="typed-text font-weight-bold" data-typed-text='["design","beauty","elegance","perfection"]'></span><br />to your webapp</h1>
-                        <p class="lead text-white opacity-75">With the power of Falcon, you can now focus only on functionaries for your digital products, while leaving the UI design on us!</p><a class="btn btn-outline-light border-2x rounded-pill btn-lg mt-4 fs-0 py-2" href="#!">Start building with the falcon<span class="fas fa-play" data-fa-transform="shrink-6 down-1 right-5"></span></a>
+                    <div class="col-md-11 col-lg-8 col-xl-4 pb-7 pb-xl-9 text-center text-xl-left">
+                        <h1 class="text-white font-weight-heavy">iBursaries MIS</h1>
+                        <h1 class="text-white font-weight-light">Instilling Innovation On County Bursary Information Management</h1>
                     </div>
                     <div class="col-xl-7 offset-xl-1 align-self-end"><a class="img-landing-banner" href="home.php"></a></div>
                 </div>
