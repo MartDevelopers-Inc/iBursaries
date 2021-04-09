@@ -302,7 +302,6 @@ if (isset($_POST['add_application'])) {
     $details = "Hello $name, We Have Received Your Bursary Application, Please Use This Code : <b>$application_code</b> To Track Your Bursary";
 
 
-
     if (!$error) {
         /* Prevent This Morons Applying Bursary Twice */
         $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code' AND  applicant_id = '$applicant_id' ";
@@ -539,7 +538,7 @@ require_once('../partials/_head.php');
                                                                                     <input type="text" required name="name" value="<?php echo $applicant->name; ?>" class="form-control">
                                                                                     <input type="hidden" required name="applicant_id" value="<?php echo $applicant->id; ?>" class="form-control">
                                                                                     <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
-                                                                                    <input type="hidden" required name="application_code" value="<?php echo date('d M Y g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
+                                                                                    <input type="hidden" required name="application_code" value="<?php echo $a . "-" . $b; ?>" class="form-control">
                                                                                 </div>
                                                                                 <div class="form-group col-md-4">
                                                                                     <label for="">Applicant Gender</label>

@@ -609,7 +609,7 @@ require_once('../partials/_head.php');
                                                 <input type="text" required name="name" id="ApplicantName" class="form-control">
                                                 <input type="hidden" required name="applicant_id" id="ApplicantId" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
-                                                <input type="hidden" required name="application_code" value="<?php echo date('d M Y g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
+                                                <input type="hidden" required name="application_code" value="<?php echo $a . "-" . $b; ?>" class="form-control">
 
                                             </div>
                                             <div class="form-group col-md-4">
