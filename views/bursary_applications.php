@@ -296,7 +296,6 @@ if (isset($_POST['add_application'])) {
     }
 
     /* Provide An Automated Application Info To Target Applicant */
-    $sender_id = $_SESSION['id'];
     $sender_name = "iBursaries - Bursary Application Bot";
     $receiver_name = $name;
     $receiver_id = $applicant_id;
@@ -365,8 +364,7 @@ if (isset($_POST['add_application'])) {
             );
 
             $rc = $notificationstmt->bind_param(
-                'ssssss',
-                $sender_id,
+                'sssss',
                 $sender_name,
                 $receiver_name,
                 $receiver_id,
@@ -611,7 +609,7 @@ require_once('../partials/_head.php');
                                                 <input type="text" required name="name" id="ApplicantName" class="form-control">
                                                 <input type="hidden" required name="applicant_id" id="ApplicantId" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
-                                                <input type="hidden" required name="application_code" value="<?php echo date('d M Y, g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
+                                                <input type="hidden" required name="application_code" value="<?php echo date('d M Y g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
 
                                             </div>
                                             <div class="form-group col-md-4">

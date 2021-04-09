@@ -294,6 +294,14 @@ if (isset($_POST['add_application'])) {
         $err = "Bursary Code Cannot Be Empty";
     }
 
+    /* Provide An Automated Application Info To Target Applicant */
+    $sender_name = "iBursaries - Bursary Application Bot";
+    $receiver_name = $name;
+    $receiver_id = $applicant_id;
+    $subject = "$bursary_code - Application Status";
+    $details = "Hello $name, We Have Received Your Bursary Application, Please Use This Code : <b>$application_code</b> To Track Your Bursary";
+
+
 
     if (!$error) {
         /* Prevent This Morons Applying Bursary Twice */
@@ -307,7 +315,9 @@ if (isset($_POST['add_application'])) {
             }
         } else {
             $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code, application_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $notification = "INSERT INTO iBursary_mails (sender_name, receiver_name, receiver_id, subject, details) VALUES(?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
+            $notificationstmt = $mysqli->prepare($notification);
             $rc = $stmt->bind_param(
                 'sssssssssssssssssssssssssssssssssssssss',
                 $id,
@@ -350,8 +360,17 @@ if (isset($_POST['add_application'])) {
                 $bursary_code,
                 $application_code
             );
+            $rc = $notificationstmt->bind_param(
+                'sssss',
+                $sender_name,
+                $receiver_name,
+                $receiver_id,
+                $subject,
+                $details
+            );
             $stmt->execute();
-            if ($stmt) {
+            $notificationstmt->execute();
+            if ($stmt && $notificationstmt) {
                 $success = "Bursary Application Record Added" && header("refresh:1; url=applicant_bursary_applications.php");
             } else {
                 $info = "Please Try Again Or Try Later";
@@ -520,6 +539,7 @@ require_once('../partials/_head.php');
                                                                                     <input type="text" required name="name" value="<?php echo $applicant->name; ?>" class="form-control">
                                                                                     <input type="hidden" required name="applicant_id" value="<?php echo $applicant->id; ?>" class="form-control">
                                                                                     <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
+                                                                                    <input type="hidden" required name="application_code" value="<?php echo date('d M Y g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
                                                                                 </div>
                                                                                 <div class="form-group col-md-4">
                                                                                     <label for="">Applicant Gender</label>
