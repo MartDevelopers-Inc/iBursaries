@@ -38,6 +38,13 @@ if (isset($_POST['add_application'])) {
         $err = "ID Cannot Be Empty";
     }
 
+    if (isset($_POST['application_code']) && !empty($_POST['application_code'])) {
+        $application_code  = mysqli_real_escape_string($mysqli, trim($_POST['application_code']));
+    } else {
+        $error = 1;
+        $err = "Application Cannot Be Empty";
+    }
+
     if (isset($_POST['applicant_id']) && !empty($_POST['applicant_id'])) {
         $applicant_id = mysqli_real_escape_string($mysqli, trim($_POST['applicant_id']));
     } else {
@@ -280,48 +287,6 @@ if (isset($_POST['add_application'])) {
         $err = "School Bank Account No Cannot Be Empty";
     }
 
-    /*
-     if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
-        $recommendation  = mysqli_real_escape_string($mysqli, trim($_POST['recommendation']));
-    } else {
-        $error = 1;
-        $err = "Recomendation  Cannot Be Empty";
-    }
-
-    if (isset($_POST['chairman_name']) && !empty($_POST['chairman_name'])) {
-        $chairman_name  = mysqli_real_escape_string($mysqli, trim($_POST['chairman_name']));
-    } else {
-        $error = 1;
-        $err = "Chairman Name  Cannot Be Empty";
-    }
-
-    if (isset($_POST['secretary_name']) && !empty($_POST['secretary_name'])) {
-        $secretary_name  = mysqli_real_escape_string($mysqli, trim($_POST['secretary_name']));
-    } else {
-        $error = 1;
-        $err = "Secretary Name  Cannot Be Empty";
-    }
-
-    if (isset($_POST['date_approved']) && !empty($_POST['date_approved'])) {
-        $date_approved  = mysqli_real_escape_string($mysqli, trim($_POST['date_approved']));
-    } else {
-        $error = 1;
-        $err = "Date Approved  Cannot Be Empty";
-    }
-
-    if (isset($_POST['approval_status']) && !empty($_POST['approval_status'])) {
-        $approval_status  = mysqli_real_escape_string($mysqli, trim($_POST['approval_status']));
-    } else {
-        $error = 1;
-        $err = "Approval Status  Cannot Be Empty";
-    }
-
-    if (isset($_POST['funds_disbursed']) && !empty($_POST['funds_disbursed'])) {
-        $funds_disbursed  = mysqli_real_escape_string($mysqli, trim($_POST['funds_disbursed']));
-    } else {
-        $error = 1;
-        $err = "Funds Disbursed Cannot Be Empty";
-    } */
 
     if (isset($_POST['bursary_code']) && !empty($_POST['bursary_code'])) {
         $bursary_code  = mysqli_real_escape_string($mysqli, trim($_POST['bursary_code']));
@@ -333,19 +298,20 @@ if (isset($_POST['add_application'])) {
 
     if (!$error) {
         /* Prevent Double Entries */
-        $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code'  ";
+        $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code' && applicant_id ='$applicant_id' ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($bursary_code == $row['bursary_code']) {
-                $err =  "A Bursary With This Code $bursary_code  Already Exists";
+            if (($bursary_code == $row['bursary_code']) && $applicant_id = $row['applicant_id']) {
+                /* Throw An Exception For Trying To Apply Twice */
+                $err =  "Sorry!, $name Can Only Apply This Bursary: $bursary_code  Once";
             }
         } else {
             /* No Error Or Duplicate */
-            $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code, application_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
             $rc = $stmt->bind_param(
-                'ssssssssssssssssssssssssssssssssssssss',
+                'sssssssssssssssssssssssssssssssssssssss',
                 $id,
                 $applicant_id,
                 $name,
@@ -383,7 +349,8 @@ if (isset($_POST['add_application'])) {
                 $bank_name,
                 $branch,
                 $account_no,
-                $bursary_code
+                $bursary_code,
+                $application_code
             );
             $stmt->execute();
             if ($stmt) {
@@ -622,6 +589,8 @@ require_once('../partials/_head.php');
                                                 <input type="text" required name="name" id="ApplicantName" class="form-control">
                                                 <input type="hidden" required name="applicant_id" id="ApplicantId" class="form-control">
                                                 <input type="hidden" required name="id" value="<?php echo $ID; ?>" class="form-control">
+                                                <input type="hidden" required name="application_code" value="<?php echo date('d M Y, g:ia') . "-" . $a . "-" . $b; ?>" class="form-control">
+
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Applicant Gender</label>
