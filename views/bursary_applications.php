@@ -318,7 +318,9 @@ if (isset($_POST['add_application'])) {
         } else {
             /* No Error Or Duplicate */
             $query = "INSERT INTO iBursary_application  (id, applicant_id, name, sex, dob, id_attachment, disability, parent_name, father_idno, father_mobile, mother_name, mother_idno, mother_phone, gurdian_name, gurdian_idno, gurdian_phone, who_pays_fees, school_name, po_box, tel, sch_email, year_of_admno, adm_no, year_of_study, school_id_attachment, school_category, fee_payable, fee_paid, helb_loans, helb_loans_attachment, family_status, family_status_attachments, main_income_source, income_per_month, bank_name, branch, account_no,  bursary_code, application_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $notification = "INSERT INTO iBursary_mails (sender_id, sender_name, receiver_name, receiver_id, subject, details) VALUES(?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
+            $notificationstmt = $mysqli->prepare($notification);
             $rc = $stmt->bind_param(
                 'sssssssssssssssssssssssssssssssssssssss',
                 $id,
@@ -361,8 +363,19 @@ if (isset($_POST['add_application'])) {
                 $bursary_code,
                 $application_code
             );
+
+            $rc = $notificationstmt->bind_param(
+                'ssssss',
+                $sender_id,
+                $sender_name,
+                $receiver_name,
+                $receiver_id,
+                $subject,
+                $details
+            );
             $stmt->execute();
-            if ($stmt) {
+            $notificationstmt->execute();
+            if ($stmt && $notificationstmt) {
                 $success = "Bursary Application Record Added" && header("refresh:1; url=bursary_applications.php");
             } else {
                 $info = "Please Try Again Or Try Later";
