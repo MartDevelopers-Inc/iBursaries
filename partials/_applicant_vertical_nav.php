@@ -43,7 +43,7 @@
             <ul class="navbar-nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="applicant_mailbox.php">
-                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope"></span></span><span class="nav-link-text"> Mail Box</span></div>
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-bell"></span></span><span class="nav-link-text"> Notifications </span></div>
                     </a>
                 </li>
 

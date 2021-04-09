@@ -46,6 +46,8 @@
                 <div class="row justify-content-center align-items-center pt-8 pt-lg-10 pb-lg-9 pb-xl-0">
                     <div class="col-md-11 col-lg-8 col-xl-4 pb-7 pb-xl-9 text-center text-xl-left">
                         <h1 class="text-white font-weight-heavy">iBursaries MIS</h1>
+                        <br>
+                        <br>
                         <h1 class="text-white font-weight-light">Instilling Innovation On County Bursary Information Management</h1>
                     </div>
                     <div class="col-xl-7 offset-xl-1 align-self-end"><a class="img-landing-banner" href="home.php"></a></div>

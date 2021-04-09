@@ -107,7 +107,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Funds Disbursed</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"><?php echo  numfmt_format_currency($kes, $funds, "Ksh"); ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="funds_disbursed.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -129,7 +129,7 @@ if (isset($_GET['delete'])) {
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Allocated Bursary Funds</h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"> <?php echo  numfmt_format_currency($kes, $allocated_funds, "Ksh");?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif"> <?php echo  numfmt_format_currency($kes, $allocated_funds, "Ksh"); ?></div><a class="font-weight-semi-bold fs--1 text-nowrap" href="reports_bursaries.php">See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@ if (isset($_GET['delete'])) {
                                         <th class="sort pr-1 align-middle">Applicant Details</th>
                                         <th class="sort pr-1 align-middle">Applicant Family Status</th>
                                         <th class="sort pr-1 align-middle">School Details</th>
-                                        <th class="sort pr-1 align-middle text-center">Income P.M</th>
+                                        <th class="sort pr-1 align-middle text-center">Date Applied</th>
                                         <th class="sort pr-1 align-middle text-right">Bursary Status</th>
                                         <th class="no-sort pr-1 align-middle data-table-row-action"></th>
                                     </tr>
@@ -170,11 +170,11 @@ if (isset($_GET['delete'])) {
                                                     <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                                 </a>
                                             </th>
-                                            <td class="align-middle"><?php echo $application->family_status; ?></td>
+                                            <td class="align-middle"><?php echo   "Status: " . $application->family_status . " <br> " . "Main Income: " . $application->main_income_source . " <br> " . "Income P.M:  " . $application->income_per_month; ?></td>
                                             <td class="align-middle">
                                                 <?php echo "Sch Name: " . $application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
-                                            <td class="align-middle text-right"><?php echo  $application->income_per_month; ?></td>
+                                            <td class="align-middle text-right"><?php echo  date('d M Y - g:ia', strtotime($application->created_at)); ?></td>
                                             <td class="align-middle text-center fs-0">
                                                 <?php
                                                 if ($application->approval_status == 'Approved') {
