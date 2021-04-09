@@ -307,11 +307,11 @@ if (isset($_POST['add_application'])) {
 
     if (!$error) {
         /* Prevent Double Entries */
-        $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code' && applicant_id ='$applicant_id' ";
+        $sql = "SELECT * FROM  iBursary_application WHERE   bursary_code = '$bursary_code' AND  applicant_id = '$applicant_id' ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if (($bursary_code == $row['bursary_code']) && $applicant_id = $row['applicant_id']) {
+            if (($bursary_code == $row['bursary_code']) && ($applicant_id = $row['applicant_id'])) {
                 /* Throw An Exception For Trying To Apply Twice */
                 $err =  "Sorry!, $name Can Only Apply This Bursary: $bursary_code  Once";
             }
