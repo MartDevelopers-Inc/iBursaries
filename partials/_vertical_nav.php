@@ -37,7 +37,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="funds_disbursed.php">
-                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file-invoice"></span></span><span class="nav-link-text">Disburse Funds</span></div>
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-file-invoice"></span></span><span class="nav-link-text">Award Funds</span></div>
                     </a>
                 </li>
             </ul>
