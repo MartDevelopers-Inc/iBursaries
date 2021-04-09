@@ -295,6 +295,15 @@ if (isset($_POST['add_application'])) {
         $err = "Bursary Code Cannot Be Empty";
     }
 
+    /* Provide An Automated Application Info To Target Applicant */
+    $sender_id = $_SESSION['id'];
+    $sender_name = "iBursaries - Bursary Application Bot";
+    $receiver_name = $name;
+    $receiver_id = $applicant_id;
+    $subject = "$bursary_code - Application Status";
+    $details = "Hello $name, We Have Received Your Bursary Application, Please Use This Code : <b>$application_code</b> To Track Your Bursary";
+
+
 
     if (!$error) {
         /* Prevent Double Entries */
