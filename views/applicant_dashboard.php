@@ -101,7 +101,7 @@ require_once('../partials/_head.php');
                                         <th class="sort pr-1 align-middle">Applicant Details</th>
                                         <th class="sort pr-1 align-middle">Applicant Family Status</th>
                                         <th class="sort pr-1 align-middle">School Details</th>
-                                        <th class="sort pr-1 align-middle text-center">Income P.M</th>
+                                        <th class="sort pr-1 align-middle text-center">Date Applied</th>
                                         <th class="sort pr-1 align-middle text-right">Bursary Status</th>
                                         <th class="no-sort pr-1 align-middle data-table-row-action"></th>
                                     </tr>
@@ -119,11 +119,11 @@ require_once('../partials/_head.php');
                                             <th class="align-middle">
                                                 <?php echo "Name" . $application->name . " <br> Sex: " . $application->sex . "<br> DOB: " . $application->dob; ?>
                                             </th>
-                                            <td class="align-middle"><?php echo $application->family_status; ?></td>
+                                            <td class="align-middle"><?php echo   "Status: " . $application->family_status . " <br> " . "Main Income: " . $application->main_income_source . " <br> " . "Income P.M:  " . $application->income_per_month; ?></td>
                                             <td class="align-middle">
                                                 <?php echo "Sch Name: " . $application->school_name . "<br> Adm No :" . $application->adm_no . "<br> Year Of Study:" . $application->year_of_study; ?>
                                             </td>
-                                            <td class="align-middle text-right"><?php echo  $application->income_per_month; ?></td>
+                                            <td class="align-middle text-right"><?php echo  date('d M Y - g:ia', strtotime($application->created_at)); ?></td>
                                             <td class="align-middle text-center fs-0">
                                                 <?php
                                                 if ($application->approval_status == 'Approved') {
